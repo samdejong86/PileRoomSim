@@ -1,0 +1,83 @@
+
+#/control/getEnv RAND1
+#/control/getEnv RAND2
+
+/random/setSeeds 1906755248 250375623
+/gps/verbose 0
+/gps/particle neutron
+#/gps/particle geantino
+#/gps/pos/centre -3.0 0.0 120.0 cm
+/gps/pos/centre 0.0 0.0 0.0 cm
+/gps/ang/type iso
+/gps/pos/type Point
+#/gps/ang/mintheta 0 deg
+#/gps/ang/maxtheta 90 deg
+/gps/ene/type Arb
+/gps/hist/type arb
+#Data below from geant4 forum Zach Hartwig link:
+#http://hypernews.slac.stanford.edu/HyperNews/geant4/get/eventtrackmanage/1236.html?inline=-1
+#                E (MeV) Rel. Yield
+#
+/gps/hist/point    0.11 0.905149
+/gps/hist/point    0.33 0.848238
+/gps/hist/point    0.54 0.761518
+/gps/hist/point    0.75 0.677507
+/gps/hist/point    0.97 0.579946
+/gps/hist/point    1.18 0.536585
+/gps/hist/point    1.40 0.474255
+/gps/hist/point    1.61 0.520325
+/gps/hist/point    1.82 0.604336
+/gps/hist/point    2.04 0.582656
+/gps/hist/point    2.25 0.609756
+/gps/hist/point    2.47 0.617886
+/gps/hist/point    2.68 0.799458
+/gps/hist/point    2.90 0.964770
+/gps/hist/point    3.11 1.000000
+/gps/hist/point    3.32 0.937669
+/gps/hist/point    3.54 0.831978
+/gps/hist/point    3.75 0.813008
+/gps/hist/point    3.97 0.728997
+/gps/hist/point    4.18 0.775068
+/gps/hist/point    4.39 0.861789
+/gps/hist/point    4.61 0.831978
+/gps/hist/point    4.82 0.902439
+/gps/hist/point    5.04 0.823848
+/gps/hist/point    5.25 0.742547
+/gps/hist/point    5.47 0.631436
+/gps/hist/point    5.68 0.558266
+/gps/hist/point    5.89 0.493225
+/gps/hist/point    6.11 0.479675
+/gps/hist/point    6.32 0.552846
+/gps/hist/point    6.54 0.495935
+/gps/hist/point    6.75 0.441734
+/gps/hist/point    6.96 0.455285
+/gps/hist/point    7.18 0.455285
+/gps/hist/point    7.39 0.509485
+/gps/hist/point    7.61 0.498645
+/gps/hist/point    7.82 0.457995
+/gps/hist/point    8.03 0.390244
+/gps/hist/point    8.25 0.262331
+/gps/hist/point    8.46 0.176694
+/gps/hist/point    8.68 0.115447
+/gps/hist/point    8.89 0.099458
+/gps/hist/point    9.11 0.103252
+/gps/hist/point    9.32 0.137127
+/gps/hist/point    9.53 0.169377
+/gps/hist/point    9.75 0.149593
+/gps/hist/point    9.96 0.126829
+/gps/hist/point    10.2 0.100271
+/gps/hist/point    10.4 0.075338
+/gps/hist/point    10.6 0.040921
+/gps/hist/point    10.8 0.009837
+/gps/hist/inter Spline
+
+#/control/getEnv HEDIST
+#/control/getEnv HEORIENT
+#/control/getEnv RUNNUM
+#/analysis/setFileName NeutronRoom_AmBeSource_dist{HEDIST}cm_orient{HEORIENT}
+/analysis/setFileName one.root
+
+/run/beamOn 100
+
+/control/getEnv PWD
+/control/shell notify-send --expire-time=7000 --icon={PWD}/43-Geant4-logoV5.png "one.mac complete"

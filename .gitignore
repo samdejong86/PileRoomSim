@@ -1,0 +1,9 @@
+# automatic backups #
+*~
+*#
+*.root
+*.txt
+*.out
+*.pdf
+*.dat
+*.bak

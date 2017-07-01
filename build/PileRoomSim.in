@@ -1,0 +1,12 @@
+# $Id: PileRoomSim.in 75839 2013-11-06 17:27:26Z gcosmo $
+#
+# Macro file for "PileRoomSim.cc"
+# 
+# (can be run in batch, without graphic)
+#
+/control/verbose  2
+/run/verbose 2
+#
+/run/printProgress 10000
+#
+/run/beamOn 100000

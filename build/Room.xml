@@ -1,0 +1,28 @@
+<xml>
+  <Active>
+    <Material>
+      G4_CONCRETE
+    </Material>
+    <x_pos>
+      -81.5
+    </x_pos>
+    <y_pos>
+      -17.5
+    </y_pos>
+    <z_pos>
+      89.5
+    </z_pos>
+    <roomXLength>
+      184.5
+    </roomXLength>
+    <roomYLength>
+      175.5
+    </roomYLength>
+    <roomZLength>
+      182
+    </roomZLength>
+    <concThick>
+      20
+    </concThick>
+  </Active>
+</xml>

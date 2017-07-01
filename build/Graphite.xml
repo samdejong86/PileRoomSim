@@ -1,0 +1,34 @@
+<xml>
+  <Active>
+    <Material>
+      G4_GRAPHITE
+    </Material>
+    <x_pos>
+      0
+    </x_pos>
+    <y_pos>
+      0
+    </y_pos>
+    <z_pos>
+      0
+    </z_pos>
+    <density>
+      1.63
+    </density>
+    <rodLength>
+      46.25
+    </rodLength>
+    <rodWidth>
+      2.6428
+    </rodWidth>
+    <nRodsZ>
+      35
+    </nRodsZ>
+    <nRodsY>
+      35
+    </nRodsY>
+    <GraphitePerCent>
+      80
+    </GraphitePerCent>
+  </Active>
+</xml>
