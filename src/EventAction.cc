@@ -29,16 +29,10 @@ EventAction::~EventAction()
 void EventAction::Initialize(){
   nChannels=fDetConstruction->GetNChannels();
 
-  //tubeX.resize(nChannels);
-  //tubeY.resize(nChannels);
-  //tubeZ.resize(nChannels);
   tubeLoc.resize(nChannels);
   
   for(int i=0; i<nChannels; i++){  
     tubeLoc[i] = fDetConstruction->GetHe3Posn(i); 
-    //tubeX[i] = tupePos.x();
-    //tubeY[i] = tupePos.y();
-    //tubeZ[i] = tupePos.z();
   }
 
 }
@@ -69,7 +63,7 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
  TotalEnergyDeposit.resize(nChannels);
 
  nevent++;
- if(nevent%100==0) G4cout<<"Event number: "<<nevent<<"\n";
+ if(nevent%100==0) cout<<"Event number: "<<nevent<<"\n";
 
 
 }
@@ -78,7 +72,7 @@ void EventAction::EndOfEventAction( const G4Event*)
 {    
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
-  if(neutronHit) G4cout<<"Neutron Hit!\n";
+  if(neutronHit) cout<<"Neutron Hit!\n";
   
   //fill primitive ntuple branches
   analysisManager->FillNtupleDColumn(0, ePostGraphite/eV);

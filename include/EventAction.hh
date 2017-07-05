@@ -90,13 +90,6 @@ inline void EventAction::He3Hit(int PDG, double edep, int ch){
   tubeY.push_back(tubeLoc[ch].y());
   tubeZ.push_back(tubeLoc[ch].z());
 
-  /*
-  std::cout<<tupePos.x()<<std::endl;
-  tubeX[ch] = tupePos.x();
-  tubeY[ch] = tupePos.y();
-  tubeZ[ch] = tupePos.z();
-  */
-  //G4cout<<"Hit by "<<PDG<<" in channel "<<ch<<"\n";
 }
 
 inline void EventAction::leftWall(){
