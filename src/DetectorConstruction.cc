@@ -33,15 +33,16 @@ using namespace std;
 DetectorConstruction::DetectorConstruction()
   :G4VUserDetectorConstruction()
 {  
-  he3filename = "HE3TUBE-phase1.xml";
+  he3filename = "";
   SetParams();
 }
 
 DetectorConstruction::DetectorConstruction(G4String he3Desc)
   :G4VUserDetectorConstruction()
 {
-  if(he3Desc.size()!=0) he3filename = he3Desc;
-  else he3filename = "HE3TUBE-phase1.xml";
+  //if(he3Desc.size()!=0) 
+  he3filename = he3Desc;
+    //else he3filename = "HE3TUBE-phase1.xml";
 
   SetParams();
 }
@@ -300,6 +301,8 @@ void DetectorConstruction::SetParams(){
   if(xmlLoc==NULL) str=".";
   else str = string(xmlLoc);
 
+  if(he3filename.size()==0)
+    he3filename = str+"/HE3TUBE-phase1.xml";
 
 
   cout<<"XML files located in "<<str<<"/"<<endl;
