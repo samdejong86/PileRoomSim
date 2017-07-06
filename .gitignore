@@ -2,8 +2,8 @@
 *~
 *#
 *.root
-*.txt
-*.out
+#*.txt
+#*.out
 *.pdf
 *.dat
 *.bak

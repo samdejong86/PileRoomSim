@@ -294,12 +294,19 @@ void DetectorConstruction::SetParams(){
 
   nist = G4NistManager::Instance();
 
-  //world
+  char* xmlLoc;
+  xmlLoc = getenv("XMLLOCATION");
+  if(xmlLoc==NULL) xmlLoc=".";
+
+  std::string str(xmlLoc);
+
+  cout<<str<<endl;
+
   Box_Length = 500*cm;
 
   
-  gParam=XmlParser("Graphite.xml");
-  rParam=XmlParser("Room.xml");
+  gParam=XmlParser(str+"/Graphite.xml");
+  rParam=XmlParser(str+"/Room.xml");
 
   G4cout<<"Helium-3 tube parameters described in "<<he3filename<<"\n";
 
@@ -310,51 +317,16 @@ void DetectorConstruction::SetParams(){
   world_mat = nist->FindOrBuildMaterial("G4_AIR");
   room_mat = nist->FindOrBuildMaterial(rParam.getStringValue("Material")); 
 
-  /*
-  G4double a = 12.01*g/mole;
-  G4int z;
-  G4Element* elC  = new G4Element("Carbon"  ,"C" , z= 6., a);
-  
-  a=10.811*g/mole;
-  G4Element* elB  = new G4Element("Boron"  ,"B" , z= 5., a);
-  */
-
 
   G4Material *baseMat=  nist->BuildMaterialWithNewDensity("Graphite_1.63",gParam.getStringValue("Material"),gParam.getValue("density")*g/cm3  );
 
-  //cout<<baseMat->GetNuclearInterLength()<<endl;
-
-  //G4Material *baseMat  =  nist->FindOrBuildMaterial(gParam.getStringValue("Material"));
-  
-  
-  //G4Material *boron = nist->FindOrBuildMaterial("G4_B");
 
   
   pile_mat=new G4Material("impure", gParam.getValue("density")*g/cm3, 1);
   pile_mat->AddMaterial(baseMat, 100.*perCent);
-  //pile_mat->AddMaterial(boron, 1.*perCent);
-
-  
-
-  
-  
-  //pile_mat->GetIonisation()->SetMeanExcitationEnergy(baseMat->GetIonisation()->GetMeanExcitationEnergy());
-  
-  //pile_mat->SetMaterialPropertiesTable(baseMat->GetMaterialPropertiesTable());
   
   G4cout << *(G4Material::GetMaterialTable()) << endl;
-			//gParam.getValue("GraphitePercent")*perCent);
 
-  //if(gParam.getGraphitePercent()!=100) pile_mat->AddElement(elB, (100- gParam.getGraphitePercent())*perCent);
-  
-  //pile_mat->AddElement(elC, 0.9*perCent);
-  //pile_mat->AddElement(elB, 0.1*perCent);
-  
-  
-
-  //pile_mat = nist->BuildMaterialWithNewDensity("Graphite_1.63",gParam.getMaterial(),gParam.getdensity()*g/cm3  );
-
- 
   //He3 def from geant4 forum:
   //http://hypernews.slac.stanford.edu/HyperNews/geant4/get/materials/122.html?inline=-1
   G4int protons=2, neutrons=1, nucleons=protons+neutrons;
