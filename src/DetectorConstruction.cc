@@ -295,12 +295,14 @@ void DetectorConstruction::SetParams(){
   nist = G4NistManager::Instance();
 
   char* xmlLoc;
+  string str;
   xmlLoc = getenv("XMLLOCATION");
-  if(xmlLoc==NULL) xmlLoc=".";
+  if(xmlLoc==NULL) str=".";
+  else str = string(xmlLoc);
 
-  std::string str(xmlLoc);
 
-  cout<<str<<endl;
+
+  cout<<"XML files located in "<<str<<"/"<<endl;
 
   Box_Length = 500*cm;
 

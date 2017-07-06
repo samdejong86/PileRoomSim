@@ -40,15 +40,7 @@ int main(int argc,char** argv) {
     std::string param(argv[i]);
     if(param.find(".mac")!= std::string::npos) fileName = param;
     if(param.find(".xml")!= std::string::npos) he3Desc = param;
-
-    //std::cout<<param<<std::endl;
-    
-
   }
-
-  std::cout<<fileName.size()<<std::endl;
-
-  
   
   //choose the Random engine
   G4Random::setTheEngine(new CLHEP::RanecuEngine);
@@ -58,9 +50,7 @@ int main(int argc,char** argv) {
   G4VSteppingVerbose::SetInstance(new SteppingVerbose);  
   G4RunManager* runManager = new G4RunManager;
 
-  //G4VModularPhysicsList* physicsList = new FTFP_BERT_HP;
-  //physicsList->RegisterPhysics(new G4OpticalPhysics(0));
-  //runManager->SetUserInitialization(physicsList);
+
   G4VModularPhysicsList* physicsList = new FTFP_BERT_HP;
 
   runManager->SetUserInitialization(physicsList);
@@ -102,9 +92,6 @@ int main(int argc,char** argv) {
     if(fileName.size()!=0)
     { 
      G4String command = "/control/execute ";
-     //UI->ApplyCommand(command+"neu.mac");  
-     //UI->ApplyCommand(command+"vis.mac");  
-     //G4String fileName = argv[1];
      UI->ApplyCommand(command+fileName);  
     }
    
