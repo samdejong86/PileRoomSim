@@ -7,3 +7,5 @@
 *.pdf
 *.dat
 *.bak
+build/CMakeFiles/*
+CMakeCache.txt
