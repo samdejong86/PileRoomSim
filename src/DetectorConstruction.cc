@@ -302,7 +302,7 @@ void DetectorConstruction::SetParams(){
   else str = string(xmlLoc);
 
   if(he3filename.size()==0)
-    he3filename = str+"/HE3TUBE-phase1.xml";
+    he3filename = str+"/HE3TUBE.xml";
 
 
   cout<<"XML files located in "<<str<<"/"<<endl;
