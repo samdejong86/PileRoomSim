@@ -84,31 +84,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     
   }
   
-   
-  //place a block of poly behind the tubes
   
-  G4Material* poly_mat =nist->FindOrBuildMaterial("G4_POLYETHYLENE");      
-  G4VisAttributes * poly3att = new G4VisAttributes(G4Colour(1.,1.,1.));
-  poly3att->SetForceWireframe(true);
-  poly3att->SetForceSolid(true);     
-
-  double hugePolyHeight=36/2;
-  double hugePolyWidth=7.5/2;
-  double hugePolyLength=28.5/2;
-
-  G4Box* huge_polyblock = new G4Box("huge_polyblock", hugePolyWidth*cm,hugePolyLength*cm,hugePolyHeight*cm);
-
-  double HugeX = tubeParams[0].getValue("x_pos")-tubeParams[0].getValue("tube_outerRadius")-hugePolyWidth;
-  double HugeY = tubeParams[0].getValue("y_pos");
-  double HugeZ = tubeParams[0].getValue("z_pos")+hugePolyHeight-tubeParams[0].getValue("tube_outerRadius");
-
-  G4LogicalVolume* vol_HugePoly= new G4LogicalVolume(huge_polyblock,poly_mat,"vol_HugePoly");
-  vol_HugePoly->SetVisAttributes(poly3att);
-  G4ThreeVector locHPoly = G4ThreeVector(HugeX*cm, HugeY*cm ,HugeZ*cm);
-  G4VPhysicalVolume* physiSIDE2polyblk = new G4PVPlacement(0,locHPoly, vol_HugePoly ,"phys_hugePoly",logicWorld,false,0);
-
-   
-
+  for(int i=0; i<(int)miscParams.size(); i++){    
+    G4ThreeVector loc(miscParams[i].getValue("x_pos")*cm, miscParams[i].getValue("y_pos")*cm, miscParams[i].getValue("z_pos")*cm);    
+    BuildMiscObjects(loc, i);    
+  } 
 
 
 
@@ -319,31 +299,68 @@ G4VPhysicalVolume* DetectorConstruction::BuildRoom(G4ThreeVector roomLoc){
 
 //-----------------------------------------------------------------------------------------
 
+G4VPhysicalVolume* DetectorConstruction::BuildMiscObjects(G4ThreeVector objLoc, int num){
+
+  G4RotationMatrix* rotObj = new G4RotationMatrix();
+
+  rotObj->rotateX(miscParams[num].getValue("AngleX")*deg);
+  rotObj->rotateY(miscParams[num].getValue("AngleY")*deg);
+  rotObj->rotateZ(miscParams[num].getValue("AngleZ")*deg);
+
+
+  G4Material *obj_mat = nist->FindOrBuildMaterial(miscParams[num].getStringValue("Material")); 
+
+  G4String name = miscParams[num].getStringValue("Name");
+
+  G4Box* solidObject = new G4Box("solid_"+name, miscParams[num].getValue("xLength")*cm, miscParams[num].getValue("yLength")*cm, miscParams[num].getValue("zLength")*cm);
+
+  G4LogicalVolume *logicObject = new G4LogicalVolume(solidObject, obj_mat, "logical_"+name);
+
+  G4VPhysicalVolume *object = new G4PVPlacement(rotObj, objLoc, logicObject, "phys_"+name, logicWorld, false, 0);
+  
+  return object;
+
+}
+
+
+//-----------------------------------------------------------------------------------------
+
 void DetectorConstruction::SetParams(){
 
   nist = G4NistManager::Instance();
 
   char* xmlLoc;
-  string str;
+  string Location;
   xmlLoc = getenv("XMLLOCATION");
-  if(xmlLoc==NULL) str=".";
-  else str = string(xmlLoc);
+  if(xmlLoc==NULL) Location=".";
+  else Location = string(xmlLoc);
+
+
+  char* mLoc;
+  string miscLocation;
+  mLoc = getenv("MISCLOCATION");
+  if(mLoc==NULL) miscLocation=Location;
+  else miscLocation = string(mLoc);
+
+
 
   if(he3filename.size()==0)
-    he3filename = str+"/HE3TUBE.xml";
+    he3filename = Location+"/HE3TUBE.xml";
 
 
-  cout<<"XML files located in "<<str<<"/"<<endl;
+  cout<<"XML files located in "<<Location<<"/"<<endl;
+  cout<<"misc object file located in "<<miscLocation<<"/"<<endl;
 
   Box_Length = 500*cm;
 
   
-  gParam=XmlParser(str+"/Graphite.xml");
-  rParam=XmlParser(str+"/Room.xml");
+  gParam=XmlParser(Location+"/Graphite.xml");
+  rParam=XmlParser(Location+"/Room.xml");
 
   G4cout<<"Helium-3 tube parameters described in "<<he3filename<<"\n";
 
   getHe3Params(he3filename);
+  getMiscParams(miscLocation+"/miscObjects.xml");
 
   G4cout<<"There are "<<tubeParams.size()<<" tubes implemented\n";
 
@@ -376,6 +393,7 @@ void DetectorConstruction::SetParams(){
   
   mat_steel = nist->FindOrBuildMaterial(tubeParams[0].getStringValue("Material"));
   
+
  
 }
 
@@ -385,6 +403,7 @@ void DetectorConstruction::getHe3Params(string filename){
 
 
   ifstream in(filename);
+  if(!in) return;
 
   char str[600];
 
@@ -440,5 +459,59 @@ void DetectorConstruction::getHe3Params(string filename){
 
   EndcapinnerRadius = 0.*cm;
   GasinnerRadius = 0.*cm;
+
+}
+
+void DetectorConstruction::getMiscParams(string filename){
+
+  ifstream in(filename);
+
+  char str[600];
+
+  XmlParser amiscParams;
+
+  XmlParser * currentMiscParams = 0;
+
+  string activeTag = "";
+  string text;
+
+  string xmlStartTag = "<xml>";
+  string xmlEndTag = "</xml>";
+
+  while(in) {
+
+    in.getline(str, 256);    
+    string st = str;    
+    st = amiscParams.removeSpaces(st);  		
+    if((st.compare(xmlStartTag))==0){
+      G4cout<<"\nworking...\n";
+    }
+    else if((st.compare(xmlEndTag))==0){
+      G4cout<<"done!\n";
+    }
+    else if ((st.compare(amiscParams.startTag))==0) {
+      currentMiscParams = new XmlParser();
+    }
+    else if ((st.compare(amiscParams.endTag))==0) {
+      if(currentMiscParams!=0){
+	miscParams.push_back(*currentMiscParams);
+      }
+    }
+    else if (currentMiscParams->isXMLStartTag(st)) {
+      activeTag = st;
+    }
+    else if (currentMiscParams->isXMLEndTag(st)) {
+      if(currentMiscParams!=0){
+	text = amiscParams.removeSpaces(text);
+	cout<<activeTag<<"\t"<<text<<endl;
+	currentMiscParams->setXMLField(activeTag, text);
+	text = "";
+      }
+    }else if ((st.find("</"))!= std::string::npos){
+      text="";
+    }else
+      text = text+ "\n" + st;
+  }
+  in.close();
 
 }

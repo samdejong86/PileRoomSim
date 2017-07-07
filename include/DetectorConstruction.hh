@@ -50,6 +50,7 @@ private:
   XmlParser gParam;
   XmlParser rParam;
   std::vector<XmlParser> tubeParams;
+  std::vector<XmlParser> miscParams;
   double EndcapinnerRadius;
   G4double GasinnerRadius;
 
@@ -59,10 +60,12 @@ private:
   G4VPhysicalVolume* BuildRoom(G4ThreeVector roomLoc);
   G4VPhysicalVolume* BuildHe3Tube(G4ThreeVector tubeLoc, G4RotationMatrix* rotation, int ch);
   void BuildGraphite(G4ThreeVector pileLoc);
+  G4VPhysicalVolume* BuildMiscObjects(G4ThreeVector objLoc, int num);
 
   void getHe3Params(std::string filename);
-  void getGraphiteParams(std::string filename);
-  void getRoomParams(std::string filename);
+  void getMiscParams(std::string filename);
+  //void getGraphiteParams(std::string filename);
+  //void getRoomParams(std::string filename);
 
   static const int nChannels=4;
   G4LogicalVolume* logicWorld;
