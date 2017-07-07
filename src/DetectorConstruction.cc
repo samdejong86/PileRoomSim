@@ -98,9 +98,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   G4Box* huge_polyblock = new G4Box("huge_polyblock", hugePolyWidth*cm,hugePolyLength*cm,hugePolyHeight*cm);
 
-  double HugeX = tubeParams[0].getValue("x_pos");
+  double HugeX = tubeParams[0].getValue("x_pos")-tubeParams[0].getValue("tube_outerRadius")-hugePolyWidth;
   double HugeY = tubeParams[0].getValue("y_pos");
-  double HugeZ = tubeParams[0].getValue("z_pos");
+  double HugeZ = tubeParams[0].getValue("z_pos")+hugePolyHeight-tubeParams[0].getValue("tube_outerRadius");
 
   G4LogicalVolume* vol_HugePoly= new G4LogicalVolume(huge_polyblock,poly_mat,"vol_HugePoly");
   vol_HugePoly->SetVisAttributes(poly3att);
