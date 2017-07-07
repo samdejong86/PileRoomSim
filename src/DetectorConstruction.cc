@@ -84,6 +84,34 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     
   }
   
+   
+  //place a block of poly behind the tubes
+  
+  G4Material* poly_mat =nist->FindOrBuildMaterial("G4_POLYETHYLENE");      
+  G4VisAttributes * poly3att = new G4VisAttributes(G4Colour(1.,1.,1.));
+  poly3att->SetForceWireframe(true);
+  poly3att->SetForceSolid(true);     
+
+  double hugePolyHeight=36/2;
+  double hugePolyWidth=7.5/2;
+  double hugePolyLength=28.5/2;
+
+  G4Box* huge_polyblock = new G4Box("huge_polyblock", hugePolyWidth*cm,hugePolyLength*cm,hugePolyHeight*cm);
+
+  double HugeX = tubeParams[0].getValue("x_pos");
+  double HugeY = tubeParams[0].getValue("y_pos");
+  double HugeZ = tubeParams[0].getValue("z_pos");
+
+  G4LogicalVolume* vol_HugePoly= new G4LogicalVolume(huge_polyblock,poly_mat,"vol_HugePoly");
+  vol_HugePoly->SetVisAttributes(poly3att);
+  G4ThreeVector locHPoly = G4ThreeVector(HugeX*cm, HugeY*cm ,HugeZ*cm);
+  G4VPhysicalVolume* physiSIDE2polyblk = new G4PVPlacement(0,locHPoly, vol_HugePoly ,"phys_hugePoly",logicWorld,false,0);
+
+   
+
+
+
+
   
    return physiWorld;
 }
@@ -174,7 +202,7 @@ G4VPhysicalVolume* DetectorConstruction::BuildHe3Tube(G4ThreeVector tubeLoc, G4R
     
    //build the tube at the specified location
    new G4PVPlacement(rotation, tubeLoc,  logic_he3Tube, "l_He3tube", logicWorld, false, 0);
-   
+
    //return the active area
    return HE3ActiveVolume;
 
