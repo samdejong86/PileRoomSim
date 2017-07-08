@@ -34,14 +34,16 @@ DetectorConstruction::DetectorConstruction()
   :G4VUserDetectorConstruction()
 {  
   he3filename = "";
+  miscfilename = "";
   SetParams();
 }
 
-DetectorConstruction::DetectorConstruction(G4String he3Desc)
+DetectorConstruction::DetectorConstruction(G4String he3Desc, G4String miscFile)
   :G4VUserDetectorConstruction()
 {
   //if(he3Desc.size()!=0) 
   he3filename = he3Desc;
+  miscfilename = miscFile;
     //else he3filename = "HE3TUBE-phase1.xml";
 
   SetParams();
@@ -342,6 +344,9 @@ void DetectorConstruction::SetParams(){
   if(mLoc==NULL) miscLocation=Location;
   else miscLocation = string(mLoc);
 
+  if(miscfilename.size()!=0)
+    getMiscParams(miscfilename);   
+
 
 
   if(he3filename.size()==0)
@@ -360,7 +365,7 @@ void DetectorConstruction::SetParams(){
   G4cout<<"Helium-3 tube parameters described in "<<he3filename<<"\n";
 
   getHe3Params(he3filename);
-  getMiscParams(miscLocation+"/miscObjects.xml");
+ 
 
   G4cout<<"There are "<<tubeParams.size()<<" tubes implemented\n";
 

@@ -31,7 +31,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
   public:
   
     DetectorConstruction();
-    DetectorConstruction(G4String he3Desc);
+  DetectorConstruction(G4String he3Desc, G4String miscFile);
    ~DetectorConstruction();
      
     virtual G4VPhysicalVolume* Construct();
@@ -44,6 +44,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
   int GetNChannels() const;
   void SetParams();
   G4String he3filename;
+  G4String miscfilename;
 
 private:
 

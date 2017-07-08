@@ -35,12 +35,31 @@ int main(int argc,char** argv) {
 
   G4String fileName = "";
   G4String he3Desc = "";
-
+  G4String miscFile = "";
+  
   for(int i=0; i<argc; i++){
-    std::string param(argv[i]);
-    if(param.find(".mac")!= std::string::npos) fileName = param;
-    if(param.find(".xml")!= std::string::npos) he3Desc = param;
+    std::string input(argv[i]);
+    if(input.compare("-m") == 0){
+      if(i+1<argc){ 
+	std::string next(argv[i+1]);
+	if(next.compare(0,1,"-") != 0)
+	  fileName = string(argv[i+1]);
+      }
+    }else if(input.compare("-o")==0){
+      if(i+1<argc){ 
+	std::string next(argv[i+1]);
+	if(next.compare(0,1,"-") != 0)
+	   miscFile = string(argv[i+1]);
+      }
+    }else if(input.compare("-d")==0){
+      if(i+1<argc){ 
+	std::string next(argv[i+1]);
+	if(next.compare(0,1,"-") != 0)
+	   he3Desc = string(argv[i+1]);
+      }
+    }
   }
+
   
   //choose the Random engine
   G4Random::setTheEngine(new CLHEP::RanecuEngine);
@@ -55,7 +74,7 @@ int main(int argc,char** argv) {
 
   runManager->SetUserInitialization(physicsList);
 
-  DetectorConstruction* detConstruction = new DetectorConstruction(he3Desc);
+  DetectorConstruction* detConstruction = new DetectorConstruction(he3Desc, miscFile);
   runManager->SetUserInitialization(detConstruction);
     
   //Setting Physics List
