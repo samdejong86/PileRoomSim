@@ -337,25 +337,17 @@ void DetectorConstruction::SetParams(){
   if(xmlLoc==NULL) Location=".";
   else Location = string(xmlLoc);
 
-
-  char* mLoc;
-  string miscLocation;
-  mLoc = getenv("MISCLOCATION");
-  if(mLoc==NULL) miscLocation=Location;
-  else miscLocation = string(mLoc);
-
-  if(miscfilename.size()!=0)
-    getMiscParams(miscfilename);   
-
-
-
+  if(miscfilename.size()!=0){
+    getMiscParams(miscfilename); 
+    cout<<"Creating volumes defined in "<<miscfilename<<endl;  
+  }
+  
   if(he3filename.size()==0)
     he3filename = Location+"/HE3TUBE.xml";
 
 
   cout<<"XML files located in "<<Location<<"/"<<endl;
-  cout<<"misc object file located in "<<miscLocation<<"/"<<endl;
-
+  
   Box_Length = 500*cm;
 
   
