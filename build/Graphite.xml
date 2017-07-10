@@ -33,5 +33,8 @@
     <Colour>
       #616161
     </Colour>
+    <SizeSigma>
+      0.1
+    </SizeSigma>
   </Active>
 </xml>

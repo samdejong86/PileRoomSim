@@ -8,6 +8,9 @@
 #include <string>
 #include <fstream>
 
+#include "CLHEP/Random/RandGauss.h"
+#include "CLHEP/Random/JamesRandom.h"
+
 #include "G4Material.hh"
 #include "G4Trap.hh"
 #include "G4Box.hh"
@@ -222,9 +225,6 @@ void DetectorConstruction::BuildGraphite(G4ThreeVector pileLoc){
   double AngleY=gParam.getValue("AngleY")*deg;
   double AngleZ=gParam.getValue("AngleZ")*deg;
 
-   // Define a rod
-  G4Box* RodBox = new G4Box( "RodBox", rodLength, rodWidth, rodWidth);
-  G4LogicalVolume* rodLV = new G4LogicalVolume( RodBox, pile_mat, "RodLV", 0, 0, 0 );
   
   string color =  gParam.getStringValue("Colour");
   color.erase(std::remove(color.begin(), color.end(), '#'), color.end());
@@ -234,8 +234,7 @@ void DetectorConstruction::BuildGraphite(G4ThreeVector pileLoc){
   G4VisAttributes * graph3att = new G4VisAttributes(G4Colour(r/255.,gg/255.,b/255.)); 
   graph3att->SetForceWireframe(true);
   graph3att->SetForceSolid(true);
-  rodLV->SetVisAttributes(graph3att);
-  
+
   
   // Define one layer as one assembly volume
   G4AssemblyVolume* assemblyDetector = new G4AssemblyVolume();
@@ -244,22 +243,42 @@ void DetectorConstruction::BuildGraphite(G4ThreeVector pileLoc){
   G4RotationMatrix Ra;
   G4ThreeVector Ta;
   G4Transform3D Tr;
+
+  
+  CLHEP::HepJamesRandom theRandEngine(42);
+  double mmm=0;
+  double ss=gParam.getValue("SizeSigma");  
+  CLHEP::RandGauss gsn(theRandEngine);
+
   
   for(int i=0; i<nRodsY; i++){
-       Ta.setX(0);
-       Ta.setY(2*rodWidth*i);
-       Ta.setZ(0);
-       
-       Tr = G4Transform3D(Ra,Ta);
-       assemblyDetector->AddPlacedVolume( rodLV, Tr );
-       
-       Ta.setX(2*rodLength);
-       Ta.setY(2*rodWidth*i);
-       Ta.setZ(0);
-       
-       Tr = G4Transform3D(Ra,Ta);
-       assemblyDetector->AddPlacedVolume( rodLV, Tr );
-     
+
+    double lengthAdd=fabs(gsn.shoot(mmm,ss));
+    double widthAdd1=fabs(gsn.shoot(mmm,ss));
+    double widthAdd2=fabs(gsn.shoot(mmm,ss));
+
+
+    // Define a rod
+    G4Box* RodBox = new G4Box( "RodBox", rodLength-lengthAdd, rodWidth-widthAdd1, rodWidth-widthAdd2);
+    G4LogicalVolume* rodLV = new G4LogicalVolume( RodBox, pile_mat, "RodLV", 0, 0, 0 );
+
+    rodLV->SetVisAttributes(graph3att);
+
+  
+    Ta.setX(0);
+    Ta.setY(2*rodWidth*i);
+    Ta.setZ(0);
+    
+    Tr = G4Transform3D(Ra,Ta);
+    assemblyDetector->AddPlacedVolume( rodLV, Tr );
+    
+    Ta.setX(2*rodLength);
+    Ta.setY(2*rodWidth*i);
+    Ta.setZ(0);
+    
+    Tr = G4Transform3D(Ra,Ta);
+    assemblyDetector->AddPlacedVolume( rodLV, Tr );
+    
    }
 
    // Now instantiate the layers
