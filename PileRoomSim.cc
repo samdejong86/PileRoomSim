@@ -67,7 +67,14 @@ int main(int argc,char** argv) {
     }
   }
 
-  
+  char *checkEnv;
+  checkEnv = getenv("G4NEUTRONHPDATA");
+  if(checkEnv==NULL){
+    cout<<"Need to source geant4.10.02-install/bin/geant4.sh before running\n";
+    return 0;
+  }
+
+
   //choose the Random engine
   G4Random::setTheEngine(new CLHEP::RanecuEngine);
   

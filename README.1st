@@ -2,6 +2,9 @@ To build the software, run 'cmake ..' then 'make' from the build/ directory
 
 This is a GEANT4 implementation of an AmBe source as well as the response generated in one (or several) helium-3 tubes. 
 
+Before running, source this script:
+       geant4.10.02-install/bin/geant4.sh
+
 Usage: PileRoomSim  -m macro.mac -o miscObjects.xml -d he3tubeDescription.xml
 
 Command line parameters are optional. 
