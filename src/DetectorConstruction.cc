@@ -68,7 +68,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
   
   for(int i=0; i<(int)tubeParams.size(); i++){
-    //if(i>MaxTubes) break; //phys_HE3 has 10 entries. might implement something more sophisticated later....
     
     G4RotationMatrix* rot_he3tube = new G4RotationMatrix();
 
