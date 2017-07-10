@@ -6,11 +6,11 @@ Command line parameters are optional.
 
 	macro.mac:
 		A GEANT4 macro. in.mac is an example which sets the energy spectrum of the AmBe and the output root file. It runs for 500 events.
-		If no macro is specified, the program runs in GUI mode
+		If no macro is specified, the program runs in GUI mode.
 
 	miscObjects.xml:
-		Any additional objects to implement. Currently only Box and Tube are implements. These can be located anywhere in the simulated world, or can have thier position tied to the location of one of the helium-3 tubes.
-		If no file is specified, no additional objects are implemented
+		Any additional objects to implement. Currently only Box and Tube are implemented. These can be located anywhere in the simulated world, or can have their position tied to the location of one of the helium-3 tubes.
+		If no file is specified, no additional objects are implemented.
 
 	he3tubeDescription.xml:
 		The description of the helium-3 tubes. An example is shown in HE3TUBE.xml.
