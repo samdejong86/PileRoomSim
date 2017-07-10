@@ -190,7 +190,7 @@ G4VPhysicalVolume* DetectorConstruction::BuildHe3Tube(G4ThreeVector tubeLoc, G4R
 
    string color =  tubeParams[ch].getStringValue("Colour");
    color.erase(std::remove(color.begin(), color.end(), '#'), color.end());
-   int r, gg, b;
+   unsigned int r, gg, b;
    sscanf(color.c_str(), "%02x%02x%02x", &r, &gg, &b);
 
    
@@ -228,7 +228,7 @@ void DetectorConstruction::BuildGraphite(G4ThreeVector pileLoc){
   
   string color =  gParam.getStringValue("Colour");
   color.erase(std::remove(color.begin(), color.end(), '#'), color.end());
-  int r, gg, b;
+  unsigned int r, gg, b;
   sscanf(color.c_str(), "%02x%02x%02x", &r, &gg, &b);
 
   G4VisAttributes * graph3att = new G4VisAttributes(G4Colour(r/255.,gg/255.,b/255.)); 
@@ -308,7 +308,7 @@ G4VPhysicalVolume* DetectorConstruction::BuildRoom(G4ThreeVector roomLoc){
   
   string color =  rParam.getStringValue("Colour");
   color.erase(std::remove(color.begin(), color.end(), '#'), color.end());
-  int r, gg, b;
+  unsigned int r, gg, b;
   sscanf(color.c_str(), "%02x%02x%02x", &r, &gg, &b);
 
   G4VisAttributes * conc3att = new G4VisAttributes(G4Colour(r/255.,gg/255.,b/255.));  
@@ -360,7 +360,7 @@ G4VPhysicalVolume* DetectorConstruction::BuildMiscObjects(G4ThreeVector objLoc, 
 
   string color =  miscParams[num].getStringValue("Colour");
   color.erase(std::remove(color.begin(), color.end(), '#'), color.end());
-  int r, gg, b;
+  unsigned int r, gg, b;
   sscanf(color.c_str(), "%02x%02x%02x", &r, &gg, &b);
 
   G4VisAttributes * miscAtt = new G4VisAttributes(G4Colour(r/255.,gg/255.,b/255.)); 
