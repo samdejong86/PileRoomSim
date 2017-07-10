@@ -2,10 +2,14 @@
 *~
 *#
 *.root
-#*.txt
-#*.out
 *.pdf
 *.dat
 *.bak
 build/CMakeFiles/*
 CMakeCache.txt
+Makefile
+build/PileRoomSim
+build/PileRoomSim.in
+build/PileRoomSim.out
+cmake_install.cmake
+
