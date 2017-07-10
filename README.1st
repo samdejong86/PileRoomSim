@@ -1,0 +1,20 @@
+This is a GEANT4 implementation of an AmBe source as well as the response generated in one (or several) helium-3 tubes. 
+
+Usage: PileRoomSim  -m macro.mac -o miscObjects.xml -d he3tubeDescription.xml
+
+Command line parameters are optional. 
+
+	macro.mac:
+		A GEANT4 macro. in.mac is an example which sets the energy spectrum of the AmBe and the output root file. It runs for 500 events.
+		If no macro is specified, the program runs in GUI mode
+
+	miscObjects.xml:
+		Any additional objects to implement. Currently only Box and Tube are implements. These can be located anywhere in the simulated world, or can have thier position tied to the location of one of the helium-3 tubes.
+		If no file is specified, no additional objects are implemented
+
+	he3tubeDescription.xml:
+		The description of the helium-3 tubes. An example is shown in HE3TUBE.xml.
+		If no description is specified, a default is used. (located at $XMLLOCATION/HE3TUBE.xml)
+
+Note: The environment variable XMLLOCATION should be set to the location of Graphite.xml and Room.xml. If this variable is not set, the program looks for these files in the current directory.
+ 

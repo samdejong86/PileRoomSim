@@ -57,6 +57,13 @@ int main(int argc,char** argv) {
 	if(next.compare(0,1,"-") != 0)
 	   he3Desc = string(argv[i+1]);
       }
+    }if(input.compare("-h")==0){
+      cout<<"Simulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
+      cout<<"\nUsage: PileRoomSim  -m macro.mac -o miscObjects.xml -d he3tubeDescription.xml\n";
+      cout<<"\nCommand line parameters are optional. If no macro is specified, PileRoomSim runs\n";
+      cout<<"in GUI mode. If no he3tubeDescription.xml specified, default description used.\n";
+
+      return 0;
     }
   }
 

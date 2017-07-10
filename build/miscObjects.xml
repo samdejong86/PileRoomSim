@@ -1,3 +1,4 @@
+
 <xml>
   <Active>
     <Shape>
@@ -9,14 +10,20 @@
     <Material>
       G4_POLYETHYLENE
     </Material>
+    <TieToHe3Tubes>
+      1
+    </TieToHe3Tubes>
+    <he3TubeChannel>
+      0
+    </he3TubeChannel>    
     <x_pos>
-      -111.33
+      -10
     </x_pos>
     <y_pos>
-      33.91
+      0
     </y_pos>
     <z_pos>
-      6.5
+      0
     </z_pos>
     <xLength>
       3.75
