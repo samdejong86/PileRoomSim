@@ -87,8 +87,22 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   }
   
   
-  for(int i=0; i<(int)miscParams.size(); i++){    
-    G4ThreeVector loc(miscParams[i].getValue("x_pos")*cm, miscParams[i].getValue("y_pos")*cm, miscParams[i].getValue("z_pos")*cm);    
+  for(int i=0; i<(int)miscParams.size(); i++){
+    double addX=0;
+    double addY=0;
+    double addZ=0;
+    
+    if(miscParams[i].getValue("TieToHe3Tubes")){
+      cout<<"tie to tube "<<miscParams[i].getValue("he3TubeChannel")<<endl;
+      int ch = miscParams[i].getValue("he3TubeChannel");
+      addX=tubeParams[ch].getValue("x_pos")*cm;
+      addY=tubeParams[ch].getValue("y_pos")*cm;
+      addZ=tubeParams[ch].getValue("z_pos")*cm;
+    }
+    
+    G4ThreeVector loc(miscParams[i].getValue("x_pos")*cm+addX, 
+		      miscParams[i].getValue("y_pos")*cm+addY,
+		      miscParams[i].getValue("z_pos")*cm+addZ);    
     BuildMiscObjects(loc, i);    
   } 
 
@@ -314,7 +328,20 @@ G4VPhysicalVolume* DetectorConstruction::BuildMiscObjects(G4ThreeVector objLoc, 
 
   G4String name = miscParams[num].getStringValue("Name");
 
-  G4Box* solidObject = new G4Box("solid_"+name, miscParams[num].getValue("xLength")*cm, miscParams[num].getValue("yLength")*cm, miscParams[num].getValue("zLength")*cm);
+  G4CSGSolid *solidObject;
+
+  if(miscParams[num].getStringValue("Shape")=="Box"){
+    solidObject = new G4Box("solid_"+name, miscParams[num].getValue("xLength")*cm, miscParams[num].getValue("yLength")*cm, miscParams[num].getValue("zLength")*cm);
+
+  }else if(miscParams[num].getStringValue("Shape")=="Tube"){
+    solidObject = new G4Tubs("solid_"+name, miscParams[num].getValue("innerRadius")*cm, miscParams[num].getValue("outerRadius")*cm, miscParams[num].getValue("hz")*cm, 0*deg, 360*deg);
+
+  } else {
+    cout<<"Shape "<<miscParams[num].getStringValue("Shape")<<" not known, ignoring"<<endl;
+    return NULL;
+  }
+
+
 
   G4LogicalVolume *logicObject = new G4LogicalVolume(solidObject, obj_mat, "logical_"+name);
 
