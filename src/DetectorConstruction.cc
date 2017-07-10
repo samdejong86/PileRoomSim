@@ -187,9 +187,15 @@ G4VPhysicalVolume* DetectorConstruction::BuildHe3Tube(G4ThreeVector tubeLoc, G4R
    he3att2->SetForceWireframe(true);
    he3att2->SetForceSolid(true);
    l_iHe3Gas->SetVisAttributes(he3att2); 
+
+   string color =  tubeParams[ch].getStringValue("Colour");
+   color.erase(std::remove(color.begin(), color.end(), '#'), color.end());
+   int r, gg, b;
+   sscanf(color.c_str(), "%02x%02x%02x", &r, &gg, &b);
+
    
    //colour for the stainless steel case
-   G4VisAttributes * tubeatt = new G4VisAttributes(G4Colour(196./255.,196./255.,196./255.));  
+   G4VisAttributes * tubeatt = new G4VisAttributes(G4Colour(r/255.,gg/255.,b/255.));  
    tubeatt->SetForceWireframe(true);
    tubeatt->SetForceSolid(true);
    logic_Case->SetVisAttributes(tubeatt);
@@ -220,7 +226,12 @@ void DetectorConstruction::BuildGraphite(G4ThreeVector pileLoc){
   G4Box* RodBox = new G4Box( "RodBox", rodLength, rodWidth, rodWidth);
   G4LogicalVolume* rodLV = new G4LogicalVolume( RodBox, pile_mat, "RodLV", 0, 0, 0 );
   
-  G4VisAttributes * graph3att = new G4VisAttributes(G4Colour(97./255.,97./255.,97./255.)); 
+  string color =  gParam.getStringValue("Colour");
+  color.erase(std::remove(color.begin(), color.end(), '#'), color.end());
+  int r, gg, b;
+  sscanf(color.c_str(), "%02x%02x%02x", &r, &gg, &b);
+
+  G4VisAttributes * graph3att = new G4VisAttributes(G4Colour(r/255.,gg/255.,b/255.)); 
   graph3att->SetForceWireframe(true);
   graph3att->SetForceSolid(true);
   rodLV->SetVisAttributes(graph3att);
@@ -295,7 +306,12 @@ G4VPhysicalVolume* DetectorConstruction::BuildRoom(G4ThreeVector roomLoc){
   G4SubtractionSolid* solid_walls = new G4SubtractionSolid("solid_room", solid_RoomOutside, solid_RoomInSide);
   
   
-  G4VisAttributes * conc3att = new G4VisAttributes(G4Colour(195./255.,195./255.,195./255.));  
+  string color =  rParam.getStringValue("Colour");
+  color.erase(std::remove(color.begin(), color.end(), '#'), color.end());
+  int r, gg, b;
+  sscanf(color.c_str(), "%02x%02x%02x", &r, &gg, &b);
+
+  G4VisAttributes * conc3att = new G4VisAttributes(G4Colour(r/255.,gg/255.,b/255.));  
   conc3att->SetForceWireframe(true);
   
  
@@ -340,9 +356,19 @@ G4VPhysicalVolume* DetectorConstruction::BuildMiscObjects(G4ThreeVector objLoc, 
     return NULL;
   }
 
-
-
   G4LogicalVolume *logicObject = new G4LogicalVolume(solidObject, obj_mat, "logical_"+name);
+
+  string color =  miscParams[num].getStringValue("Colour");
+  color.erase(std::remove(color.begin(), color.end(), '#'), color.end());
+  int r, gg, b;
+  sscanf(color.c_str(), "%02x%02x%02x", &r, &gg, &b);
+
+  G4VisAttributes * miscAtt = new G4VisAttributes(G4Colour(r/255.,gg/255.,b/255.)); 
+  miscAtt->SetForceWireframe(true);
+  miscAtt->SetForceSolid(true);
+  logicObject->SetVisAttributes(miscAtt);
+
+
 
   G4VPhysicalVolume *object = new G4PVPlacement(rotObj, objLoc, logicObject, "phys_"+name, logicWorld, false, 0);
   

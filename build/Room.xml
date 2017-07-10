@@ -24,5 +24,8 @@
     <concThick>
       20
     </concThick>
+    <Colour>
+      #C3C3C3
+    </Colour>
   </Active>
 </xml>

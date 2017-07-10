@@ -30,5 +30,8 @@
     <GraphitePerCent>
       80
     </GraphitePerCent>
+    <Colour>
+      #616161
+    </Colour>
   </Active>
 </xml>

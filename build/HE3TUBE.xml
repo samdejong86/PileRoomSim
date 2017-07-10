@@ -4,13 +4,13 @@
       G4_STAINLESS-STEEL
     </Material>
     <x_pos>
-      -100.0
+	-105.04
     </x_pos>
-    <y_pos>
-      0
+    <y_pos>     
+      33.91
     </y_pos>
     <z_pos>
-      0
+      -8.96
     </z_pos>
     <AngleX>
       90
@@ -42,19 +42,26 @@
     <sensitive_volume_offset>
       0.6096
     </sensitive_volume_offset>
+    <Colour>
+      #2B2B2B
+    </Colour>
+
+
+
+
   </Active>
   <Active>
     <Material>
       G4_STAINLESS-STEEL
     </Material>
     <x_pos>
-      -110.0
+	-105.04
     </x_pos>
     <y_pos>
-      0
+      33.91
     </y_pos>
     <z_pos>
-      0
+      -3.88
     </z_pos>
     <AngleX>
       90
@@ -86,19 +93,23 @@
     <sensitive_volume_offset>
       0.6096
     </sensitive_volume_offset>
+    <Colour>
+      #D22630
+    </Colour>
+
   </Active>
   <Active>
     <Material>
       G4_STAINLESS-STEEL
     </Material>
     <x_pos>
-      -120.0
+	-105.04
     </x_pos>
     <y_pos>
-      0
+      33.91
     </y_pos>
     <z_pos>
-      0
+      1.2
     </z_pos>
     <AngleX>
       90
@@ -130,19 +141,22 @@
     <sensitive_volume_offset>
       0.6096
     </sensitive_volume_offset>
+    <Colour>
+      #3C7DC4
+    </Colour>
   </Active>
   <Active>
     <Material>
       G4_STAINLESS-STEEL
     </Material>
     <x_pos>
-      -130.0
+	-105.04
     </x_pos>
     <y_pos>
-      0
+      33.91
     </y_pos>
     <z_pos>
-      0
+      6.28
     </z_pos>
     <AngleX>
       90
@@ -174,269 +188,8 @@
     <sensitive_volume_offset>
       0.6096
     </sensitive_volume_offset>
-  </Active>
-  <Active>
-    <Material>
-      G4_STAINLESS-STEEL
-    </Material>
-    <x_pos>
-      -140.0
-    </x_pos>
-    <y_pos>
-      0
-    </y_pos>
-    <z_pos>
-      0
-    </z_pos>
-    <AngleX>
-      90
-    </AngleX>
-    <AngleY>
-      0
-    </AngleY>
-    <AngleZ>
-      0
-    </AngleZ>
-    <tube_innerRadius>
-      2.069
-    </tube_innerRadius>
-    <tube_outerRadius>
-      2.54
-    </tube_outerRadius>
-    <tube_hz>
-      10.19
-    </tube_hz>
-    <endcap_hz>
-      0.47
-    </endcap_hz>
-    <gas_outerRadius>
-      2.0
-    </gas_outerRadius>
-    <gas_hz>
-      7.62
-    </gas_hz>
-    <sensitive_volume_offset>
-      0.6096
-    </sensitive_volume_offset>
-  </Active>
-  <Active>
-    <Material>
-      G4_STAINLESS-STEEL
-    </Material>
-    <x_pos>
-      -150.0
-    </x_pos>
-    <y_pos>
-      0
-    </y_pos>
-    <z_pos>
-      0
-    </z_pos>
-    <AngleX>
-      90
-    </AngleX>
-    <AngleY>
-      0
-    </AngleY>
-    <AngleZ>
-      0
-    </AngleZ>
-    <tube_innerRadius>
-      2.069
-    </tube_innerRadius>
-    <tube_outerRadius>
-      2.54
-    </tube_outerRadius>
-    <tube_hz>
-      10.19
-    </tube_hz>
-    <endcap_hz>
-      0.47
-    </endcap_hz>
-    <gas_outerRadius>
-      2.0
-    </gas_outerRadius>
-    <gas_hz>
-      7.62
-    </gas_hz>
-    <sensitive_volume_offset>
-      0.6096
-    </sensitive_volume_offset>
-  </Active>
-  <Active>
-    <Material>
-      G4_STAINLESS-STEEL
-    </Material>
-    <x_pos>
-      -160.0
-    </x_pos>
-    <y_pos>
-      0
-    </y_pos>
-    <z_pos>
-      0
-    </z_pos>
-    <AngleX>
-      90
-    </AngleX>
-    <AngleY>
-      0
-    </AngleY>
-    <AngleZ>
-      0
-    </AngleZ>
-    <tube_innerRadius>
-      2.069
-    </tube_innerRadius>
-    <tube_outerRadius>
-      2.54
-    </tube_outerRadius>
-    <tube_hz>
-      10.19
-    </tube_hz>
-    <endcap_hz>
-      0.47
-    </endcap_hz>
-    <gas_outerRadius>
-      2.0
-    </gas_outerRadius>
-    <gas_hz>
-      7.62
-    </gas_hz>
-    <sensitive_volume_offset>
-      0.6096
-    </sensitive_volume_offset>
-  </Active>
-  <Active>
-    <Material>
-      G4_STAINLESS-STEEL
-    </Material>
-    <x_pos>
-      -170.0
-    </x_pos>
-    <y_pos>
-      0
-    </y_pos>
-    <z_pos>
-      0
-    </z_pos>
-    <AngleX>
-      90
-    </AngleX>
-    <AngleY>
-      0
-    </AngleY>
-    <AngleZ>
-      0
-    </AngleZ>
-    <tube_innerRadius>
-      2.069
-    </tube_innerRadius>
-    <tube_outerRadius>
-      2.54
-    </tube_outerRadius>
-    <tube_hz>
-      10.19
-    </tube_hz>
-    <endcap_hz>
-      0.47
-    </endcap_hz>
-    <gas_outerRadius>
-      2.0
-    </gas_outerRadius>
-    <gas_hz>
-      7.62
-    </gas_hz>
-    <sensitive_volume_offset>
-      0.6096
-    </sensitive_volume_offset>
-  </Active>
-  <Active>
-    <Material>
-      G4_STAINLESS-STEEL
-    </Material>
-    <x_pos>
-      -180.0
-    </x_pos>
-    <y_pos>
-      0
-    </y_pos>
-    <z_pos>
-      0
-    </z_pos>
-    <AngleX>
-      90
-    </AngleX>
-    <AngleY>
-      0
-    </AngleY>
-    <AngleZ>
-      0
-    </AngleZ>
-    <tube_innerRadius>
-      2.069
-    </tube_innerRadius>
-    <tube_outerRadius>
-      2.54
-    </tube_outerRadius>
-    <tube_hz>
-      10.19
-    </tube_hz>
-    <endcap_hz>
-      0.47
-    </endcap_hz>
-    <gas_outerRadius>
-      2.0
-    </gas_outerRadius>
-    <gas_hz>
-      7.62
-    </gas_hz>
-    <sensitive_volume_offset>
-      0.6096
-    </sensitive_volume_offset>
-  </Active>
-  <Active>
-    <Material>
-      G4_STAINLESS-STEEL
-    </Material>
-    <x_pos>
-      -190.0
-    </x_pos>
-    <y_pos>
-      0
-    </y_pos>
-    <z_pos>
-      0
-    </z_pos>
-    <AngleX>
-      90
-    </AngleX>
-    <AngleY>
-      0
-    </AngleY>
-    <AngleZ>
-      0
-    </AngleZ>
-    <tube_innerRadius>
-      2.069
-    </tube_innerRadius>
-    <tube_outerRadius>
-      2.54
-    </tube_outerRadius>
-    <tube_hz>
-      10.19
-    </tube_hz>
-    <endcap_hz>
-      0.47
-    </endcap_hz>
-    <gas_outerRadius>
-      2.0
-    </gas_outerRadius>
-    <gas_hz>
-      7.62
-    </gas_hz>
-    <sensitive_volume_offset>
-      0.6096
-    </sensitive_volume_offset>
+    <Colour>
+      #5A8F29
+    </Colour>
   </Active>
 </xml>

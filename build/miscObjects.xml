@@ -43,5 +43,8 @@
     <AngleZ>
       0
     </AngleZ>
+    <Colour>
+      #FFFFFF
+    </Colour>
   </Active>
 </xml>
