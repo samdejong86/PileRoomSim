@@ -253,10 +253,9 @@ void DetectorConstruction::BuildGraphite(G4ThreeVector pileLoc){
   
   for(int i=0; i<nRodsY; i++){
 
-    double lengthAdd=fabs(gsn.shoot(mmm,ss));
-    double widthAdd1=fabs(gsn.shoot(mmm,ss));
-    double widthAdd2=fabs(gsn.shoot(mmm,ss));
-
+    double lengthAdd=fabs(gsn.shoot(mmm,ss))*cm;
+    double widthAdd1=fabs(gsn.shoot(mmm,ss))*cm;
+    double widthAdd2=fabs(gsn.shoot(mmm,ss))*cm;
 
     // Define a rod
     G4Box* RodBox = new G4Box( "RodBox", rodLength-lengthAdd, rodWidth-widthAdd1, rodWidth-widthAdd2);
