@@ -552,7 +552,6 @@ void DetectorConstruction::getMiscParams(string filename){
     else if (currentMiscParams->isXMLEndTag(st)) {
       if(currentMiscParams!=0){
 	text = amiscParams.removeSpaces(text);
-	cout<<activeTag<<"\t"<<text<<endl;
 	currentMiscParams->setXMLField(activeTag, text);
 	text = "";
       }
