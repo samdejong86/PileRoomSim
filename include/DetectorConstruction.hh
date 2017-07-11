@@ -64,8 +64,8 @@ private:
   G4VPhysicalVolume* BuildMiscObjects(G4ThreeVector objLoc, int num);
 
 
-  void getHe3Params(std::string filename);
-  void getMiscParams(std::string filename);
+  //void getHe3Params(std::string filename);
+  //void getMiscParams(std::string filename);
   //void getGraphiteParams(std::string filename);
   //void getRoomParams(std::string filename);
 

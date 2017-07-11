@@ -62,6 +62,67 @@ public:
     in.close();
   }
 
+  static std::vector<XmlParser> getVector(std::string filename){
+
+    std::vector<XmlParser> Params;
+
+    ifstream in(filename);
+    
+    char str[600];
+    
+    XmlParser aParams;
+    
+    XmlParser * currentParams = 0;
+    
+    string activeTag = "";
+    string text;
+    
+    string xmlStartTag = "<xml>";
+    string xmlEndTag = "</xml>";
+    
+    while(in) {
+
+      in.getline(str, 256);    
+      string st = str;    
+      st = aParams.removeSpaces(st);  		
+      if((st.compare(xmlStartTag))==0){
+	cout<<"\nworking...\n";
+      }
+      else if((st.compare(xmlEndTag))==0){
+	cout<<"done!\n";
+      }
+      else if ((st.compare(aParams.startTag))==0) {
+	currentParams = new XmlParser();
+      }
+      else if ((st.compare(aParams.endTag))==0) {
+	if(currentParams!=0){
+	  Params.push_back(*currentParams);
+	}
+      }
+      else if (currentParams->isXMLStartTag(st)) {
+	activeTag = st;
+      }
+      else if (currentParams->isXMLEndTag(st)) {
+	if(currentParams!=0){
+	  text = aParams.removeSpaces(text);
+	  currentParams->setXMLField(activeTag, text);
+	  text = "";
+	}
+      }else if ((st.find("</"))!= std::string::npos){
+      text="";
+      }else
+	text = text+ "\n" + st;
+    }
+    in.close();
+    
+    return Params;
+
+
+  }
+
+
+
+
   std::string removeSpaces(std::string input)
   {
     int length = input.length();

@@ -408,7 +408,7 @@ void DetectorConstruction::SetParams(){
   else Location = string(xmlLoc);
 
   if(miscfilename.size()!=0){
-    getMiscParams(miscfilename); 
+    miscParams = XmlParser::getVector(miscfilename);    
     cout<<"Creating volumes defined in "<<miscfilename<<endl;  
   }
   
@@ -420,13 +420,12 @@ void DetectorConstruction::SetParams(){
   
   Box_Length = 500*cm;
 
-  
   gParam=XmlParser(Location+"/Graphite.xml");
   rParam=XmlParser(Location+"/Room.xml");
 
   G4cout<<"Helium-3 tube parameters described in "<<he3filename<<"\n";
 
-  getHe3Params(he3filename);
+  tubeParams = XmlParser::getVector(he3filename);
  
 
   G4cout<<"There are "<<tubeParams.size()<<" tubes implemented\n";
@@ -464,120 +463,3 @@ void DetectorConstruction::SetParams(){
  
 }
 
-//-----------------------------------------------------------------------------------------
-
-void DetectorConstruction::getHe3Params(string filename){
-
-
-  ifstream in(filename);
-  if(!in) return;
-
-  char str[600];
-
-  XmlParser aHe3Params;
-
-  XmlParser * currentHe3Params = 0;
-
-  string activeTag = "";
-  string text;
-
-  string xmlStartTag = "<xml>";
-  string xmlEndTag = "</xml>";
-
-  while(in) {
-
-    in.getline(str, 256);    
-    string st = str;    
-    st = aHe3Params.removeSpaces(st);  		
-    if((st.compare(xmlStartTag))==0){
-      G4cout<<"\nworking...\n";
-    }
-    else if((st.compare(xmlEndTag))==0){
-      G4cout<<"done!\n";
-    }
-    else if ((st.compare(aHe3Params.startTag))==0) {
-      currentHe3Params = new XmlParser();
-    }
-    else if ((st.compare(aHe3Params.endTag))==0) {
-      if(currentHe3Params!=0){
-	if(tubeParams.size()==MaxTubes){
-	  G4cout<<"More than "<<MaxTubes<<" described in "<<filename<<". Skipping the rest\n";
-	  break;
-	}
-	tubeParams.push_back(*currentHe3Params);
-      }
-    }
-    else if (currentHe3Params->isXMLStartTag(st)) {
-      activeTag = st;
-    }
-    else if (currentHe3Params->isXMLEndTag(st)) {
-      if(currentHe3Params!=0){
-	text = aHe3Params.removeSpaces(text);
-	//cout<<activeTag<<"\t"<<text<<endl;
-	currentHe3Params->setXMLField(activeTag, text);
-	text = "";
-      }
-    }else if ((st.find("</"))!= std::string::npos){
-      text="";
-    }else
-      text = text+ "\n" + st;
-  }
-  in.close();
-
-  EndcapinnerRadius = 0.*cm;
-  GasinnerRadius = 0.*cm;
-
-}
-
-void DetectorConstruction::getMiscParams(string filename){
-
-  ifstream in(filename);
-
-  char str[600];
-
-  XmlParser amiscParams;
-
-  XmlParser * currentMiscParams = 0;
-
-  string activeTag = "";
-  string text;
-
-  string xmlStartTag = "<xml>";
-  string xmlEndTag = "</xml>";
-
-  while(in) {
-
-    in.getline(str, 256);    
-    string st = str;    
-    st = amiscParams.removeSpaces(st);  		
-    if((st.compare(xmlStartTag))==0){
-      G4cout<<"\nworking...\n";
-    }
-    else if((st.compare(xmlEndTag))==0){
-      G4cout<<"done!\n";
-    }
-    else if ((st.compare(amiscParams.startTag))==0) {
-      currentMiscParams = new XmlParser();
-    }
-    else if ((st.compare(amiscParams.endTag))==0) {
-      if(currentMiscParams!=0){
-	miscParams.push_back(*currentMiscParams);
-      }
-    }
-    else if (currentMiscParams->isXMLStartTag(st)) {
-      activeTag = st;
-    }
-    else if (currentMiscParams->isXMLEndTag(st)) {
-      if(currentMiscParams!=0){
-	text = amiscParams.removeSpaces(text);
-	currentMiscParams->setXMLField(activeTag, text);
-	text = "";
-      }
-    }else if ((st.find("</"))!= std::string::npos){
-      text="";
-    }else
-      text = text+ "\n" + st;
-  }
-  in.close();
-
-}
