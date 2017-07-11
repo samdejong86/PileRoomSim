@@ -8,7 +8,7 @@ using namespace std;
 #ifndef XmlParser_h
 #define XmlParser_h 1
 
-
+//a class which reads an XML file and holds the information
 class XmlParser{
 
 public:
@@ -20,11 +20,8 @@ public:
 
   XmlParser(){}
 
+  //constructor which reads a file
   XmlParser(std::string filename){
-  //XmlParser(TString filename){
-    
-    //ifstream infile(filename); 
-    //in.open(filename);
 
     std::ifstream in(filename);
     
@@ -40,10 +37,8 @@ public:
       st = this->removeSpaces(st); 
  		
       if((st.compare(xmlStartTag))==0){
-	std::cout<<"\nworking...\n";
       }
       else if((st.compare(xmlEndTag))==0){
-	std::cout<<"done!\n";
       }else if ((st.compare(this->endTag))==0) {
 	
       }
@@ -52,7 +47,6 @@ public:
       }
       else if (this->isXMLEndTag(st)) {
 	text = this->removeSpaces(text);
-	//G4cout<<activeTag<<"\t"<<text<<"\n";
 	this->setXMLField(activeTag, text);
 	text = "";
       }
@@ -62,11 +56,13 @@ public:
     in.close();
   }
 
+  //produces a vector of XmlParser objects
   static std::vector<XmlParser> getVector(std::string filename){
 
     std::vector<XmlParser> Params;
 
     ifstream in(filename);
+    if(!in) return Params;
     
     char str[600];
     
@@ -76,10 +72,7 @@ public:
     
     string activeTag = "";
     string text;
-    
-    string xmlStartTag = "<xml>";
-    string xmlEndTag = "</xml>";
-    
+        
     while(in) {
 
       in.getline(str, 256);    
@@ -120,9 +113,7 @@ public:
 
   }
 
-
-
-
+  //utility method
   std::string removeSpaces(std::string input)
   {
     int length = input.length();
@@ -133,6 +124,7 @@ public:
     return input;
   }
   
+  //return the value of a tag as a double
   double getValue(std::string tag){ 
     for(int i=0; i<(int)tags.size(); i++){
       if(tags[i].compare(tag)==0) return atof(vals[i].c_str());       
@@ -140,6 +132,7 @@ public:
     return 0;
   }
   
+  //return the value of a tag as a string
   std::string getStringValue(std::string tag){
     for(int i=0; i<(int)tags.size(); i++){
       if(tags[i].compare(tag)==0) return vals[i];       
@@ -147,7 +140,7 @@ public:
     return "";
 }
 
-  
+  //is aTagstring an xml start tag?
   static bool isXMLStartTag(std::string aTagstring){
     std::string input = aTagstring;
     if(input.length()==0) return false;
@@ -162,6 +155,7 @@ public:
 
   }
 
+  //is aTagstring an xml end tag?
   static bool isXMLEndTag(std::string aTagstring){
     std::string input = aTagstring;
     if(input.length()==0) return false;
@@ -176,6 +170,7 @@ public:
     
   }
   
+  //add text to the xmlField
   void setXMLField(std::string xmlField, std::string text) {
     if(xmlField.compare(startTag)==0||xmlField.compare(xmlStartTag)==0) return;
     if(xmlField.find("</") != std::string::npos) return;
@@ -200,6 +195,7 @@ public:
     
   }
   
+  //print the tags and their values
   void print(){
     for(int i=0; i<(int)tags.size(); i++) std::cout<<tags[i]<<"\t"<<vals[i]<<std::endl;
   }

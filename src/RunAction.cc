@@ -39,22 +39,16 @@ RunAction::RunAction(std::string miscFile)
   analysisManager->CreateNtupleIColumn("leftWall");
 
 
-  
-
-
  
   //need to link to the EventAction object to get the vectors that will be added to the ntuple
   const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
   EventAction* eventAction = const_cast<EventAction*>(constEventAction);
   
-  std::vector<XmlParser> miscObjects = XmlParser::getVector(miscFile);
-  
+  //get the names of the misc objects to name the ntuple branches
+  std::vector<XmlParser> miscObjects = XmlParser::getVector(miscFile);  
   for(int i=0; i<(int)miscObjects.size(); i++){
     analysisManager->CreateNtupleIColumn("left"+miscObjects[i].getStringValue("Name"));
   }
-
-
-
 
   //vector branches
   analysisManager->CreateNtupleDColumn("EDEPinHe3", eventAction->getEDEPvec());
@@ -85,11 +79,10 @@ RunAction::~RunAction()
 void RunAction::BeginOfRunAction(const G4Run*)
 {
   // save Rndm status
-  //G4RunManager::GetRunManager()->SetRandomNumberStore(true);
   if (isMaster) G4Random::showEngineStatus();
 
   
-   // Get analysis manager
+  // Get analysis manager
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
   const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
@@ -98,8 +91,6 @@ void RunAction::BeginOfRunAction(const G4Run*)
   eventAction->Initialize();
 
   // Open an output file
-  //
-//   G4String fileName = "testem4";
   analysisManager->OpenFile();    
 }
 

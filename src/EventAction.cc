@@ -27,52 +27,55 @@ EventAction::~EventAction()
 }
 
 void EventAction::Initialize(){
-  nChannels=fDetConstruction->GetNChannels();
-  nobj = fDetConstruction->GetNMiscObjects();
+  nChannels=fDetConstruction->GetNChannels();  //get number of channels
+  nobj = fDetConstruction->GetNMiscObjects();  //get number of objects
 
-  tubeLoc.resize(nChannels);
-  
+  //get location of tubes
+  tubeLoc.resize(nChannels);   
   for(int i=0; i<nChannels; i++){  
     tubeLoc[i] = fDetConstruction->GetHe3Posn(i); 
   }
 
 }
 
+//at the start of each event...
 void EventAction::BeginOfEventAction( const G4Event* eve)
 { 
 
 
- neutronHit=false;
- isNeutronHitVec.clear();
- isNeutronHitVec.resize(nChannels);
- leftGrap=false;
- leftConcrete=false;
- ePostGraphite=-1;
-
- leftObj.clear();
- leftObj.resize(nobj);
-
-
- edepInHe3.clear();
- PIDinHe3.clear();
- he3Ch.clear();
- channelVec.clear();
- TotalEnergyDeposit.clear();
- neutronHitVec.clear();
- tubeX.clear();
- tubeY.clear();
- tubeZ.clear();
- 
-
- he3Ch.resize(nChannels);
- TotalEnergyDeposit.resize(nChannels);
-
- nevent++;
- if(nevent%100==0) cout<<"Event number: "<<nevent<<"\n";
-
+  neutronHit=false;    //no neutron hit
+  isNeutronHitVec.clear();
+  isNeutronHitVec.resize(nChannels);
+  leftGrap=false;     //hasn't left graphite
+  leftConcrete=false; //hasn't left concrete
+  ePostGraphite=-1;
+  
+  leftObj.clear();      //hasn't left objects
+  leftObj.resize(nobj); 
+  
+  
+  //clear some vectors
+  edepInHe3.clear();
+  PIDinHe3.clear();
+  he3Ch.clear();
+  channelVec.clear();
+  TotalEnergyDeposit.clear();
+  neutronHitVec.clear();
+  tubeX.clear();
+  tubeY.clear();
+  tubeZ.clear();
+  
+  
+  he3Ch.resize(nChannels);
+  TotalEnergyDeposit.resize(nChannels);
+  
+  nevent++;
+  if(nevent%100==0) cout<<"Event number: "<<nevent<<"\n";
+  
 
 }
 
+//at the end of event
 void EventAction::EndOfEventAction( const G4Event*)
 {    
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
@@ -93,7 +96,6 @@ void EventAction::EndOfEventAction( const G4Event*)
     if(leftObj[i]==1) analysisManager->FillNtupleIColumn(4+i, 1);
     else analysisManager->FillNtupleIColumn(4+i, 0);
   }
-  
   
   for(int i=0; i<nChannels; i++) 
     if(isNeutronHitVec[i]) 

@@ -31,28 +31,12 @@ void ActionInitialization::BuildForMaster() const
 
 void ActionInitialization::Build() const
 {
-  
-
-  //  SetUserAction(new PrimaryGeneratorAction);
-  
-
+  //initialize simulation objects
   EventAction* eventAction = new EventAction(fDetConstruction);
   SetUserAction(new PrimaryGeneratorAction(eventAction));
   SetUserAction(eventAction);
   SetUserAction(new SteppingAction(fDetConstruction,eventAction));
   SetUserAction(new RunAction(miscName));
-  
-  
-  
-  /*
-  SetUserAction(new RunAction);
-  EventAction* eventAction = new EventAction;
-  
-  SetUserAction(new PrimaryGeneratorAction(eventAction));
-  SetUserAction(eventAction);
-  SetUserAction(new SteppingAction(fDetConstruction,eventAction));
-
-  */
 }  
 
 

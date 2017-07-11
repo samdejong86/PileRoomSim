@@ -28,28 +28,32 @@
 
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
-  public:
+public:
   
-    DetectorConstruction();
+  DetectorConstruction();
   DetectorConstruction(G4String he3Desc, G4String miscFile);
-   ~DetectorConstruction();
+  ~DetectorConstruction();
      
-    virtual G4VPhysicalVolume* Construct();
+  virtual G4VPhysicalVolume* Construct();
 
+  //get physical volumes
   const G4VPhysicalVolume* Getphysicry(int ch) const;
   const G4VPhysicalVolume* GetphysiMisc(int n) const;
   const G4VPhysicalVolume* GetphysiWorld() const; 
   const G4VPhysicalVolume* GetphysiGraphite() const;
   const G4VPhysicalVolume* GetphysiRoom() const;
+
+  //get helium 3 tube positions
   const G4ThreeVector GetHe3Posn(int ch) const;
-  int GetNChannels() const;
-  int GetNMiscObjects() const;
-  void SetParams();
-  G4String he3filename;
-  G4String miscfilename;
+
+  int GetNChannels() const;        //number of he3 channels
+  int GetNMiscObjects() const;     //number of misc objects
+    
+  void SetParams(); //set parameters
 
 private:
 
+  //geometry parameters for the objects
   XmlParser gParam;
   XmlParser rParam;
   std::vector<XmlParser> tubeParams;
@@ -57,9 +61,14 @@ private:
   double EndcapinnerRadius;
   G4double GasinnerRadius;
 
+  //filenames
+  G4String he3filename;
+  G4String miscfilename;
 
+  //size of the world
   G4double Box_Length;
 
+  //geometry creators
   G4VPhysicalVolume* BuildRoom(G4ThreeVector roomLoc);
   G4VPhysicalVolume* BuildHe3Tube(G4ThreeVector tubeLoc, G4RotationMatrix* rotation, int ch);
   void BuildGraphite(G4ThreeVector pileLoc);
@@ -68,6 +77,8 @@ private:
   static const int nChannels=4;
   G4LogicalVolume* logicWorld;
   G4NistManager* nist;
+  
+  //materials
   G4Material* world_mat;
   G4Material* pile_mat;
   G4Material* room_mat;
@@ -87,9 +98,9 @@ private:
 private:
 
 };
-
+// inline functions
 inline  int DetectorConstruction::GetNChannels() const {
-  int a=tubeParams.size();//nChannels;
+  int a=tubeParams.size();
   return a;
 }
 
@@ -99,13 +110,10 @@ inline  int DetectorConstruction::GetNMiscObjects() const {
 }
 
 inline const G4ThreeVector DetectorConstruction::GetHe3Posn(int ch) const{
-  //if(ch>nChannels) return He3TUBEpos[0];
   return He3TUBEpos[ch];
 }
 
-// inline functions
 inline const G4VPhysicalVolume* DetectorConstruction::Getphysicry(int ch) const { 
-  //if(ch>nChannels) return phys_HE3[0];
   return  phys_HE3[ch]; 
 }
 inline const G4VPhysicalVolume* DetectorConstruction::GetphysiWorld() const { 

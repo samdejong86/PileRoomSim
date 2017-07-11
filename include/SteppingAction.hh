@@ -11,22 +11,22 @@ class DetectorConstruction;
 
 class SteppingAction : public G4UserSteppingAction
 {
-  public:
-    G4double sum;
-    SteppingAction(const DetectorConstruction* detectorConstruction, EventAction*);
-   ~SteppingAction();
-
-    virtual void UserSteppingAction(const G4Step*);
-
-  private:
-
+public:
+  G4double sum;
+  SteppingAction(const DetectorConstruction* detectorConstruction, EventAction*);
+  ~SteppingAction();
+  
+  virtual void UserSteppingAction(const G4Step*);
+  
+private:
+  
   int nch;
   int nobj;
-
-    const DetectorConstruction* fDetConstruction;
-    SteppingActionMessenger*     fSteppingActionMessenger;
-
-    EventAction* fEventAction;
+  
+  const DetectorConstruction* fDetConstruction;
+  SteppingActionMessenger*     fSteppingActionMessenger;
+  
+  EventAction* fEventAction;
 };
 
 #endif

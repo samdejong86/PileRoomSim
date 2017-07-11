@@ -28,10 +28,8 @@
 SteppingAction::SteppingAction(const DetectorConstruction* detectorConstruction,EventAction* EvAct)
 :G4UserSteppingAction(),fSteppingActionMessenger(0),fDetConstruction(detectorConstruction)
 ,fEventAction(EvAct)
-{ 
-  //       fSteppingActionMessenger = new SteppingActionMessenger(this);
-
-  
+{   
+  //get number of channels and objects
   nch = fDetConstruction->GetNChannels();
   nobj = fDetConstruction->GetNMiscObjects();
 
@@ -39,13 +37,11 @@ SteppingAction::SteppingAction(const DetectorConstruction* detectorConstruction,
 
 SteppingAction::~SteppingAction()
 { 
-  //delete fSteppingActionMessenger;  
 }
 
 void SteppingAction::UserSteppingAction(const G4Step* aStep)
 {
 
-  //G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();  
   G4double EdepStep = aStep->GetTotalEnergyDeposit();
   G4Track* a1Track = aStep->GetTrack();
   G4VPhysicalVolume* post_volume = aStep->GetPostStepPoint()->GetTouchableHandle()->GetVolume();
@@ -53,16 +49,19 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
   int PDG=a1Track->GetDefinition()->GetPDGEncoding();
 
  
+  //if the particle leaves the graphite cube
   if(pre_volume->GetName().contains("Rod") && !post_volume->GetName().contains("Rod")){
     fEventAction->leftGraphite(a1Track->GetKineticEnergy());
   }
-
+  
+  //if the particle is in the helium-3 tube
   for(int i=0; i<nch; i++){
     if ( post_volume == fDetConstruction->Getphysicry(i) && EdepStep!=0) {
       if(PDG==2212||PDG==1000010030) fEventAction->He3Hit(PDG, EdepStep, i);
     }
   }
 
+  //if the particle leaves one of the objects
   for(int i=0; i<nobj; i++){
     if ( post_volume == fDetConstruction->GetphysiMisc(i) && EdepStep!=0) {
       fEventAction->leftObject(i);
@@ -70,7 +69,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 
   }
 
-
+  //if the particle leaves the concrete walls of the room
   if(post_volume ==  fDetConstruction->GetphysiRoom()){
     fEventAction->leftWall();
   }

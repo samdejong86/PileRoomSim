@@ -17,7 +17,7 @@
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 #include <vector>
-#include <iomanip>      // std::setprecision
+#include <iomanip>      
 
 class DetectorConstruction;
 
@@ -37,6 +37,7 @@ public:
   inline void leftWall();
   inline void leftObject(int n);
 
+  //get methods for vectors, for creating vector branches in RunAction.hh
   std::vector<double>& getEDEPvec() { return edepInHe3;}
   std::vector<double>& getTotalEdep() { return TotalEnergyDeposit;}
   std::vector<int>& getPIDvec() { return PIDinHe3;}
@@ -53,13 +54,14 @@ public:
 private:
   G4double ePostGraphite;
   
-  
+  //numner of channels and objects
   int nChannels;
   int nobj;
 
   bool neutronHit;
   bool leftGrap;
   bool leftConcrete;
+  std::vector<int> leftObj;
 
   std::vector<int> neutronHitVec;
   std::vector<bool> isNeutronHitVec;
@@ -67,31 +69,35 @@ private:
   std::vector<int> channelVec;
   std::vector<int> PIDinHe3;
   std::vector<int> he3Ch;
-  std::vector<double> TotalEnergyDeposit;   // Energy deposited 
+  std::vector<double> TotalEnergyDeposit;  
   std::vector<double> tubeX;
   std::vector<double> tubeY;
   std::vector<double> tubeZ;
-  std::vector<G4ThreeVector> tubeLoc;
-  std::vector<int> leftObj;
-  
 
+  //location of tubes
+  std::vector<G4ThreeVector> tubeLoc;
+  
+  //detector geometry
   const DetectorConstruction* fDetConstruction;
 };
 
 // inline functions
 
-inline void EventAction::He3Hit(int PDG, double edep, int ch){
-  neutronHit=true;
-  isNeutronHitVec[ch] = true;
-  PIDinHe3.push_back(PDG);
+inline void EventAction::He3Hit(int PDG, double edep, int ch){  //hit occurs in he3 tube
+  
+  if(!neutronHit){  //only add to these vectors on the first neutron hit
+    tubeX.push_back(tubeLoc[ch].x());
+    tubeY.push_back(tubeLoc[ch].y());
+    tubeZ.push_back(tubeLoc[ch].z());
+  }
+  neutronHit=true;               //there was a neutron hit
+  isNeutronHitVec[ch] = true;    //there was a neutron hit in channel ch
+  PIDinHe3.push_back(PDG);      
   edepInHe3.push_back(edep/eV);
   TotalEnergyDeposit[ch] += edep/MeV;
   he3Ch[ch]++;
   channelVec.push_back(ch);
 
-  tubeX.push_back(tubeLoc[ch].x());
-  tubeY.push_back(tubeLoc[ch].y());
-  tubeZ.push_back(tubeLoc[ch].z());
 
 }
 
@@ -110,7 +116,6 @@ inline void EventAction::leftObject(int n){
   leftObj[n] = 1;
 }
 
-//
 #endif
 
     
