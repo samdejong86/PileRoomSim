@@ -30,6 +30,11 @@ SteppingAction::SteppingAction(const DetectorConstruction* detectorConstruction,
 ,fEventAction(EvAct)
 { 
   //       fSteppingActionMessenger = new SteppingActionMessenger(this);
+
+  
+  nch = fDetConstruction->GetNChannels();
+  nobj = fDetConstruction->GetNMiscObjects();
+
 }
 
 SteppingAction::~SteppingAction()
@@ -49,15 +54,22 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 
  
   if(pre_volume->GetName().contains("Rod") && !post_volume->GetName().contains("Rod")){
-    fEventAction->LeftGraphite(a1Track->GetKineticEnergy());
+    fEventAction->leftGraphite(a1Track->GetKineticEnergy());
   }
 
-  int nch = fDetConstruction->GetNChannels();
   for(int i=0; i<nch; i++){
     if ( post_volume == fDetConstruction->Getphysicry(i) && EdepStep!=0) {
       if(PDG==2212||PDG==1000010030) fEventAction->He3Hit(PDG, EdepStep, i);
     }
   }
+
+  for(int i=0; i<nobj; i++){
+    if ( post_volume == fDetConstruction->GetphysiMisc(i) && EdepStep!=0) {
+      fEventAction->leftObject(i);
+    }
+
+  }
+
 
   if(post_volume ==  fDetConstruction->GetphysiRoom()){
     fEventAction->leftWall();

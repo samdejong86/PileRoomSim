@@ -33,8 +33,9 @@ public:
   virtual void Initialize();
 
   inline void He3Hit(int PDG, double edep, int ch);
-  inline void LeftGraphite(double eKin);
+  inline void leftGraphite(double eKin);
   inline void leftWall();
+  inline void leftObject(int n);
 
   std::vector<double>& getEDEPvec() { return edepInHe3;}
   std::vector<double>& getTotalEdep() { return TotalEnergyDeposit;}
@@ -54,9 +55,10 @@ private:
   
   
   int nChannels;
+  int nobj;
 
   bool neutronHit;
-  bool leftGraphite;
+  bool leftGrap;
   bool leftConcrete;
 
   std::vector<int> neutronHitVec;
@@ -70,6 +72,7 @@ private:
   std::vector<double> tubeY;
   std::vector<double> tubeZ;
   std::vector<G4ThreeVector> tubeLoc;
+  std::vector<int> leftObj;
   
 
   const DetectorConstruction* fDetConstruction;
@@ -96,14 +99,16 @@ inline void EventAction::leftWall(){
   leftConcrete=true;
 }
 
-inline void EventAction::LeftGraphite(double eKin){
-  if(!leftGraphite){
+inline void EventAction::leftGraphite(double eKin){
+  if(!leftGrap){
     ePostGraphite=eKin;
-    leftGraphite=true;
+    leftGrap=true;
   }
 }
 
-
+inline void EventAction::leftObject(int n){
+  leftObj[n] = 1;
+}
 
 //
 #endif

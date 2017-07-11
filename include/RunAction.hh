@@ -21,7 +21,7 @@ class G4Run;
 class RunAction : public G4UserRunAction
 {
   public:
-    RunAction();
+  RunAction(std::string miscFile);
    ~RunAction();
 
   public:

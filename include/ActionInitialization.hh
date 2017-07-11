@@ -4,6 +4,8 @@
 /// \file ActionInitialization.hh
 /// \brief Definition of the ActionInitialization class
 
+#include <string>
+
 #ifndef ActionInitialization_h
 #define ActionInitialization_h 1
 
@@ -18,7 +20,7 @@ class DetectorConstruction;
 class ActionInitialization : public G4VUserActionInitialization
 {
   public:
-    ActionInitialization(DetectorConstruction*);
+  ActionInitialization(DetectorConstruction*, std::string miscObjects);
     
     virtual ~ActionInitialization();
 
@@ -27,8 +29,9 @@ class ActionInitialization : public G4VUserActionInitialization
     
     virtual G4VSteppingVerbose* InitializeSteppingVerbose() const;
     
-  private:
-    DetectorConstruction* fDetConstruction;    
+private:
+  DetectorConstruction* fDetConstruction;    
+  std::string miscName;
 
 };
 

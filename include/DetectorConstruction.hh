@@ -37,11 +37,13 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     virtual G4VPhysicalVolume* Construct();
 
   const G4VPhysicalVolume* Getphysicry(int ch) const;
+  const G4VPhysicalVolume* GetphysiMisc(int n) const;
   const G4VPhysicalVolume* GetphysiWorld() const; 
   const G4VPhysicalVolume* GetphysiGraphite() const;
   const G4VPhysicalVolume* GetphysiRoom() const;
   const G4ThreeVector GetHe3Posn(int ch) const;
   int GetNChannels() const;
+  int GetNMiscObjects() const;
   void SetParams();
   G4String he3filename;
   G4String miscfilename;
@@ -63,12 +65,6 @@ private:
   void BuildGraphite(G4ThreeVector pileLoc);
   G4VPhysicalVolume* BuildMiscObjects(G4ThreeVector objLoc, int num);
 
-
-  //void getHe3Params(std::string filename);
-  //void getMiscParams(std::string filename);
-  //void getGraphiteParams(std::string filename);
-  //void getRoomParams(std::string filename);
-
   static const int nChannels=4;
   G4LogicalVolume* logicWorld;
   G4NistManager* nist;
@@ -79,9 +75,11 @@ private:
   G4Material* mat_steel;
   
   static const int MaxTubes=10;
+  static const int MaxObjects=10;
 
   G4ThreeVector He3TUBEpos[MaxTubes];
   G4VPhysicalVolume* phys_HE3[MaxTubes];
+  G4VPhysicalVolume* phys_misc[MaxObjects];
   G4VPhysicalVolume* physiWorld;
   G4VPhysicalVolume* physRoom;
   protected:
@@ -92,6 +90,11 @@ private:
 
 inline  int DetectorConstruction::GetNChannels() const {
   int a=tubeParams.size();//nChannels;
+  return a;
+}
+
+inline  int DetectorConstruction::GetNMiscObjects() const {
+  int a=miscParams.size();
   return a;
 }
 
@@ -113,7 +116,9 @@ inline const G4VPhysicalVolume* DetectorConstruction::GetphysiRoom() const {
   return  physRoom; 
 }
 
-
+inline const G4VPhysicalVolume* DetectorConstruction::GetphysiMisc(int n) const {
+  return phys_misc[n];
+}
 
 #endif
 

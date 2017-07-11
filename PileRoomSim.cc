@@ -35,7 +35,7 @@ int main(int argc,char** argv) {
 
   G4String fileName = "";
   G4String he3Desc = "";
-  G4String miscFile = "";
+  std::string miscFile = "";
   
   for(int i=0; i<argc; i++){
     std::string input(argv[i]);
@@ -112,7 +112,7 @@ int main(int argc,char** argv) {
 //         }
   
   // set user action classes
-  runManager->SetUserInitialization(new ActionInitialization(detConstruction));
+  runManager->SetUserInitialization(new ActionInitialization(detConstruction, miscFile));
 
   //Initialize G4 kernel
   runManager->Initialize();

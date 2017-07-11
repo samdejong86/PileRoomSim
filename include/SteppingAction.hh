@@ -20,6 +20,9 @@ class SteppingAction : public G4UserSteppingAction
 
   private:
 
+  int nch;
+  int nobj;
+
     const DetectorConstruction* fDetConstruction;
     SteppingActionMessenger*     fSteppingActionMessenger;
 

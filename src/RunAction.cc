@@ -19,7 +19,9 @@
 #include "Randomize.hh"
 #include "EventAction.hh"
 
-RunAction::RunAction()
+#include "xmlParser.h"
+
+RunAction::RunAction(std::string miscFile)
  : G4UserRunAction()
 {
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
@@ -29,18 +31,31 @@ RunAction::RunAction()
 
   //create ntuple
   analysisManager->CreateNtuple("PileRoomSim", "Simulation of Pile Room");
-
+  
   //primitive branches
   analysisManager->CreateNtupleDColumn("Ekin_n_PostGraphite");
   analysisManager->CreateNtupleDColumn("Etot_n_initial");
   analysisManager->CreateNtupleIColumn("IsNeutronInHe3");
   analysisManager->CreateNtupleIColumn("leftWall");
 
+
+  
+
+
  
   //need to link to the EventAction object to get the vectors that will be added to the ntuple
   const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
   EventAction* eventAction = const_cast<EventAction*>(constEventAction);
   
+  std::vector<XmlParser> miscObjects = XmlParser::getVector(miscFile);
+  
+  for(int i=0; i<(int)miscObjects.size(); i++){
+    analysisManager->CreateNtupleIColumn("left"+miscObjects[i].getStringValue("Name"));
+  }
+
+
+
+
   //vector branches
   analysisManager->CreateNtupleDColumn("EDEPinHe3", eventAction->getEDEPvec());
   analysisManager->CreateNtupleIColumn("PIDinHe3", eventAction->getPIDvec());

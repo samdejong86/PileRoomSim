@@ -105,7 +105,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     G4ThreeVector loc(miscParams[i].getValue("x_pos")*cm+addX, 
 		      miscParams[i].getValue("y_pos")*cm+addY,
 		      miscParams[i].getValue("z_pos")*cm+addZ);    
-    BuildMiscObjects(loc, i);    
+
+    phys_misc[i] = BuildMiscObjects(loc, i);    
   } 
 
 

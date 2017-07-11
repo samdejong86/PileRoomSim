@@ -28,6 +28,7 @@ EventAction::~EventAction()
 
 void EventAction::Initialize(){
   nChannels=fDetConstruction->GetNChannels();
+  nobj = fDetConstruction->GetNMiscObjects();
 
   tubeLoc.resize(nChannels);
   
@@ -44,9 +45,13 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
  neutronHit=false;
  isNeutronHitVec.clear();
  isNeutronHitVec.resize(nChannels);
- leftGraphite=false;
+ leftGrap=false;
  leftConcrete=false;
  ePostGraphite=-1;
+
+ leftObj.clear();
+ leftObj.resize(nobj);
+
 
  edepInHe3.clear();
  PIDinHe3.clear();
@@ -82,6 +87,13 @@ void EventAction::EndOfEventAction( const G4Event*)
 
   if(leftConcrete) analysisManager->FillNtupleIColumn(3, 1);
   else analysisManager->FillNtupleIColumn(3, 0);
+
+  
+  for(int i=0; i<nobj; i++){
+    if(leftObj[i]==1) analysisManager->FillNtupleIColumn(4+i, 1);
+    else analysisManager->FillNtupleIColumn(4+i, 0);
+  }
+  
   
   for(int i=0; i<nChannels; i++) 
     if(isNeutronHitVec[i]) 

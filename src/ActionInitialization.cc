@@ -13,9 +13,9 @@
 #include "DetectorConstruction.hh"
 
 
-ActionInitialization::ActionInitialization(DetectorConstruction* detConstruction)
+ActionInitialization::ActionInitialization(DetectorConstruction* detConstruction, std::string miscObjects)
  : G4VUserActionInitialization(),
-    fDetConstruction(detConstruction)
+   fDetConstruction(detConstruction), miscName(miscObjects)
 {}
 
 ActionInitialization::~ActionInitialization()
@@ -24,7 +24,7 @@ ActionInitialization::~ActionInitialization()
 
 void ActionInitialization::BuildForMaster() const
 {
- SetUserAction(new RunAction);
+  SetUserAction(new RunAction(miscName));
 }
 
 
@@ -40,7 +40,7 @@ void ActionInitialization::Build() const
   SetUserAction(new PrimaryGeneratorAction(eventAction));
   SetUserAction(eventAction);
   SetUserAction(new SteppingAction(fDetConstruction,eventAction));
-  SetUserAction(new RunAction);
+  SetUserAction(new RunAction(miscName));
   
   
   
