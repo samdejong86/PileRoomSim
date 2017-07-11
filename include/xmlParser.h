@@ -23,6 +23,8 @@ public:
   //constructor which reads a file
   XmlParser(std::string filename){
 
+    cout<<"Parsing "<<filename<<endl;
+
     std::ifstream in(filename);
     
     char str[600];
@@ -59,6 +61,8 @@ public:
   //produces a vector of XmlParser objects
   static std::vector<XmlParser> getVector(std::string filename){
 
+    cout<<"Parsing "<<filename<<endl;
+
     std::vector<XmlParser> Params;
 
     ifstream in(filename);
@@ -79,10 +83,8 @@ public:
       string st = str;    
       st = aParams.removeSpaces(st);  		
       if((st.compare(xmlStartTag))==0){
-	cout<<"\nworking...\n";
       }
       else if((st.compare(xmlEndTag))==0){
-	cout<<"done!\n";
       }
       else if ((st.compare(aParams.startTag))==0) {
 	currentParams = new XmlParser();
