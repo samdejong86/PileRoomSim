@@ -34,6 +34,7 @@ int main(int argc,char** argv) {
   G4String fileName = "";
   G4String he3Desc = "";
   std::string miscFile = "";
+  bool saveAll=false;
   
   //parse command line arguments
   for(int i=0; i<argc; i++){
@@ -56,11 +57,15 @@ int main(int argc,char** argv) {
 	if(next.compare(0,1,"-") != 0)
 	   he3Desc = string(argv[i+1]);
       }
-    }if(input.compare("-h")==0){
+    }else if(input.compare("-all")==0){
+      saveAll=true;
+    }else if(input.compare("-h")==0){
       cout<<"Simulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
-      cout<<"\nUsage: PileRoomSim  -m macro.mac -o miscObjects.xml -d he3tubeDescription.xml\n";
+      cout<<"\nUsage: PileRoomSim  -m macro.mac -o miscObjects.xml -d he3tubeDescription.xml -all\n";
       cout<<"\nCommand line parameters are optional. If no macro is specified, PileRoomSim runs\n";
       cout<<"in GUI mode. If no he3tubeDescription.xml specified, default description used.\n";
+      cout<<"If -all parameter is used, all events are saved to output ntuple. If not, only\n";
+      cout<<"events containing a neutron hit in a he3tube are saved\n";
 
       return 0;
     }
@@ -91,7 +96,7 @@ int main(int argc,char** argv) {
     
   
   // set user action classes
-  runManager->SetUserInitialization(new ActionInitialization(detConstruction, miscFile)); //pass misc object description filename ActionInitilization, when then passes it on to RunAction
+  runManager->SetUserInitialization(new ActionInitialization(detConstruction, miscFile, saveAll)); //pass misc object description filename ActionInitilization, when then passes it on to RunAction
 
   //Initialize G4 kernel
   runManager->Initialize();

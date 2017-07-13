@@ -13,9 +13,9 @@
 #include "DetectorConstruction.hh"
 
 
-ActionInitialization::ActionInitialization(DetectorConstruction* detConstruction, std::string miscObjects)
+ActionInitialization::ActionInitialization(DetectorConstruction* detConstruction, std::string miscObjects, bool save)
  : G4VUserActionInitialization(),
-   fDetConstruction(detConstruction), miscName(miscObjects)
+   fDetConstruction(detConstruction), miscName(miscObjects), saveAll(save)
 {}
 
 ActionInitialization::~ActionInitialization()
@@ -32,7 +32,7 @@ void ActionInitialization::BuildForMaster() const
 void ActionInitialization::Build() const
 {
   //initialize simulation objects
-  EventAction* eventAction = new EventAction(fDetConstruction);
+  EventAction* eventAction = new EventAction(fDetConstruction, saveAll);
   SetUserAction(new PrimaryGeneratorAction(eventAction));
   SetUserAction(eventAction);
   SetUserAction(new SteppingAction(fDetConstruction,eventAction));

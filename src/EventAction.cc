@@ -14,12 +14,12 @@
 #include "G4SystemOfUnits.hh"
 
 
-EventAction::EventAction(const DetectorConstruction* detectorConstruction)
+EventAction::EventAction(const DetectorConstruction* detectorConstruction, bool save)
 :G4UserEventAction(),
  TotalEnergyDeposit(0.),
  fDetConstruction(detectorConstruction)
 { 
-
+  saveAll=save;
 }
 
 EventAction::~EventAction()
@@ -57,8 +57,8 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
   //clear some vectors
   edepInHe3.clear();
   PIDinHe3.clear();
-  he3Ch.clear();
-  channelVec.clear();
+  //he3Ch.clear();
+  //channelVec.clear();
   TotalEnergyDeposit.clear();
   neutronHitVec.clear();
   tubeX.clear();
@@ -66,7 +66,7 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
   tubeZ.clear();
   
   
-  he3Ch.resize(nChannels);
+  //he3Ch.resize(nChannels);
   TotalEnergyDeposit.resize(nChannels);
   
   nevent++;
@@ -84,6 +84,8 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
 //at the end of event
 void EventAction::EndOfEventAction( const G4Event*)
 {    
+  if(neutronHit||saveAll){
+    
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
   if(neutronHit) cout<<bold<<green<<"Neutron Hit!"<<noFormat<<endl;
@@ -91,16 +93,16 @@ void EventAction::EndOfEventAction( const G4Event*)
   //fill primitive ntuple branches
   analysisManager->FillNtupleDColumn(0, ePostGraphite/eV);
   analysisManager->FillNtupleDColumn(1, input_energy/MeV);
-  if(neutronHit) analysisManager->FillNtupleIColumn(2, 1);
-  else analysisManager->FillNtupleIColumn(2, 0);
+  //if(neutronHit) analysisManager->FillNtupleIColumn(2, 1);
+  //else analysisManager->FillNtupleIColumn(2, 0);
 
-  if(leftConcrete) analysisManager->FillNtupleIColumn(3, 1);
-  else analysisManager->FillNtupleIColumn(3, 0);
+  if(leftConcrete) analysisManager->FillNtupleIColumn(2, 1);
+  else analysisManager->FillNtupleIColumn(2, 0);
 
   
   for(int i=0; i<nobj; i++){
-    if(leftObj[i]==1) analysisManager->FillNtupleIColumn(4+i, 1);
-    else analysisManager->FillNtupleIColumn(4+i, 0);
+    if(leftObj[i]==1) analysisManager->FillNtupleIColumn(3+i, 1);
+    else analysisManager->FillNtupleIColumn(3+i, 0);
   }
   
   for(int i=0; i<nChannels; i++) 
@@ -111,7 +113,7 @@ void EventAction::EndOfEventAction( const G4Event*)
   //vector branches are filled automatically
   
   analysisManager->AddNtupleRow();
-  
+  }
   
 
 }

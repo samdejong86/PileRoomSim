@@ -35,7 +35,7 @@ RunAction::RunAction(std::string miscFile)
   //primitive branches
   analysisManager->CreateNtupleDColumn("Ekin_n_PostGraphite");
   analysisManager->CreateNtupleDColumn("Etot_n_initial");
-  analysisManager->CreateNtupleIColumn("IsNeutronInHe3");
+  //analysisManager->CreateNtupleIColumn("IsNeutronInHe3");
   analysisManager->CreateNtupleIColumn("leftWall");
 
 
@@ -53,11 +53,10 @@ RunAction::RunAction(std::string miscFile)
   //vector branches
   analysisManager->CreateNtupleDColumn("EDEPinHe3", eventAction->getEDEPvec());
   analysisManager->CreateNtupleIColumn("PIDinHe3", eventAction->getPIDvec());
-  analysisManager->CreateNtupleIColumn("channel", eventAction->getChannelVec());
+  //analysisManager->CreateNtupleIColumn("channel", eventAction->getChannelVec());
   analysisManager->CreateNtupleIColumn("neutronHits", eventAction->getNeutronHits());
 
-  //these always have 4 entries
-  analysisManager->CreateNtupleIColumn("he3Hits", eventAction->getHitvec());
+  //analysisManager->CreateNtupleIColumn("he3Hits", eventAction->getHitvec());
   analysisManager->CreateNtupleDColumn("TotalEnergyDeposited", eventAction->getTotalEdep());
   analysisManager->CreateNtupleDColumn("he3TubeXPos", eventAction->getTubeX());
   analysisManager->CreateNtupleDColumn("he3TubeYPos", eventAction->getTubeY());

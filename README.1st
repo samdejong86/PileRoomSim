@@ -5,7 +5,7 @@ This is a GEANT4 implementation of an AmBe source as well as the response genera
 Before running, source this script:
        geant4.10.02-install/bin/geant4.sh
 
-Usage: PileRoomSim  -m macro.mac -o miscObjects.xml -d he3tubeDescription.xml
+Usage: PileRoomSim  -m macro.mac -o miscObjects.xml -d he3tubeDescription.xml -all
 
 Command line parameters are optional. 
 
@@ -20,6 +20,9 @@ Command line parameters are optional.
 	he3tubeDescription.xml:
 		The description of the helium-3 tubes. An example is shown in HE3TUBE.xml.
 		If no description is specified, a default is used. (located at $XMLLOCATION/HE3TUBE.xml)
+
+	-all
+		If this argument is used, all events are saved to the output ntuple. If not, only events where a neutron is captured are saved.
 
 Note: The environment variable XMLLOCATION should be set to the location of Graphite.xml and Room.xml. If this variable is not set, the program looks for these files in the xml/ directory
  

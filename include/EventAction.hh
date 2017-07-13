@@ -24,7 +24,7 @@ class DetectorConstruction;
 class EventAction : public G4UserEventAction
 {
 public:
-  EventAction(const DetectorConstruction* detectorConstruction);
+  EventAction(const DetectorConstruction* detectorConstruction, bool save);
   ~EventAction();
   
 public:
@@ -41,8 +41,8 @@ public:
   std::vector<double>& getEDEPvec() { return edepInHe3;}
   std::vector<double>& getTotalEdep() { return TotalEnergyDeposit;}
   std::vector<int>& getPIDvec() { return PIDinHe3;}
-  std::vector<int>& getHitvec() { return he3Ch;}
-  std::vector<int>& getChannelVec() {return channelVec;}
+  //std::vector<int>& getHitvec() { return he3Ch;}
+  //std::vector<int>& getChannelVec() {return channelVec;}
   std::vector<int>& getNeutronHits() {return neutronHitVec;}
   std::vector<double>& getTubeX() {return tubeX;}
   std::vector<double>& getTubeY() {return tubeY;}
@@ -60,6 +60,8 @@ private:
   const std::string white = "\033[37m";
   const std::string noFormat = "\033[0m";
 
+  bool saveAll;
+
   G4double ePostGraphite;
   
   //numner of channels and objects
@@ -74,9 +76,9 @@ private:
   std::vector<int> neutronHitVec;
   std::vector<bool> isNeutronHitVec;
   std::vector<double> edepInHe3;
-  std::vector<int> channelVec;
+  //std::vector<int> channelVec;
   std::vector<int> PIDinHe3;
-  std::vector<int> he3Ch;
+  //std::vector<int> he3Ch;
   std::vector<double> TotalEnergyDeposit;  
   std::vector<double> tubeX;
   std::vector<double> tubeY;
@@ -103,8 +105,8 @@ inline void EventAction::He3Hit(int PDG, double edep, int ch){  //hit occurs in 
   PIDinHe3.push_back(PDG);      
   edepInHe3.push_back(edep/eV);
   TotalEnergyDeposit[ch] += edep/MeV;
-  he3Ch[ch]++;
-  channelVec.push_back(ch);
+  //he3Ch[ch]++;
+  //channelVec.push_back(ch);
 
 
 }
