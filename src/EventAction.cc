@@ -70,8 +70,14 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
   TotalEnergyDeposit.resize(nChannels);
   
   nevent++;
-  if(nevent%100==0) cout<<"Event number: "<<nevent<<"\n";
-  
+  //if(nevent%100==0){
+  if(nevent%10000==0){
+    cout<<bold<<"Event number: "<<nevent<<noFormat<<"\n";
+  }else if (nevent%1000==0){
+    cout<<underline<<"Event number: "<<nevent<<noFormat<<"\n";
+  }else if (nevent%100==0){ 
+    cout<<"Event number: "<<nevent<<"\n";
+  }
 
 }
 
@@ -80,7 +86,7 @@ void EventAction::EndOfEventAction( const G4Event*)
 {    
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
-  if(neutronHit) cout<<"Neutron Hit!\n";
+  if(neutronHit) cout<<bold<<green<<"Neutron Hit!"<<noFormat<<endl;
   
   //fill primitive ntuple branches
   analysisManager->FillNtupleDColumn(0, ePostGraphite/eV);

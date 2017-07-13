@@ -52,6 +52,14 @@ public:
   int nevent = 0;
   
 private:
+  
+  const std::string bold = "\033[1m";
+  const std::string green = "\033[32m";
+  const std::string underline = "\033[4m";
+  const std::string blue = "\033[34m";
+  const std::string white = "\033[37m";
+  const std::string noFormat = "\033[0m";
+
   G4double ePostGraphite;
   
   //numner of channels and objects
