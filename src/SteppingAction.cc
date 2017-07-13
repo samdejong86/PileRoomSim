@@ -12,7 +12,7 @@
 #include "G4RunManager.hh"
 #include "DetectorConstruction.hh"
 #include "Analysis.hh"
-#include "SteppingActionMessenger.hh"
+//#include "SteppingActionMessenger.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
@@ -26,7 +26,7 @@
 
 // 
 SteppingAction::SteppingAction(const DetectorConstruction* detectorConstruction,EventAction* EvAct)
-:G4UserSteppingAction(),fSteppingActionMessenger(0),fDetConstruction(detectorConstruction)
+:G4UserSteppingAction(),fDetConstruction(detectorConstruction)
 ,fEventAction(EvAct)
 {   
   //get number of channels and objects

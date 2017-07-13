@@ -24,7 +24,7 @@ private:
   int nobj;
   
   const DetectorConstruction* fDetConstruction;
-  SteppingActionMessenger*     fSteppingActionMessenger;
+  //SteppingActionMessenger*     fSteppingActionMessenger;
   
   EventAction* fEventAction;
 };
