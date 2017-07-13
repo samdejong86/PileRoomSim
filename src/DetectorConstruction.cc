@@ -249,7 +249,7 @@ void DetectorConstruction::BuildGraphite(G4ThreeVector pileLoc){
   double ss=gParam.getValue("SizeSigma");  
   CLHEP::RandGauss gsn(theRandEngine);
 
-  
+  //create one layer of rods
   for(int i=0; i<nRodsY; i++){
 
     //add a small perturbation to the rod sizes to mimic actual cube
@@ -261,8 +261,17 @@ void DetectorConstruction::BuildGraphite(G4ThreeVector pileLoc){
     G4Box* RodBox = new G4Box( "RodBox", rodLength-lengthAdd, rodWidth-widthAdd1, rodWidth-widthAdd2);
     G4LogicalVolume* rodLV = new G4LogicalVolume( RodBox, pile_mat, "RodLV", 0, 0, 0 );
 
+    
+    lengthAdd=fabs(gsn.shoot(mmm,ss))*cm;
+    widthAdd1=fabs(gsn.shoot(mmm,ss))*cm;
+    widthAdd2=fabs(gsn.shoot(mmm,ss))*cm;
+
+    G4Box* RodBox2 = new G4Box( "RodBox", rodLength-lengthAdd, rodWidth-widthAdd1, rodWidth-widthAdd2);
+    G4LogicalVolume* rodLV2 = new G4LogicalVolume( RodBox2, pile_mat, "RodLV", 0, 0, 0 );
+
     //apply visulization settings
     rodLV->SetVisAttributes(graph3att);
+    rodLV2->SetVisAttributes(graph3att);
 
   
     Ta.setX(0);
@@ -277,7 +286,7 @@ void DetectorConstruction::BuildGraphite(G4ThreeVector pileLoc){
     Ta.setZ(0);
     
     Tr = G4Transform3D(Ra,Ta);
-    assemblyDetector->AddPlacedVolume( rodLV, Tr );
+    assemblyDetector->AddPlacedVolume( rodLV2, Tr );
     
    }
 
