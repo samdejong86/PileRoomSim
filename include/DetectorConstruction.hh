@@ -89,12 +89,13 @@ private:
   G4Material* Helium3;
   G4Material* mat_steel;
   
-  static const int MaxTubes=10;
-  static const int MaxObjects=10;
+  //static const int MaxTubes=10;
+  //static const int MaxObjects=10;
 
-  G4ThreeVector He3TUBEpos[MaxTubes];
-  G4VPhysicalVolume* phys_HE3[MaxTubes];
-  G4VPhysicalVolume* phys_misc[MaxObjects];
+  vector<G4ThreeVector> He3TUBEpos;
+
+  vector<G4VPhysicalVolume*> phys_HE3;
+  vector<G4VPhysicalVolume*> phys_misc;
   G4VPhysicalVolume* physiWorld;
   G4VPhysicalVolume* physRoom;
   protected:

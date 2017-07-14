@@ -433,9 +433,12 @@ void DetectorConstruction::SetParams(){
   //if miscfilename is not empty, get the misc object  parameters
   if(miscfilename.size()!=0){
     miscParams = XmlParser::getVector(miscfilename);    
-    cout<<"Creating volumes defined in "<<miscfilename<<endl;  
+    cout<<"Creating volumes defined in "<<miscfilename<<endl;
+    phys_misc.resize(miscParams.size());
   }
   
+  
+
   //if he3filename is empty, use default value
   if(he3filename.size()==0)
     he3filename = Location+"/HE3TUBE.xml";
@@ -454,7 +457,10 @@ void DetectorConstruction::SetParams(){
   G4cout<<"Helium-3 tube parameters described in "<<he3filename<<"\n";
   tubeParams = XmlParser::getVector(he3filename);
   G4cout<<"There are "<<tubeParams.size()<<" tubes implemented\n";
-  
+
+  phys_HE3.resize(tubeParams.size());
+  He3TUBEpos.resize(tubeParams.size());
+
   //define world and room materials
   world_mat = nist->FindOrBuildMaterial("G4_AIR");
   room_mat = nist->FindOrBuildMaterial(rParam.getStringValue("Material")); 
