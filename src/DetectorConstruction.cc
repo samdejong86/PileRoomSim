@@ -448,6 +448,8 @@ void DetectorConstruction::SetParams(){
   gParam=XmlParser(Location+"/Graphite.xml");
   rParam=XmlParser(Location+"/Room.xml");
 
+  cubeSize = 2*gParam.getValue("rodLength")*cm;
+
   //get helium 3 tube parameters
   G4cout<<"Helium-3 tube parameters described in "<<he3filename<<"\n";
   tubeParams = XmlParser::getVector(he3filename);

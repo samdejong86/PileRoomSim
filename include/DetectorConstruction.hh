@@ -46,6 +46,8 @@ public:
   //get helium 3 tube positions
   const G4ThreeVector GetHe3Posn(int ch) const;
 
+  double GetCubeSize() const;
+
   int GetNChannels() const;        //number of he3 channels
   int GetNMiscObjects() const;     //number of misc objects
     
@@ -56,6 +58,8 @@ private:
   //geometry parameters for the objects
   XmlParser gParam;
   XmlParser rParam;
+  double cubeSize;
+
   std::vector<XmlParser> tubeParams;
   std::vector<XmlParser> miscParams;
   double EndcapinnerRadius;
@@ -127,6 +131,11 @@ inline const G4VPhysicalVolume* DetectorConstruction::GetphysiRoom() const {
 inline const G4VPhysicalVolume* DetectorConstruction::GetphysiMisc(int n) const {
   return phys_misc[n];
 }
+
+inline double DetectorConstruction::GetCubeSize() const {
+  return cubeSize;
+}
+
 
 #endif
 

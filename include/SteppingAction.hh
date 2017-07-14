@@ -22,6 +22,7 @@ private:
   
   int nch;
   int nobj;
+  double cubeSize;
   
   const DetectorConstruction* fDetConstruction;
   //SteppingActionMessenger*     fSteppingActionMessenger;

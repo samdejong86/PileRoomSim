@@ -57,20 +57,16 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
   //clear some vectors
   edepInHe3.clear();
   PIDinHe3.clear();
-  //he3Ch.clear();
-  //channelVec.clear();
-  TotalEnergyDeposit.clear();
+  //TotalEnergyDeposit.clear();
   neutronHitVec.clear();
-  tubeX.clear();
-  tubeY.clear();
-  tubeZ.clear();
+  tubeX=0;//.clear();
+  tubeY=0;//.clear();
+  tubeZ=0;//.clear();
   
   
-  //he3Ch.resize(nChannels);
-  TotalEnergyDeposit.resize(nChannels);
+  TotalEnergyDeposit = 0; //.resize(nChannels);
   
   nevent++;
-  //if(nevent%100==0){
   if(nevent%10000==0){
     cout<<bold<<"Event number: "<<nevent<<noFormat<<"\n";
   }else if (nevent%1000==0){
@@ -86,33 +82,35 @@ void EventAction::EndOfEventAction( const G4Event*)
 {    
   if(neutronHit||saveAll){
     
-  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
-  if(neutronHit) cout<<bold<<green<<"Neutron Hit!"<<noFormat<<endl;
-  
-  //fill primitive ntuple branches
-  analysisManager->FillNtupleDColumn(0, ePostGraphite/eV);
-  analysisManager->FillNtupleDColumn(1, input_energy/MeV);
-  //if(neutronHit) analysisManager->FillNtupleIColumn(2, 1);
-  //else analysisManager->FillNtupleIColumn(2, 0);
+    if(neutronHit) cout<<bold<<green<<"Neutron Hit!"<<noFormat<<endl;
+    
+    //fill primitive ntuple branches
+    analysisManager->FillNtupleDColumn(0, ePostGraphite/eV);
+    analysisManager->FillNtupleDColumn(1, input_energy/MeV);
+    analysisManager->FillNtupleDColumn(2, TotalEnergyDeposit);
+    if(leftConcrete) analysisManager->FillNtupleIColumn(3, 1);
+    else analysisManager->FillNtupleIColumn(3, 0);
+    
+    analysisManager->FillNtupleDColumn(4, tubeX);
+    analysisManager->FillNtupleDColumn(5, tubeY);
+    analysisManager->FillNtupleDColumn(6, tubeZ);
 
-  if(leftConcrete) analysisManager->FillNtupleIColumn(2, 1);
-  else analysisManager->FillNtupleIColumn(2, 0);
-
-  
-  for(int i=0; i<nobj; i++){
-    if(leftObj[i]==1) analysisManager->FillNtupleIColumn(3+i, 1);
-    else analysisManager->FillNtupleIColumn(3+i, 0);
-  }
-  
-  for(int i=0; i<nChannels; i++) 
-    if(isNeutronHitVec[i]) 
-      neutronHitVec.push_back(i);
-  
-
-  //vector branches are filled automatically
-  
-  analysisManager->AddNtupleRow();
+    
+    for(int i=0; i<nobj; i++){
+      if(leftObj[i]==1) analysisManager->FillNtupleIColumn(7+i, 1);
+      else analysisManager->FillNtupleIColumn(7+i, 0);
+    }
+    
+    for(int i=0; i<nChannels; i++) 
+      if(isNeutronHitVec[i]) 
+	neutronHitVec.push_back(i);
+    
+    
+    //vector branches are filled automatically
+    
+    analysisManager->AddNtupleRow();
   }
   
 

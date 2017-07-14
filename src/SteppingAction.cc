@@ -32,6 +32,7 @@ SteppingAction::SteppingAction(const DetectorConstruction* detectorConstruction,
   //get number of channels and objects
   nch = fDetConstruction->GetNChannels();
   nobj = fDetConstruction->GetNMiscObjects();
+  cubeSize = fDetConstruction->GetCubeSize();
 
 }
 
@@ -45,14 +46,21 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
   G4Track* a1Track = aStep->GetTrack();
   G4VPhysicalVolume* post_volume = aStep->GetPostStepPoint()->GetTouchableHandle()->GetVolume();
   G4VPhysicalVolume* pre_volume = aStep->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
+  
+  G4ThreeVector pre_posn = aStep->GetPreStepPoint()->GetPosition();
+  G4ThreeVector post_posn = aStep->GetPostStepPoint()->GetPosition();
+  
+  if(fabs(pre_posn.x())<cubeSize&&fabs(pre_posn.y())<cubeSize&&fabs(pre_posn.z())<cubeSize){
+    if(fabs(post_posn.x())>cubeSize||fabs(post_posn.y())>cubeSize||fabs(post_posn.z())>cubeSize){
+      fEventAction->leftGraphite(a1Track->GetKineticEnergy());
+    }
+  }
+  
 
   //if the particle leaves the concrete walls of the room
   if(post_volume ==  fDetConstruction->GetphysiRoom()){
     fEventAction->leftWall();
   }else {
-    if(pre_volume->GetName().contains("Rod") && !post_volume->GetName().contains("Rod"))
-      fEventAction->leftGraphite(a1Track->GetKineticEnergy());
-    
     G4double EdepStep = aStep->GetTotalEnergyDeposit();
 
     //if the particle is in the helium-3 tube
