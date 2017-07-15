@@ -43,10 +43,8 @@ fname = args.filename
 del args.filename
 
 root = ET.Element("Active")
-#active = ET.SubElement(root, "Active")
 
 for arg in vars(args):
-     print arg, getattr(args, arg)
      ET.SubElement(root, arg).text = '\n    '+str(getattr(args, arg))+'\n    '
 
 fileExists =  os.path.isfile(fname)
