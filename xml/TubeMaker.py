@@ -7,7 +7,7 @@ from subprocess import call
 import argparse
 
 parser = argparse.ArgumentParser(description='Create a helium-3 tube description')
-parser.add_argument('--filename', help='The output filename. New tubes are appended to existing files', default='DEFAULT.xml', required=True)
+parser.add_argument('-f','--filename', help='The output filename. New tubes are appended to existing files', default='DEFAULT.xml', required=True)
 
 parser.add_argument('--Material', default='G4_STAINLESS-STEEL', help = "(default: %(default)s)")
 parser.add_argument('--x_pos', default=-100, help = "(default: %(default)s)")
@@ -35,7 +35,7 @@ del args.filename
 root = ET.Element("Active")
 
 for arg in vars(args):
-     ET.SubElement(root, arg).text = '\n    '+str(getattr(args, arg))+'\n    '
+     ET.SubElement(root, arg).text = '\n    '+str(getattr(args, arg))+'\n  '
 
 fileExists =  os.path.isfile(fname)
 

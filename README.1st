@@ -25,4 +25,6 @@ Command line parameters are optional.
 		If this argument is used, all events are saved to the output ntuple. If not, only events where a neutron is captured are saved.
 
 Note: The environment variable XMLLOCATION should be set to the location of Graphite.xml and Room.xml. If this variable is not set, the program looks for these files in the xml/ directory
- 
+
+In xml/, there is a python script called TubeCreator.py. This script can be used to create an xml file containing a tube description, or append a new description to an existing xml file. Default values are used for any parameter not specified.
+
