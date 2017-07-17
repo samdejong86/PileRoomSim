@@ -91,7 +91,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
   analysisManager->OpenFile();    
 }
 
-void RunAction::EndOfRunAction(const G4Run*)
+void RunAction::EndOfRunAction(const G4Run* run)
 {  
   // show Rndm status
   if (isMaster) G4Random::showEngineStatus();         
@@ -99,7 +99,7 @@ void RunAction::EndOfRunAction(const G4Run*)
   const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
   EventAction* eventAction = const_cast<EventAction*>(constEventAction);  
 
-  int nevents = eventAction->getnEvents();
+  int nevents = run->GetNumberOfEvent();
 
   cout<<"-------------------------------------------------------\n";
   cout<<"Number of events: "<<nevents<<", corresponding to "<<1000*(double)nevents/10000000<<" ms"<<endl<<endl;

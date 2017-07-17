@@ -15,7 +15,9 @@
 
 ActionInitialization::ActionInitialization(DetectorConstruction* detConstruction, std::string miscObjects, bool save)
  : G4VUserActionInitialization(),
-   fDetConstruction(detConstruction), miscName(miscObjects), saveAll(save)
+   fDetConstruction(detConstruction), 
+   miscName(miscObjects), 
+   saveAll(save)
 {}
 
 ActionInitialization::~ActionInitialization()

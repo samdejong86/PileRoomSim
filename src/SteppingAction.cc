@@ -12,7 +12,6 @@
 #include "G4RunManager.hh"
 #include "DetectorConstruction.hh"
 #include "Analysis.hh"
-//#include "SteppingActionMessenger.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
@@ -45,7 +44,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 
   G4Track* a1Track = aStep->GetTrack();
   G4VPhysicalVolume* post_volume = aStep->GetPostStepPoint()->GetTouchableHandle()->GetVolume();
-  G4VPhysicalVolume* pre_volume = aStep->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
   
   G4ThreeVector pre_posn = aStep->GetPreStepPoint()->GetPosition();
   G4ThreeVector post_posn = aStep->GetPostStepPoint()->GetPosition();

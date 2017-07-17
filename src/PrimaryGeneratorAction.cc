@@ -11,7 +11,9 @@
 #include "EventAction.hh"
 
 PrimaryGeneratorAction::PrimaryGeneratorAction(EventAction* eventAction)
-: G4VUserPrimaryGeneratorAction(),fEventAction(eventAction),fParticleGun(0)
+: G4VUserPrimaryGeneratorAction(),
+  fEventAction(eventAction),
+  fParticleGun(0)
 {
  fParticleGun = new G4GeneralParticleSource();
 }

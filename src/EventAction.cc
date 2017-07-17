@@ -17,10 +17,10 @@
 EventAction::EventAction(const DetectorConstruction* detectorConstruction, bool save)
 :G4UserEventAction(),
  TotalEnergyDeposit(0.),
- fDetConstruction(detectorConstruction)
+ fDetConstruction(detectorConstruction),
+ saveAll(save),
+ nNeutrons(0)
 { 
-  saveAll=save;
-  nNeutrons=0;
 }
 
 EventAction::~EventAction()
@@ -42,7 +42,7 @@ void EventAction::Initialize(){
 //at the start of each event...
 void EventAction::BeginOfEventAction( const G4Event* eve)
 { 
-
+  int nevent = eve->GetEventID();
 
   neutronHit=false;    //no neutron hit
   isNeutronHitVec.clear();
@@ -58,7 +58,6 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
   //clear some vectors
   edepInHe3.clear();
   PIDinHe3.clear();
-  //TotalEnergyDeposit.clear();
   neutronHitVec.clear();
   tubeX=0;//.clear();
   tubeY=0;//.clear();
@@ -67,12 +66,14 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
   
   TotalEnergyDeposit = 0; //.resize(nChannels);
   
-  nevent++;
-  if(nevent%10000==0){
+  
+  if(nevent%100000==0){
+    cout<<bold<<red<<"Event number: "<<nevent<<noFormat<<"\n";
+  }else if(eve->GetEventID()%10000==0){
+    cout<<bold<<green<<"Event number: "<<nevent<<noFormat<<"\n";
+  }else if (eve->GetEventID()%1000==0){
     cout<<bold<<"Event number: "<<nevent<<noFormat<<"\n";
-  }else if (nevent%1000==0){
-    cout<<underline<<"Event number: "<<nevent<<noFormat<<"\n";
-  }else if (nevent%100==0){ 
+  }else if (eve->GetEventID()%100==0){ 
     cout<<"Event number: "<<nevent<<"\n";
   }
 

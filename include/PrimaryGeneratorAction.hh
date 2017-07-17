@@ -26,15 +26,13 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
   public:
     PrimaryGeneratorAction(EventAction*);    
    ~PrimaryGeneratorAction();
-
-  public:
     virtual void GeneratePrimaries(G4Event*);
 
-  private:
-   //G4ParticleGun*  fParticleGun;   
-   G4GeneralParticleSource*  fParticleGun;   
+ private:
+   //G4ParticleGun*  fParticleGun;    
    G4double Energy_in;
-   EventAction* fEventAction;
+   EventAction* fEventAction; 
+   G4GeneralParticleSource*  fParticleGun;  
  
       
 };

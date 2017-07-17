@@ -30,9 +30,9 @@ class ActionInitialization : public G4VUserActionInitialization
     virtual G4VSteppingVerbose* InitializeSteppingVerbose() const;
     
 private:
-  DetectorConstruction* fDetConstruction;    
+  DetectorConstruction* fDetConstruction; 
+  std::string miscName;   
   bool saveAll;
-  std::string miscName;
 
 };
 

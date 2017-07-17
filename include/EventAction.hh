@@ -43,10 +43,8 @@ public:
   std::vector<int>& getNeutronHits() {return neutronHitVec;}
 
   int getnNeutrons() {return nNeutrons;}
-  int getnEvents() {return nevent;}
 
   G4double input_energy;
-  int nevent = 0;
   
 private:
   
@@ -54,10 +52,9 @@ private:
   const std::string green = "\033[32m";
   const std::string underline = "\033[4m";
   const std::string blue = "\033[34m";
+  const std::string red = "\033[31m";
   const std::string white = "\033[37m";
   const std::string noFormat = "\033[0m";
-
-  bool saveAll;
 
   G4double ePostGraphite;
   
@@ -79,14 +76,18 @@ private:
   double tubeY;
   double tubeZ;
 
-  //number of neutrons detected
-  int nNeutrons;
-
   //location of tubes
   std::vector<G4ThreeVector> tubeLoc;
   
   //detector geometry
   const DetectorConstruction* fDetConstruction;
+
+  //if true, all events are saved
+  bool saveAll;
+
+  //number of neutrons detected
+  int nNeutrons;
+
 };
 
 // inline functions
