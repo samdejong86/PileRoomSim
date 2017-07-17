@@ -25,7 +25,7 @@ public:
 
     cout<<"Parsing "<<filename<<endl;
 
-    std::ifstream in(filename);
+    std::ifstream in(filename.c_str());
     
     char str[600];
     
@@ -65,7 +65,7 @@ public:
 
     std::vector<XmlParser> Params;
 
-    ifstream in(filename);
+    ifstream in(filename.c_str());
     if(!in) return Params;
     
     char str[600];
