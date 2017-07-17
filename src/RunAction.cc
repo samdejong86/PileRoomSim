@@ -59,10 +59,6 @@ RunAction::RunAction(std::string miscFile)
   analysisManager->CreateNtupleIColumn("PIDinHe3", eventAction->getPIDvec());
   analysisManager->CreateNtupleIColumn("neutronHits", eventAction->getNeutronHits());
 
-  //analysisManager->CreateNtupleDColumn("TotalEnergyDeposited", eventAction->getTotalEdep());
-  //analysisManager->CreateNtupleDColumn("he3TubeXPos", eventAction->getTubeX());
-  //analysisManager->CreateNtupleDColumn("he3TubeYPos", eventAction->getTubeY());
-  //analysisManager->CreateNtupleDColumn("he3TubeZPos", eventAction->getTubeZ());
 
  
   //no more branches added after this
@@ -99,6 +95,19 @@ void RunAction::EndOfRunAction(const G4Run*)
 {  
   // show Rndm status
   if (isMaster) G4Random::showEngineStatus();         
+
+  const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
+  EventAction* eventAction = const_cast<EventAction*>(constEventAction);  
+
+  int nevents = eventAction->getnEvents();
+
+  cout<<"-------------------------------------------------------\n";
+  cout<<"Number of events: "<<nevents<<", corresponding to "<<1000*(double)nevents/10000000<<" ms"<<endl<<endl;
+  cout<<eventAction->getnNeutrons()<<" neutrons detected"<<endl;
+  cout<<"-------------------------------------------------------\n";
+
+  
+
 
   //save ntuple      
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();

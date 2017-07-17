@@ -20,6 +20,7 @@ EventAction::EventAction(const DetectorConstruction* detectorConstruction, bool 
  fDetConstruction(detectorConstruction)
 { 
   saveAll=save;
+  nNeutrons=0;
 }
 
 EventAction::~EventAction()
@@ -85,6 +86,8 @@ void EventAction::EndOfEventAction( const G4Event*)
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
     if(neutronHit) cout<<bold<<green<<"Neutron Hit!"<<noFormat<<endl;
+    
+    nNeutrons++;
     
     //fill primitive ntuple branches
     analysisManager->FillNtupleDColumn(0, ePostGraphite/eV);

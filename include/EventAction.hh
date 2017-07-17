@@ -39,12 +39,11 @@ public:
 
   //get methods for vectors, for creating vector branches in RunAction.hh
   std::vector<double>& getEDEPvec() { return edepInHe3;}
-  //std::vector<double>& getTotalEdep() { return TotalEnergyDeposit;}
   std::vector<int>& getPIDvec() { return PIDinHe3;}
   std::vector<int>& getNeutronHits() {return neutronHitVec;}
-  //std::vector<double>& getTubeX() {return tubeX;}
-  //std::vector<double>& getTubeY() {return tubeY;}
-  //std::vector<double>& getTubeZ() {return tubeZ;}
+
+  int getnNeutrons() {return nNeutrons;}
+  int getnEvents() {return nevent;}
 
   G4double input_energy;
   int nevent = 0;
@@ -79,6 +78,9 @@ private:
   double tubeX;
   double tubeY;
   double tubeZ;
+
+  //number of neutrons detected
+  int nNeutrons;
 
   //location of tubes
   std::vector<G4ThreeVector> tubeLoc;
