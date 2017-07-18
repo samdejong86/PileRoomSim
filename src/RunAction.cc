@@ -101,10 +101,10 @@ void RunAction::EndOfRunAction(const G4Run* run)
 
   int nevents = run->GetNumberOfEvent();
 
-  cout<<"-------------------------------------------------------\n";
-  cout<<"Number of events: "<<nevents<<", corresponding to "<<1000*(double)nevents/10000000<<" ms"<<endl<<endl;
-  cout<<eventAction->getnNeutrons()<<" neutrons detected"<<endl;
-  cout<<"-------------------------------------------------------\n";
+  G4cout<<"-------------------------------------------------------\n";
+  G4cout<<"Number of events: "<<nevents<<", corresponding to "<<1000*(double)nevents/10000000<<" ms"<<G4endl<<G4endl;
+  G4cout<<eventAction->getnNeutrons()<<" neutrons detected"<<G4endl;
+  G4cout<<"-------------------------------------------------------\n";
 
   
 

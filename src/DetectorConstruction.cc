@@ -59,9 +59,13 @@ DetectorConstruction::~DetectorConstruction()
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
      
+  G4VisAttributes * worldatt = new G4VisAttributes(G4Colour(0.,0.,0.));  
+
+
   //the world is a big box of air
   G4Box* solid_World = new G4Box("world_All",  Box_Length,Box_Length,Box_Length);
   logicWorld = new G4LogicalVolume(solid_World,world_mat,  "world_Vol");    
+  logicWorld->SetVisAttributes(worldatt);
   physiWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "world_phys", 0, false, 0);
 
   

@@ -86,10 +86,11 @@ void EventAction::EndOfEventAction( const G4Event*)
     
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
-    if(neutronHit) cout<<bold<<green<<"Neutron Hit!"<<noFormat<<endl;
-    
-    nNeutrons++;
-    
+    if(neutronHit){
+      cout<<bold<<green<<"Neutron Hit!"<<noFormat<<endl;
+      nNeutrons++;
+    }    
+
     //fill primitive ntuple branches
     analysisManager->FillNtupleDColumn(0, ePostGraphite/eV);
     analysisManager->FillNtupleDColumn(1, input_energy/MeV);
