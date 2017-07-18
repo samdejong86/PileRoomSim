@@ -464,15 +464,25 @@ void DetectorConstruction::SetParams(){
   room_mat = nist->FindOrBuildMaterial(rParam.getStringValue("Material")); 
   
   //define graphite material
-  pile_mat =  nist->BuildMaterialWithNewDensity("Graphite_1.63",gParam.getStringValue("Material"),gParam.getValue("density")*g/cm3  );
-
-  /*
-  //define mixture
-  pile_mat=new G4Material("impure", gParam.getValue("density")*g/cm3, 1);
-  pile_mat->AddMaterial(baseMat, 100.*perCent);
+  G4Material *baseMat  =  nist->BuildMaterialWithNewDensity("Graphite_1.63",gParam.getStringValue("Material"),gParam.getValue("density")*g/cm3  );
   
+
+  G4Material* Boron= nist->FindOrBuildMaterial("G4_B");
+
+  double GraphiteFraction = gParam.getValue("GraphitePerCent")*perCent;
+  double BoronFraction = 1-gParam.getValue("GraphitePerCent")*perCent;
+
+ 
+  //define mixture
+  pile_mat=new G4Material("impure", gParam.getValue("density")*g/cm3, 2);
+  pile_mat->AddMaterial(baseMat, GraphiteFraction);
+  pile_mat->AddMaterial(Boron, BoronFraction);
+  
+
+  //pile_mat->GetIonisation()->SetMeanExcitationEnergy( 78*eV);
+
   G4cout << *(G4Material::GetMaterialTable()) << endl;
-  */
+  
 
 
   //He3 def from geant4 forum:

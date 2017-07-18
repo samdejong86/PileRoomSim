@@ -47,10 +47,13 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
   
   G4ThreeVector pre_posn = aStep->GetPreStepPoint()->GetPosition();
   G4ThreeVector post_posn = aStep->GetPostStepPoint()->GetPosition();
+
+
+  int PDG=a1Track->GetDefinition()->GetPDGEncoding();
   
   if(fabs(pre_posn.x())<cubeSize&&fabs(pre_posn.y())<cubeSize&&fabs(pre_posn.z())<cubeSize){
     if(fabs(post_posn.x())>cubeSize||fabs(post_posn.y())>cubeSize||fabs(post_posn.z())>cubeSize){
-      fEventAction->leftGraphite(a1Track->GetKineticEnergy());
+      if(PDG==2112) fEventAction->leftGraphite(a1Track->GetKineticEnergy());
     }
   }
   
@@ -64,7 +67,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     //if the particle is in the helium-3 tube
     for(int i=0; i<nch; i++){
       if ( post_volume == fDetConstruction->Getphysicry(i) && EdepStep!=0) {
-	int PDG=a1Track->GetDefinition()->GetPDGEncoding();
 	if(PDG==2212||PDG==1000010030) fEventAction->He3Hit(PDG, EdepStep, i);
       }
     }
