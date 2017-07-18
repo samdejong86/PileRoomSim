@@ -34,20 +34,18 @@ using namespace std;
 #include "xmlParser.h"
 
 DetectorConstruction::DetectorConstruction()
-  :G4VUserDetectorConstruction()
+  :G4VUserDetectorConstruction(),
+   he3filename(""),
+   miscfilename("")
 {  
-  he3filename = "";
-  miscfilename = "";
   SetParams();
 }
 
 DetectorConstruction::DetectorConstruction(G4String he3Desc, G4String miscFile)
-  :G4VUserDetectorConstruction()
+  :G4VUserDetectorConstruction(),
+   he3filename(he3Desc),
+   miscfilename(miscFile)
 {
-
-  he3filename = he3Desc;
-  miscfilename = miscFile;
-
   SetParams();
 }
 
