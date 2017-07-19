@@ -37,8 +37,19 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
+if(STATIC_LIBS)
+  SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+  SET(BUILD_SHARED_LIBRARIES OFF)
+  SET(CMAKE_EXE_LINKER_FLAGS "-static")
+endif()
+
 add_executable(PileRoomSim PileRoomSim.cc ${sources} ${headers} ${TOOLS_FORTRAN_OBJECTS})
 target_link_libraries(PileRoomSim ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES})
+
+if(STATIC_LIBS)
+  #set(CMAKE_EVE_LINKER_FLAGS " -static")
+  target_link_libraries(PileRoomSim -static-libgcc -static-libstdc++)
+endif()
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
