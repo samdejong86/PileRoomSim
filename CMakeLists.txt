@@ -15,6 +15,12 @@ else()
   find_package(Geant4 REQUIRED)
 endif()
 
+option(STATIC_LIBS "Make a static build")
+if(STATIC_LIBS)
+  find_package(Geant4 REQUIRED static)
+endif()
+
+
 #----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
 #
