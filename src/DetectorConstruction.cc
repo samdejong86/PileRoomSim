@@ -36,16 +36,18 @@ using namespace std;
 DetectorConstruction::DetectorConstruction()
   :G4VUserDetectorConstruction(),
    he3filename(""),
-   miscfilename("")
+   miscfilename(""),
+   graphitefilename("")
 {  
   SetParams();
 }
 
-DetectorConstruction::DetectorConstruction(G4String he3Desc, G4String miscFile)
+DetectorConstruction::DetectorConstruction(G4String he3Desc, G4String miscFile, G4String graphiteFile)
   :G4VUserDetectorConstruction(),
    he3filename(he3Desc),
-   miscfilename(miscFile)
-{
+   miscfilename(miscFile),
+   graphitefilename(graphiteFile)
+{  
   SetParams();
 }
 
@@ -435,7 +437,7 @@ void DetectorConstruction::SetParams(){
   //if miscfilename is not empty, get the misc object  parameters
   if(miscfilename.size()!=0){
     miscParams = XmlParser::getVector(miscfilename);    
-    cout<<"Creating volumes defined in "<<miscfilename<<endl;
+    G4cout<<"Creating volumes defined in "<<miscfilename<<G4endl;
     phys_misc.resize(miscParams.size());
   }
   
@@ -447,10 +449,15 @@ void DetectorConstruction::SetParams(){
 
 
   //state location of XML files
-  cout<<"XML files located in "<<Location<<"/"<<endl;
+  G4cout<<"XML files located in "<<Location<<"/"<<G4endl;
   
+
+  if(graphitefilename.size()==0)
+    graphitefilename = Location+"/Graphite.xml";
+
+
   //get Graphite and Room parameters
-  gParam=XmlParser(Location+"/Graphite.xml");
+  gParam=XmlParser(graphitefilename);
   rParam=XmlParser(Location+"/Room.xml");
 
   cubeSize = 2*gParam.getValue("rodLength")*cm;
@@ -467,23 +474,8 @@ void DetectorConstruction::SetParams(){
   world_mat = nist->FindOrBuildMaterial("G4_AIR");
   room_mat = nist->FindOrBuildMaterial(rParam.getStringValue("Material")); 
   
-  //define graphite material
-  G4Material *baseMat  =  nist->BuildMaterialWithNewDensity("Graphite_1.63",gParam.getStringValue("Material"),gParam.getValue("density")*g/cm3  );
-  
+  makeGraphiteMaterial();
 
-  G4Material* Boron= nist->FindOrBuildMaterial("G4_B");
-
-  double GraphiteFraction = gParam.getValue("GraphitePerCent")*perCent;
-  double BoronFraction = 1-gParam.getValue("GraphitePerCent")*perCent;
-
- 
-  //define mixture
-  pile_mat=new G4Material("impure", gParam.getValue("density")*g/cm3, 2);
-  pile_mat->AddMaterial(baseMat, GraphiteFraction);
-  pile_mat->AddMaterial(Boron, BoronFraction);
-  
-
-  //pile_mat->GetIonisation()->SetMeanExcitationEnergy( 78*eV);
 
   G4cout << *(G4Material::GetMaterialTable()) << endl;
   
@@ -510,3 +502,44 @@ void DetectorConstruction::SetParams(){
  
 }
 
+void DetectorConstruction::makeGraphiteMaterial(){
+
+  //define graphite material
+  G4Material *baseMat  =  nist->BuildMaterialWithNewDensity("Graphite_1.63",gParam.getStringValue("Material"),gParam.getValue("density")*g/cm3  );  
+  
+  if(gParam.getValue("GraphitePerCent")==100){
+    pile_mat=baseMat;
+    cout<<"using pure graphite\n";
+    return;
+  }
+  
+  
+  double ImeanBase = baseMat->GetIonisation()->GetMeanExcitationEnergy();
+  
+  //get some boron
+  G4Material* Boron= nist->FindOrBuildMaterial("G4_B");
+  double ImeanBoron = Boron->GetIonisation()->GetMeanExcitationEnergy();
+
+
+  double GraphiteFraction = gParam.getValue("GraphitePerCent")*perCent;
+  double BoronFraction = 1-gParam.getValue("GraphitePerCent")*perCent;
+  
+ 
+  //define mixture
+  pile_mat=new G4Material("DopedGraphite", gParam.getValue("density")*g/cm3, 2);
+  pile_mat->AddMaterial(baseMat, GraphiteFraction);
+  pile_mat->AddMaterial(Boron, BoronFraction);
+
+  
+  /*creating a mixture sets Imean for carbon to 81eV, but it should be 78eV (like graphite)
+   *We need to manually combine Imean for graphite and Imean for boron based on the fraction
+   *of each.
+   *
+   * See the nist database for the value of IMean for graphite:
+   *  https://www.physics.nist.gov/PhysRefData/XrayMassCoef/tab1.html
+   */
+  double ImeanDoped = GraphiteFraction*ImeanBase+ImeanBoron*BoronFraction;
+  pile_mat->GetIonisation()->SetMeanExcitationEnergy(ImeanDoped);
+
+
+}

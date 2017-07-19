@@ -19,7 +19,8 @@ EventAction::EventAction(const DetectorConstruction* detectorConstruction, bool 
  TotalEnergyDeposit(0.),
  fDetConstruction(detectorConstruction),
  saveAll(save),
- nNeutrons(0)
+ nNeutrons(0),
+ GraphiteTotal(0)
 { 
 }
 
@@ -82,6 +83,9 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
 //at the end of event
 void EventAction::EndOfEventAction( const G4Event*)
 {    
+
+  if(leftGrap) GraphiteTotal++;
+
   if(neutronHit||saveAll){
     
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
@@ -90,6 +94,7 @@ void EventAction::EndOfEventAction( const G4Event*)
       cout<<bold<<green<<"Neutron Hit!"<<noFormat<<endl;
       nNeutrons++;
     }    
+
 
     //fill primitive ntuple branches
     analysisManager->FillNtupleDColumn(0, ePostGraphite/eV);

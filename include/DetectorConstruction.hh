@@ -31,7 +31,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 public:
   
   DetectorConstruction();
-  DetectorConstruction(G4String he3Desc, G4String miscFile);
+  DetectorConstruction(G4String he3Desc, G4String miscFile, G4String graphiteFile);
   ~DetectorConstruction();
      
   virtual G4VPhysicalVolume* Construct();
@@ -68,6 +68,7 @@ private:
   //filenames
   G4String he3filename;
   G4String miscfilename;
+  G4String graphitefilename;
 
   //size of the world
   G4double Box_Length;
@@ -77,6 +78,7 @@ private:
   G4VPhysicalVolume* BuildHe3Tube(G4ThreeVector tubeLoc, G4RotationMatrix* rotation, int ch);
   void BuildGraphite(G4ThreeVector pileLoc);
   G4VPhysicalVolume* BuildMiscObjects(G4ThreeVector objLoc, int num);
+  void makeGraphiteMaterial();
 
   static const int nChannels=4;
   G4LogicalVolume* logicWorld;

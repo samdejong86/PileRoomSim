@@ -34,6 +34,7 @@ int main(int argc,char** argv) {
   G4String fileName = "";
   G4String he3Desc = "";
   std::string miscFile = "";
+  G4String graphiteDesc = "";
   bool saveAll=false;
   
   //parse command line arguments
@@ -57,15 +58,21 @@ int main(int argc,char** argv) {
 	if(next.compare(0,1,"-") != 0)
 	   he3Desc = string(argv[i+1]);
       }
+    }else if(input.compare("-g")==0){
+      if(i+1<argc){ 
+	std::string next(argv[i+1]);
+	if(next.compare(0,1,"-") != 0)
+	   graphiteDesc = string(argv[i+1]);
+      }
     }else if(input.compare("-all")==0){
       saveAll=true;
     }else if(input.compare("-h")==0){
       cout<<"Simulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
-      cout<<"\nUsage: PileRoomSim  -m macro.mac -o miscObjects.xml -d he3tubeDescription.xml -all\n";
+      cout<<"\nUsage: PileRoomSim  -m macro.mac -o miscObjects.xml -d he3tubeDescription.xml -g graphiteDescription.xml -all\n";
       cout<<"\nCommand line parameters are optional. If no macro is specified, PileRoomSim runs\n";
-      cout<<"in GUI mode. If no he3tubeDescription.xml specified, default description used.\n";
-      cout<<"If -all parameter is used, all events are saved to output ntuple. If not, only\n";
-      cout<<"events containing a neutron hit in a he3tube are saved\n";
+      cout<<"in GUI mode. If no he3tubeDescription.xml or graphiteDescription.xml specified, default\n";
+      cout<<"description used. If -all parameter is used, all events are saved to output ntuple. If not,\n";
+      cout<<"only events containing a neutron hit in a he3tube are saved\n";
 
       return 0;
     }
@@ -91,7 +98,7 @@ int main(int argc,char** argv) {
   G4VModularPhysicsList* physicsList = new FTFP_BERT_HP;
 
   runManager->SetUserInitialization(physicsList);
-  DetectorConstruction* detConstruction = new DetectorConstruction(he3Desc, miscFile);  //pass he3tube description and misc object description filenames to DetectorConstruction
+  DetectorConstruction* detConstruction = new DetectorConstruction(he3Desc, miscFile, graphiteDesc);  //pass he3tube description and misc object description filenames to DetectorConstruction
   runManager->SetUserInitialization(detConstruction);
     
   

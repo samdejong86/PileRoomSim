@@ -41,8 +41,9 @@ public:
   std::vector<double>& getEDEPvec() { return edepInHe3;}
   std::vector<int>& getPIDvec() { return PIDinHe3;}
   std::vector<int>& getNeutronHits() {return neutronHitVec;}
-
+  
   int getnNeutrons() {return nNeutrons;}
+  int getnGraphite() {return GraphiteTotal;}
 
   G4double input_energy;
   
@@ -87,6 +88,7 @@ private:
 
   //number of neutrons detected
   int nNeutrons;
+  int GraphiteTotal;
 
 };
 

@@ -49,11 +49,13 @@ RunAction::RunAction(std::string miscFile)
   EventAction* eventAction = const_cast<EventAction*>(constEventAction);
   
   //get the names of the misc objects to name the ntuple branches
-  std::vector<XmlParser> miscObjects = XmlParser::getVector(miscFile);  
-  for(int i=0; i<(int)miscObjects.size(); i++){
-    analysisManager->CreateNtupleIColumn("left"+miscObjects[i].getStringValue("Name"));
+  if(miscFile.size()!=0){
+    std::vector<XmlParser> miscObjects = XmlParser::getVector(miscFile);  
+    for(int i=0; i<(int)miscObjects.size(); i++){
+      analysisManager->CreateNtupleIColumn("left"+miscObjects[i].getStringValue("Name"));
+    }
   }
-
+  
   //vector branches
   analysisManager->CreateNtupleDColumn("EDEPinHe3", eventAction->getEDEPvec());
   analysisManager->CreateNtupleIColumn("PIDinHe3", eventAction->getPIDvec());
@@ -103,6 +105,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
 
   G4cout<<"-------------------------------------------------------\n";
   G4cout<<"Number of events: "<<nevents<<", corresponding to "<<1000*(double)nevents/10000000<<" ms"<<G4endl<<G4endl;
+  G4cout<<eventAction->getnGraphite()<<" neutrons left the Graphite"<<G4endl;
   G4cout<<eventAction->getnNeutrons()<<" neutrons detected"<<G4endl;
   G4cout<<"-------------------------------------------------------\n";
 
