@@ -57,7 +57,7 @@ endif()
 # relies on these scripts being in the current working directory.
 #
 set(PileRoomSim_SCRIPTS
-    rndmSeed.mac PileRoomSim.in PileRoomSim.out vis.mac
+    in.mac PileRoomSim.in PileRoomSim.out vis.mac one.mac
   )
   
 foreach(_script ${PileRoomSim_SCRIPTS})
