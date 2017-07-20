@@ -67,7 +67,7 @@ endif()
 # relies on these scripts being in the current working directory.
 #
 set(PileRoomSim_SCRIPTS
-    in.mac vis.mac one.mac
+    in.mac vis.mac one.mac 43-Geant4-logoV5.png
   )
   
 foreach(_script ${PileRoomSim_SCRIPTS})
