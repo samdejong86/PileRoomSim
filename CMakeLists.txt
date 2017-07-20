@@ -9,15 +9,22 @@ project(PileRoomSim)
 # to build a batch mode only executable
 #
 option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
+option(PORTABLE "Make a static build")
+
+if(PORTABLE AND WITH_GEANT4_UIVIS)
+  message("Cannot have portable build with visulization turned on")
+  set(WITH_GEANT4_UIVIS OFF)
+endif()
+
 if(WITH_GEANT4_UIVIS)
   find_package(Geant4 REQUIRED ui_all vis_all)
 else()
   find_package(Geant4 REQUIRED)
 endif()
 
-option(STATIC_LIBS "Make a static build")
-if(STATIC_LIBS)
+if(PORTABLE)
   find_package(Geant4 REQUIRED static)
+  set(Geant4_USES_QT5 0)
 endif()
 
 
@@ -34,20 +41,21 @@ include_directories(${PROJECT_SOURCE_DIR}/include
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
+
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-if(STATIC_LIBS)
+if(PORTABLE)
   SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
   SET(BUILD_SHARED_LIBRARIES OFF)
   SET(CMAKE_EXE_LINKER_FLAGS "-static")
+
 endif()
 
 add_executable(PileRoomSim PileRoomSim.cc ${sources} ${headers} ${TOOLS_FORTRAN_OBJECTS})
 target_link_libraries(PileRoomSim ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES})
 
-if(STATIC_LIBS)
-  #set(CMAKE_EVE_LINKER_FLAGS " -static")
+if(PORTABLE)
   target_link_libraries(PileRoomSim -static-libgcc -static-libstdc++)
 endif()
 
