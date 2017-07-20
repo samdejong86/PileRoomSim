@@ -67,6 +67,12 @@ int main(int argc,char** argv) {
     }else if(input.compare("-all")==0){
       saveAll=true;
     }else if(input.compare("-h")==0){
+      
+#ifdef PORTABLE
+      cout<<"Using the portable version: no visualization available\n\n"<<endl;
+#endif
+
+
       cout<<"Simulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
       cout<<"\nUsage: PileRoomSim  -m macro.mac -o miscObjects.xml -d he3tubeDescription.xml -g graphiteDescription.xml -all\n";
       cout<<"\nCommand line parameters are optional. If no macro is specified, PileRoomSim runs\n";

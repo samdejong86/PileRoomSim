@@ -55,8 +55,10 @@ endif()
 add_executable(PileRoomSim PileRoomSim.cc ${sources} ${headers} ${TOOLS_FORTRAN_OBJECTS})
 target_link_libraries(PileRoomSim ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES})
 
+
 if(PORTABLE)
   target_link_libraries(PileRoomSim -static-libgcc -static-libstdc++)
+  target_compile_options(PileRoomSim PUBLIC -DPORTABLE)
 endif()
 
 #----------------------------------------------------------------------------
@@ -65,7 +67,7 @@ endif()
 # relies on these scripts being in the current working directory.
 #
 set(PileRoomSim_SCRIPTS
-    in.mac PileRoomSim.in PileRoomSim.out vis.mac one.mac
+    in.mac vis.mac one.mac
   )
   
 foreach(_script ${PileRoomSim_SCRIPTS})

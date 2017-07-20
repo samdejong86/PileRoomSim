@@ -442,10 +442,14 @@ void DetectorConstruction::SetParams(){
   }
   
   
+#ifdef PORTABLE
+  Location=".";
+#endif
 
   //if he3filename is empty, use default value
   if(he3filename.size()==0)
     he3filename = Location+"/HE3TUBE.xml";
+
 
 
   //state location of XML files
