@@ -12,7 +12,7 @@ option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
 option(PORTABLE "Make a static build")
 
 if(PORTABLE AND WITH_GEANT4_UIVIS)
-  message("Cannot have portable build with visulization turned on")
+  message("Cannot have portable build with visulization turned on. Visulization will be disabled")
   set(WITH_GEANT4_UIVIS OFF)
 endif()
 
