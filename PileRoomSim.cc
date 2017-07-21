@@ -79,14 +79,18 @@ int main(int argc,char** argv) {
 
       cout<<"\noptional arguments:"<<endl;
       cout<<"  -h,                      show this help message and exit\n";
-      cout<<"  -m MACRO                 The macro to run. If this parameter is unused, the program runs interactively.\n";
-      cout<<"  -d HE3TUBEDESCRIPTION    An xml file containing a description of the helium-3 tubes. If this parameter\n";
-      cout<<"                           is unused, a default file is used\n";
-      cout<<"  -g GRAPHITEDESCRIPTION   An xml file containing a description of the graphite cube. If this parameter\n";
-      cout<<"                           is unused, a default file is used\n";
-      cout<<"  -o MISCOBJECTS           An xml file containing additional objects to be implemented.\n";
-      cout<<"  -all                     If this parameter is used, all events are saved to the output ntuple. If not,\n";
-      cout<<"                           only events containing a neutron hit in in a helium-3 tube are saved.\n";
+      cout<<"  -m MACRO                 The macro to run. If this parameter is unused, the program\n";
+      cout<<"                           runs interactively.\n";
+      cout<<"  -d HE3TUBEDESCRIPTION    An xml file containing a description of the helium-3 \n";
+      cout<<"                           tubes. If this parameter is unused, a default file is\n";
+      cout<<"                           used.\n";
+      cout<<"  -g GRAPHITEDESCRIPTION   An xml file containing a description of the graphite cube. \n";
+      cout<<"                           If this parameter is unused, a default file is used\n";
+      cout<<"  -o MISCOBJECTS           An xml file containing additional objects to be\n";
+      cout<<"                           implemented.\n";
+      cout<<"  -all                     If this parameter is used, all events are saved to the \n";
+      cout<<"                           output ntuple. If not, only events containing a neutron\n"; 
+      cout<<"                           hit in in a helium-3 tube are saved.\n";
 
       return 0;
     }
