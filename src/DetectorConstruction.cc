@@ -186,11 +186,6 @@ G4VPhysicalVolume* DetectorConstruction::BuildHe3Tube(G4ThreeVector tubeLoc, G4R
    new G4PVPlacement(0, endCap2, logic_endcap, "vol_endcap2", logic_he3Tube,false,0);
 
 
-   G4Tubs* stem = new G4Tubs("solid_stem", stem_radius-0.1*cm, stem_radius, stem_hz, 0*deg, 360*deg);
-   G4LogicalVolume* logic_stem = new G4LogicalVolume(stem,mat_steel , "logic_stem");
-   
-   G4ThreeVector stemLoc = G4ThreeVector(0,0, -tube_hz-2*endcap_hz-stem_hz);
-   new G4PVPlacement(0, stemLoc, logic_stem, "vol_stem", logic_he3Tube,false,0);
    
 
 
@@ -220,7 +215,15 @@ G4VPhysicalVolume* DetectorConstruction::BuildHe3Tube(G4ThreeVector tubeLoc, G4R
    tubeatt->SetForceSolid(true);
    logic_Case->SetVisAttributes(tubeatt);
    logic_endcap->SetVisAttributes(tubeatt);
-   logic_stem->SetVisAttributes(tubeatt);
+
+   if(stem_hz!=0){
+     G4Tubs* stem = new G4Tubs("solid_stem", stem_radius-0.1*cm, stem_radius, stem_hz, 0*deg, 360*deg);
+     G4LogicalVolume* logic_stem = new G4LogicalVolume(stem,mat_steel , "logic_stem");
+     
+     G4ThreeVector stemLoc = G4ThreeVector(0,0, -tube_hz-2*endcap_hz-stem_hz);
+     new G4PVPlacement(0, stemLoc, logic_stem, "vol_stem", logic_he3Tube,false,0);
+     logic_stem->SetVisAttributes(tubeatt);
+   }
     
    //build the tube at the specified location
    new G4PVPlacement(rotation, tubeLoc,  logic_he3Tube, "l_He3tube", logicWorld, false, 0);
