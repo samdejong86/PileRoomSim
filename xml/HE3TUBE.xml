@@ -45,10 +45,12 @@
     <Colour>
       #2B2B2B
     </Colour>
-
-
-
-
+    <stem_radius>
+      1.0
+    </stem_radius>
+    <stem_hz>
+      2.0
+    </stem_hz>
   </Active>
   <Active>
     <Material>
@@ -96,6 +98,12 @@
     <Colour>
       #D22630
     </Colour>
+    <stem_radius>
+      1.0
+    </stem_radius>
+    <stem_hz>
+      2.0
+    </stem_hz>
 
   </Active>
   <Active>
@@ -144,6 +152,12 @@
     <Colour>
       #3C7DC4
     </Colour>
+    <stem_radius>
+      1.0
+    </stem_radius>
+    <stem_hz>
+      2.0
+    </stem_hz>
   </Active>
   <Active>
     <Material>
@@ -191,5 +205,11 @@
     <Colour>
       #5A8F29
     </Colour>
+    <stem_radius>
+      1.0
+    </stem_radius>
+    <stem_hz>
+      2.0
+    </stem_hz>
   </Active>
 </xml>
