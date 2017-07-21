@@ -72,13 +72,21 @@ int main(int argc,char** argv) {
       cout<<"Using the portable version: no visualization available\n\n"<<endl;
 #endif
 
+      cout<<"\nusage: PileRoomSim  [-h] [-m MACRO] [-d HE3TUBEDESCRIPTION] [-g GRAPHITEDESCRIPTION]\n";
+      cout<<"                    [-o MISCOBJECTS] [-all]\n";
 
-      cout<<"Simulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
-      cout<<"\nUsage: PileRoomSim  -m macro.mac -o miscObjects.xml -d he3tubeDescription.xml -g graphiteDescription.xml -all\n";
-      cout<<"\nCommand line parameters are optional. If no macro is specified, PileRoomSim runs\n";
-      cout<<"in GUI mode. If no he3tubeDescription.xml or graphiteDescription.xml specified, default\n";
-      cout<<"description used. If -all parameter is used, all events are saved to output ntuple. If not,\n";
-      cout<<"only events containing a neutron hit in a he3tube are saved\n";
+      cout<<"\nSimulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
+
+      cout<<"\noptional arguments:"<<endl;
+      cout<<"  -h,                      show this help message and exit\n";
+      cout<<"  -m MACRO                 The macro to run. If this parameter is unused, the program runs interactively.\n";
+      cout<<"  -d HE3TUBEDESCRIPTION    An xml file containing a description of the helium-3 tubes. If this parameter\n";
+      cout<<"                           is unused, a default file is used\n";
+      cout<<"  -g GRAPHITEDESCRIPTION   An xml file containing a description of the graphite cube. If this parameter\n";
+      cout<<"                           is unused, a default file is used\n";
+      cout<<"  -o nMISCOBJECTS          An xml file containing additional objects to be implemented.\n";
+      cout<<"  -all                     If this parameter is used, all events are saved to the output ntuple. If not,\n";
+      cout<<"                           only events containing a neutron hit in in a helium-3 tube are saved.\n";
 
       return 0;
     }

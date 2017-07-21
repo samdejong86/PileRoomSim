@@ -1,16 +1,19 @@
 #!/usr/bin/python
 
 import os
+import sys
 from lxml import etree as ET
 from xml.dom import minidom
 from subprocess import call
 import argparse
 
+scriptPath=os.path.dirname(os.path.realpath(sys.argv[0]))
+
 parser = argparse.ArgumentParser(description='Create a helium-3 tube description')
 parser.add_argument('-f','--filename', help='The output filename. New tubes are appended to existing files', default='DEFAULT.xml', required=True)
 
 
-defaultTree = ET.parse("HE3TUBE-default.xml")
+defaultTree = ET.parse(scriptPath+"/HE3TUBE-default.xml")
 
 defaultRoot = defaultTree.getroot()
 
