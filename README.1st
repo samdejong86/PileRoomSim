@@ -19,7 +19,7 @@ Command line parameters are optional.
 
 	he3tubeDescription.xml:
 		The description of the helium-3 tubes. An example is shown in xml/HE3TUBE.xml.
-		If no description is specified, a default is used. (located at $XMLLOCATION/HE3TUBE.xml)
+		If no description is specified, a default is used. (located at $XMLLOCATION/HE3TUBE-default.xml)
 
 	graphiteDescription
 		The description of the graphite cube. An example is shown in xml/Graphite.xml.
@@ -30,5 +30,5 @@ Command line parameters are optional.
 
 Note: The environment variable XMLLOCATION should be set to the location of Graphite.xml and Room.xml. If this variable is not set, the program looks for these files in the xml/ directory
 
-In xml/, there is a python script called TubeCreator.py. This script can be used to create an xml file containing a tube description, or append a new description to an existing xml file. Default values are used for any parameter not specified.
+In xml/, there is a python script called TubeCreator.py. This script can be used to create an xml file containing a tube description, or append a new description to an existing xml file. Default values (read from HE3TUBE-default.xml) are used for any parameter not specified.
 

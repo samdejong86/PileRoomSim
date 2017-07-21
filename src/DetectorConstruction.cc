@@ -134,9 +134,13 @@ G4VPhysicalVolume* DetectorConstruction::BuildHe3Tube(G4ThreeVector tubeLoc, G4R
   double tube_innerRadius = tubeParams[ch].getValue("tube_innerRadius")*cm;
   double tube_hz = tubeParams[ch].getValue("tube_hz")*cm;
   double endcap_hz = tubeParams[ch].getValue("endcap_hz")*cm;
-  double sensitiveVolOffset = tubeParams[ch].getValue("sensitiveVolOffset")*cm;
+  double sensitiveVolOffset = tubeParams[ch].getValue("sensitive_volume_offset")*cm;
   double gas_outerRadius = tubeParams[ch].getValue("gas_outerRadius")*cm;
   double gas_hz = tubeParams[ch].getValue("gas_hz")*cm;
+  double stem_radius = tubeParams[ch].getValue("stem_radius")*cm;
+  double stem_hz = tubeParams[ch].getValue("stem_hz")*cm;
+
+
 
   //create he3tube volume. This logical volume contains the helium-3 tube components
   G4Tubs* solid_he3tube = new G4Tubs("solid_he3tube", 0, tube_outerRadius, tube_hz+2*endcap_hz, 0*deg,360*deg);
@@ -181,6 +185,16 @@ G4VPhysicalVolume* DetectorConstruction::BuildHe3Tube(G4ThreeVector tubeLoc, G4R
    new G4PVPlacement(0, endCap1, logic_endcap, "vol_endcap1", logic_he3Tube,false,0);
    new G4PVPlacement(0, endCap2, logic_endcap, "vol_endcap2", logic_he3Tube,false,0);
 
+
+   G4Tubs* stem = new G4Tubs("solid_stem", stem_radius-0.1*cm, stem_radius, stem_hz, 0*deg, 360*deg);
+   G4LogicalVolume* logic_stem = new G4LogicalVolume(stem,mat_steel , "logic_stem");
+   
+   G4ThreeVector stemLoc = G4ThreeVector(0,0, -tube_hz-2*endcap_hz-stem_hz);
+   new G4PVPlacement(0, stemLoc, logic_stem, "vol_stem", logic_he3Tube,false,0);
+   
+
+
+
    
    //colour for the inactive he3
    G4VisAttributes * he3_inactive_att = new G4VisAttributes(G4Colour(210./256,  38./256,  48./256));  
@@ -206,6 +220,7 @@ G4VPhysicalVolume* DetectorConstruction::BuildHe3Tube(G4ThreeVector tubeLoc, G4R
    tubeatt->SetForceSolid(true);
    logic_Case->SetVisAttributes(tubeatt);
    logic_endcap->SetVisAttributes(tubeatt);
+   logic_stem->SetVisAttributes(tubeatt);
     
    //build the tube at the specified location
    new G4PVPlacement(rotation, tubeLoc,  logic_he3Tube, "l_He3tube", logicWorld, false, 0);
@@ -448,7 +463,7 @@ void DetectorConstruction::SetParams(){
 
   //if he3filename is empty, use default value
   if(he3filename.size()==0)
-    he3filename = Location+"/HE3TUBE.xml";
+    he3filename = Location+"/HE3TUBE-default.xml";
 
 
 
