@@ -72,7 +72,7 @@ int main(int argc,char** argv) {
       cout<<"Using the portable version: no visualization available\n\n"<<endl;
 #endif
 
-      cout<<"\nusage: PileRoomSim  [-h] [-m MACRO] [-d HE3TUBEDESCRIPTION] [-g GRAPHITEDESCRIPTION]\n";
+      cout<<"usage: PileRoomSim  [-h] [-m MACRO] [-d HE3TUBEDESCRIPTION] [-g GRAPHITEDESCRIPTION]\n";
       cout<<"                    [-o MISCOBJECTS] [-all]\n";
 
       cout<<"\nSimulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
@@ -84,7 +84,7 @@ int main(int argc,char** argv) {
       cout<<"                           is unused, a default file is used\n";
       cout<<"  -g GRAPHITEDESCRIPTION   An xml file containing a description of the graphite cube. If this parameter\n";
       cout<<"                           is unused, a default file is used\n";
-      cout<<"  -o nMISCOBJECTS          An xml file containing additional objects to be implemented.\n";
+      cout<<"  -o MISCOBJECTS           An xml file containing additional objects to be implemented.\n";
       cout<<"  -all                     If this parameter is used, all events are saved to the output ntuple. If not,\n";
       cout<<"                           only events containing a neutron hit in in a helium-3 tube are saved.\n";
 
