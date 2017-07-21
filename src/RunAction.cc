@@ -104,9 +104,12 @@ void RunAction::EndOfRunAction(const G4Run* run)
   int nevents = run->GetNumberOfEvent();
 
   G4cout<<"-------------------------------------------------------\n";
+  cout<<"\033[1m";
   G4cout<<"Number of events: "<<nevents<<", corresponding to "<<1000*(double)nevents/10000000<<" ms"<<G4endl<<G4endl;
+  cout<<"\033[34m";
   G4cout<<eventAction->getnGraphite()<<" neutrons left the Graphite"<<G4endl;
   G4cout<<eventAction->getnNeutrons()<<" neutrons detected"<<G4endl;
+  cout<<"\033[0m";
   G4cout<<"-------------------------------------------------------\n";
 
   

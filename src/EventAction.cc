@@ -71,7 +71,7 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
   if(nevent%100000==0){
     cout<<bold<<red<<"Event number: "<<nevent<<noFormat<<"\n";
   }else if(eve->GetEventID()%10000==0){
-    cout<<bold<<green<<"Event number: "<<nevent<<noFormat<<"\n";
+    cout<<bold<<blue<<"Event number: "<<nevent<<noFormat<<"\n";
   }else if (eve->GetEventID()%1000==0){
     cout<<bold<<"Event number: "<<nevent<<noFormat<<"\n";
   }else if (eve->GetEventID()%100==0){ 
