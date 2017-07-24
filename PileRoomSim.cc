@@ -11,6 +11,7 @@
 #include "Randomize.hh"
 
 #include "DetectorConstruction.hh"
+#include "NeutronData.h"
 #include "G4PhysListFactory.hh"
 #include "G4VModularPhysicsList.hh"
 #include "G4OpticalPhysics.hh"
@@ -36,6 +37,10 @@ int main(int argc,char** argv) {
   G4String graphiteDesc = "";
   bool saveAll=false;
   bool verbose=false;
+  G4String nevents="";
+  G4String seed="";
+  G4String outfile="";
+  bool vis=true;
   
   //parse command line arguments
   for(int i=0; i<argc; i++){
@@ -68,6 +73,32 @@ int main(int argc,char** argv) {
       saveAll=true;
     }else if(input.compare("-verbose")==0){
       verbose=true;
+    }else if(input.compare("-n")==0){
+      if(i+1<argc){ 
+	std::string next(argv[i+1]);
+	if(next.compare(0,1,"-") != 0)
+	  nevents = "/run/beamOn "+string(argv[i+1]);
+	vis=false;
+      }
+    }else if(input.compare("-s")==0){
+      if(i+1<argc){ 
+	std::string next(argv[i+1]);
+	if(next.compare(0,1,"-") != 0)
+	  seed = "/random/setSeeds "+ string(argv[i+1]);
+	vis=false;
+      }
+      if(i+2<argc){ 
+	std::string next(argv[i+2]);
+	if(next.compare(0,1,"-") != 0)
+	  seed = seed + " " + string(argv[i+2]);
+      }
+    }else if(input.compare("-r")==0){
+      if(i+1<argc){ 
+	std::string next(argv[i+1]);
+	if(next.compare(0,1,"-") != 0)
+	  outfile = "/analysis/setFileName " + string(argv[i+1]);
+	vis=false;
+      }
     }else if(input.compare("-h")==0){
       
 #ifdef PORTABLE
@@ -75,14 +106,14 @@ int main(int argc,char** argv) {
 #endif
 
       cout<<"usage: PileRoomSim  [-h] [-m MACRO] [-d HE3TUBEDESCRIPTION] [-g GRAPHITEDESCRIPTION]\n";
-      cout<<"                    [-o MISCOBJECTS] [-all]\n";
+      cout<<"                    [-o MISCOBJECTS] [-n NEVENTS] [-s SEED1 SEED2] [-r ROOTFILE] [-all]\n";
 
       cout<<"\nSimulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
 
       cout<<"\noptional arguments:"<<endl;
       cout<<"  -h,                      show this help message and exit\n";
-      cout<<"  -m MACRO                 The macro to run. If this parameter is unused, the program\n";
-      cout<<"                           runs interactively.\n";
+      cout<<"  -m MACRO                 The macro to run. If this parameters is used, inputs\n";
+      cout<<"                           from -n, -s, and -r are ignored\n";
       cout<<"  -d HE3TUBEDESCRIPTION    An xml file containing a description of the helium-3 \n";
       cout<<"                           tubes. If this parameter is unused, a default file is\n";
       cout<<"                           used.\n";
@@ -90,13 +121,18 @@ int main(int argc,char** argv) {
       cout<<"                           If this parameter is unused, a default file is used\n";
       cout<<"  -o MISCOBJECTS           An xml file containing additional objects to be\n";
       cout<<"                           implemented.\n";
+      cout<<"  -n NEVENTS               Number of events to run. If used, -r must be used\n";
+      cout<<"  -s SEED1 SEED2           Seeds for random number generator.\n";
+      cout<<"  -r ROOTFILE              Output rootfile (without .root extension). If used, -n must be used\n";
       cout<<"  -all                     If this parameter is used, all events are saved to the \n";
       cout<<"                           output ntuple. If not, only events containing a neutron\n"; 
       cout<<"                           hit in in a helium-3 tube are saved.\n";
+      cout<<"\nIf no arguments are specified, PileRoomSim runs in interactive mode\n";
 
       return 0;
     }
   }
+
 
   //make sure environment variables are set
   char *checkEnv;
@@ -106,7 +142,7 @@ int main(int argc,char** argv) {
     return 0;
   }
 
-
+  
   //choose the Random engine
   G4Random::setTheEngine(new CLHEP::RanecuEngine);
   
@@ -120,49 +156,69 @@ int main(int argc,char** argv) {
   G4VModularPhysicsList* physicsList = new FTFP_BERT_HP(verbose);
 
   runManager->SetUserInitialization(physicsList);
-  DetectorConstruction* detConstruction = new DetectorConstruction(he3Desc, miscFile, graphiteDesc, verbose);  //pass he3tube description and misc object description filenames to DetectorConstruction
+  //pass he3tube description and misc object description filenames to DetectorConstruction
+  DetectorConstruction* detConstruction = new DetectorConstruction(he3Desc, miscFile, graphiteDesc, verbose);  
   runManager->SetUserInitialization(detConstruction);
     
   
   // set user action classes
-  runManager->SetUserInitialization(new ActionInitialization(detConstruction, miscFile, saveAll)); //pass misc object description filename ActionInitilization, when then passes it on to RunAction
+ //pass misc object description filename ActionInitilization, when then passes it on to RunAction
+  runManager->SetUserInitialization(new ActionInitialization(detConstruction, miscFile, saveAll));
 
   //Initialize G4 kernel
   runManager->Initialize();
     
   // get the pointer to the User Interface manager 
-    G4UImanager* UI = G4UImanager::GetUIpointer();  
+  G4UImanager* UI = G4UImanager::GetUIpointer();  
 
-    UI->SetVerboseLevel(verbose);
-    
-    if(fileName.size()!=0)  //batch mode
-    { 
+
+  
+  if(fileName.size()!=0){ //user specified script
      G4String command = "/control/execute ";
      UI->ApplyCommand(command+fileName);  
-    }
+
+  } else if(!vis){  //user specified seed, number of events, and output file
+
+      if(outfile.size()==0){
+	cout<<"\033[1;31mNo output file specified! quitting.\n\033[0m";
+	return 0;
+      }if(nevents.size()==0){
+	cout<<"\033[1;31mNumber of events not specified! quitting.\n\033[0m";
+	return 0;
+      }
+      if(seed.size()==0) cout<<"\033[1mWarning! Seeds not specified.\n\033[0m";
+      else UI->ApplyCommand(seed);
+
+      std::vector<std::string> commands = UICommands();
+  
+      for(int i=0; i<(int)commands.size(); i++) UI->ApplyCommand(commands[i]);
+      UI->ApplyCommand(outfile);
+      UI->ApplyCommand(nevents);
+      
+
    
-  else           // define visualization and UI terminal for interactive mode 
+  }  else           // define visualization and UI terminal for interactive mode 
     { 
 #ifdef G4VIS_USE
-     G4VisManager* visManager = new G4VisExecutive;
-     visManager->Initialize();
+      G4VisManager* visManager = new G4VisExecutive;
+      visManager->Initialize();
 #endif
-     
+      
 #ifdef G4UI_USE
       G4UIExecutive * ui = new G4UIExecutive(argc,argv);      
       ui->SessionStart();
       delete ui;
 #endif
-     
+      
 #ifdef G4VIS_USE
-     delete visManager;
+      delete visManager;
 #endif     
     }
-
+  
   // job termination
   //
   delete runManager;
-
+  
   return 0;
 }
 
