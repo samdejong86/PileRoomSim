@@ -109,35 +109,8 @@ int main(int argc,char** argv) {
 #ifdef PORTABLE
       cout<<"Using the portable version: no visualization available\n\n"<<endl;
 #endif
+      help();
 
-      cout<<"usage: PileRoomSim  [-h] [-m MACRO] [-d HE3TUBEDESCRIPTION] [-g GRAPHITEDESCRIPTION]\n";
-      cout<<"                    [-o MISCOBJECTS] [-n NEVENTS] [-s SEED1 SEED2] [-r ROOTFILE]\n";
-      cout<<"                    [-novis] [-all]\n";
-
-      cout<<"\nSimulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
-
-      cout<<"\noptional arguments:"<<endl;
-      cout<<"  -h,                      show this help message and exit\n";
-      cout<<"  -m MACRO                 The macro to run. If this parameters is used, inputs\n";
-      cout<<"                           from -n, -s, and -r are ignored\n";
-      cout<<"  -d HE3TUBEDESCRIPTION    An xml file containing a description of the helium-3 \n";
-      cout<<"                           tubes. If this parameter is unused, a default file is\n";
-      cout<<"                           used.\n";
-      cout<<"  -g GRAPHITEDESCRIPTION   An xml file containing a description of the graphite cube.\n";
-      cout<<"                           If this parameter is unused, a default file is used\n";
-      cout<<"  -o MISCOBJECTS           An xml file containing additional objects to be\n";
-      cout<<"                           implemented.\n";
-      cout<<"  -n NEVENTS               Number of events to run. If used, -r must be used\n";
-      cout<<"  -s SEED1 SEED2           Seeds for random number generator.\n";
-      cout<<"  -r ROOTFILE              Output rootfile (without .root extension). If used, -n\n";
-      cout<<"                           must be used\n";
-      cout<<"  -all                     If this parameter is used, all events are saved to the \n";
-      cout<<"                           output ntuple. If not, only events containing a neutron\n"; 
-      cout<<"                           hit in in a helium-3 tube are saved.\n";
-      cout<<"  -novis                   If no other parameters specified, PileRoomSum runs in\n";
-      cout<<"                           interactive mode with no visualization set.\n";
-
-      cout<<"\nIf no arguments are specified, PileRoomSim runs in visualization mode\n";
 
       return 0;
     }
@@ -191,9 +164,11 @@ int main(int argc,char** argv) {
 
       if(outfile.size()==0){
 	cout<<"\033[1;31mNo output file specified! quitting.\n\033[0m";
+	help();
 	return 0;
       }if(nevents.size()==0){
 	cout<<"\033[1;31mNumber of events not specified! quitting.\n\033[0m";
+	help();
 	return 0;
       }
 
