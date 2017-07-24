@@ -5,7 +5,6 @@
 //
 // $Id: PileRoomSim.cc 76340 2013-11-08 15:21:09Z gcosmo $
 
-
 #include "G4RunManager.hh"
 
 #include "G4UImanager.hh"
@@ -36,6 +35,7 @@ int main(int argc,char** argv) {
   std::string miscFile = "";
   G4String graphiteDesc = "";
   bool saveAll=false;
+  bool verbose=false;
   
   //parse command line arguments
   for(int i=0; i<argc; i++){
@@ -66,6 +66,8 @@ int main(int argc,char** argv) {
       }
     }else if(input.compare("-all")==0){
       saveAll=true;
+    }else if(input.compare("-verbose")==0){
+      verbose=true;
     }else if(input.compare("-h")==0){
       
 #ifdef PORTABLE
@@ -112,11 +114,13 @@ int main(int argc,char** argv) {
   G4VSteppingVerbose::SetInstance(new SteppingVerbose);  
   G4RunManager* runManager = new G4RunManager;
 
+  runManager->SetVerboseLevel(verbose);
+
   //physics list
-  G4VModularPhysicsList* physicsList = new FTFP_BERT_HP;
+  G4VModularPhysicsList* physicsList = new FTFP_BERT_HP(verbose);
 
   runManager->SetUserInitialization(physicsList);
-  DetectorConstruction* detConstruction = new DetectorConstruction(he3Desc, miscFile, graphiteDesc);  //pass he3tube description and misc object description filenames to DetectorConstruction
+  DetectorConstruction* detConstruction = new DetectorConstruction(he3Desc, miscFile, graphiteDesc, verbose);  //pass he3tube description and misc object description filenames to DetectorConstruction
   runManager->SetUserInitialization(detConstruction);
     
   
@@ -129,6 +133,7 @@ int main(int argc,char** argv) {
   // get the pointer to the User Interface manager 
     G4UImanager* UI = G4UImanager::GetUIpointer();  
 
+    UI->SetVerboseLevel(verbose);
     
     if(fileName.size()!=0)  //batch mode
     { 

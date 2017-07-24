@@ -37,16 +37,18 @@ DetectorConstruction::DetectorConstruction()
   :G4VUserDetectorConstruction(),
    he3filename(""),
    miscfilename(""),
-   graphitefilename("")
+   graphitefilename(""),
+   ver(0)
 {  
   SetParams();
 }
 
-DetectorConstruction::DetectorConstruction(G4String he3Desc, G4String miscFile, G4String graphiteFile)
+DetectorConstruction::DetectorConstruction(G4String he3Desc, G4String miscFile, G4String graphiteFile, bool verbose)
   :G4VUserDetectorConstruction(),
    he3filename(he3Desc),
    miscfilename(miscFile),
-   graphitefilename(graphiteFile)
+   graphitefilename(graphiteFile),
+   ver(verbose)
 {  
   SetParams();
 }
@@ -455,7 +457,7 @@ void DetectorConstruction::SetParams(){
   //if miscfilename is not empty, get the misc object  parameters
   if(miscfilename.size()!=0){
     miscParams = XmlParser::getVector(miscfilename);    
-    G4cout<<"Creating volumes defined in "<<miscfilename<<G4endl;
+    if(ver) G4cout<<"Creating volumes defined in "<<miscfilename<<G4endl;
     phys_misc.resize(miscParams.size());
   }
   
@@ -471,7 +473,7 @@ void DetectorConstruction::SetParams(){
 
 
   //state location of XML files
-  G4cout<<"XML files located in "<<Location<<"/"<<G4endl;
+  if(ver) G4cout<<"XML files located in "<<Location<<"/"<<G4endl;
   
 
   if(graphitefilename.size()==0)
@@ -485,9 +487,9 @@ void DetectorConstruction::SetParams(){
   cubeSize = 2*gParam.getValue("rodLength")*cm;
 
   //get helium 3 tube parameters
-  G4cout<<"Helium-3 tube parameters described in "<<he3filename<<"\n";
+  if(ver) G4cout<<"Helium-3 tube parameters described in "<<he3filename<<"\n";
   tubeParams = XmlParser::getVector(he3filename);
-  G4cout<<"There are "<<tubeParams.size()<<" tubes implemented\n";
+  if(ver) G4cout<<"There are "<<tubeParams.size()<<" tubes implemented\n";
 
   phys_HE3.resize(tubeParams.size());
   He3TUBEpos.resize(tubeParams.size());
@@ -499,7 +501,7 @@ void DetectorConstruction::SetParams(){
   makeGraphiteMaterial();
 
 
-  G4cout << *(G4Material::GetMaterialTable()) << endl;
+  if(ver) G4cout << *(G4Material::GetMaterialTable()) << endl;
   
 
 
@@ -531,7 +533,7 @@ void DetectorConstruction::makeGraphiteMaterial(){
   
   if(gParam.getValue("GraphitePerCent")==100){
     pile_mat=baseMat;
-    cout<<"using pure graphite\n";
+    if(ver) G4cout<<"using pure graphite\n";
     return;
   }
   

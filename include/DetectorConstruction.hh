@@ -31,7 +31,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 public:
   
   DetectorConstruction();
-  DetectorConstruction(G4String he3Desc, G4String miscFile, G4String graphiteFile);
+  DetectorConstruction(G4String he3Desc, G4String miscFile, G4String graphiteFile, bool verbose);
   ~DetectorConstruction();
      
   virtual G4VPhysicalVolume* Construct();
@@ -59,6 +59,7 @@ private:
   XmlParser gParam;
   XmlParser rParam;
   double cubeSize;
+  
 
   std::vector<XmlParser> tubeParams;
   std::vector<XmlParser> miscParams;
@@ -69,6 +70,7 @@ private:
   G4String he3filename;
   G4String miscfilename;
   G4String graphitefilename;
+  bool ver;
 
   //size of the world
   G4double Box_Length;
