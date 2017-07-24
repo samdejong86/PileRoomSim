@@ -5,6 +5,8 @@
 //
 // $Id: PileRoomSim.cc 76340 2013-11-08 15:21:09Z gcosmo $
 
+#include <algorithm>
+
 #include "G4RunManager.hh"
 
 #include "G4UImanager.hh"
@@ -186,7 +188,10 @@ int main(int argc,char** argv) {
 	cout<<"\033[1;31mNumber of events not specified! quitting.\n\033[0m";
 	return 0;
       }
-      if(seed.size()==0) cout<<"\033[1mWarning! Seeds not specified.\n\033[0m";
+
+      int n = std::count(seed.begin(), seed.end(), ' ');
+      
+      if(n<2) cout<<"\033[1mWarning: Wrong number of seeds.\n\033[0m";
       else UI->ApplyCommand(seed);
 
       std::vector<std::string> commands = UICommands();
