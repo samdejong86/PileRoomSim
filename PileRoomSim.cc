@@ -108,7 +108,8 @@ int main(int argc,char** argv) {
 #endif
 
       cout<<"usage: PileRoomSim  [-h] [-m MACRO] [-d HE3TUBEDESCRIPTION] [-g GRAPHITEDESCRIPTION]\n";
-      cout<<"                    [-o MISCOBJECTS] [-n NEVENTS] [-s SEED1 SEED2] [-r ROOTFILE] [-all]\n";
+      cout<<"                    [-o MISCOBJECTS] [-n NEVENTS] [-s SEED1 SEED2] [-r ROOTFILE]\n";
+      cout<<"                    [-all]\n";
 
       cout<<"\nSimulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
 
@@ -119,13 +120,14 @@ int main(int argc,char** argv) {
       cout<<"  -d HE3TUBEDESCRIPTION    An xml file containing a description of the helium-3 \n";
       cout<<"                           tubes. If this parameter is unused, a default file is\n";
       cout<<"                           used.\n";
-      cout<<"  -g GRAPHITEDESCRIPTION   An xml file containing a description of the graphite cube. \n";
+      cout<<"  -g GRAPHITEDESCRIPTION   An xml file containing a description of the graphite cube.\n";
       cout<<"                           If this parameter is unused, a default file is used\n";
       cout<<"  -o MISCOBJECTS           An xml file containing additional objects to be\n";
       cout<<"                           implemented.\n";
       cout<<"  -n NEVENTS               Number of events to run. If used, -r must be used\n";
       cout<<"  -s SEED1 SEED2           Seeds for random number generator.\n";
-      cout<<"  -r ROOTFILE              Output rootfile (without .root extension). If used, -n must be used\n";
+      cout<<"  -r ROOTFILE              Output rootfile (without .root extension). If used, -n\n";
+      cout<<"                           must be used\n";
       cout<<"  -all                     If this parameter is used, all events are saved to the \n";
       cout<<"                           output ntuple. If not, only events containing a neutron\n"; 
       cout<<"                           hit in in a helium-3 tube are saved.\n";
