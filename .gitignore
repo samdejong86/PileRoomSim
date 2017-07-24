@@ -12,4 +12,4 @@ build/PileRoomSim
 build/PileRoomSim.in
 build/PileRoomSim.out
 cmake_install.cmake
-
+xml/*
