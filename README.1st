@@ -7,7 +7,7 @@ Before running, source this script:
 
 Usage: PileRoomSim  -m macro.mac -o miscObjects.xml -d he3tubeDescription.xml -g graphiteDescription.xml -all -n nevents -r outfile -s seed1 seed2
 
-Command line parameters are optional. 
+Command line parameters are optional. If none specified, PileRoomSim opens in visualization mode.
 
 	macro.mac:
 		A GEANT4 macro. in.mac is an example which sets the energy spectrum of the AmBe and the output root file. It runs for 500 events.

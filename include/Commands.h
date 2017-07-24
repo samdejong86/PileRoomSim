@@ -72,7 +72,41 @@ std::vector<std::string> UICommands(){
 
 
 
+std::vector<std::string> visCommands(){
 
+  std::vector<std::string> commands;
+  
+  commands.push_back("/control/verbose 2");
+  commands.push_back("/run/verbose 2");
+
+
+  commands.push_back("/vis/open OGL 600x600-0+0");
+  
+  commands.push_back("/vis/viewer/set/autoRefresh false");
+  commands.push_back("/vis/verbose errors");
+
+  commands.push_back("/vis/drawVolume");
+  
+  commands.push_back("/vis/viewer/zoom 1.5");
+  
+  commands.push_back("/vis/scene/add/trajectories smooth");
+  commands.push_back("/vis/modeling/trajectories/create/drawByCharge");
+  commands.push_back("/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true");
+  commands.push_back("/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2");
+  
+  commands.push_back("/vis/scene/endOfEventAction accumulate");
+  
+  commands.push_back("/vis/viewer/set/autoRefresh true");
+  commands.push_back("/vis/verbose warnings");
+  
+  commands.push_back("/vis/viewer/set/viewpointVector -1 -2 0.5");
+  commands.push_back("/vis/viewer/set/upVector 0 0 1");
+  commands.push_back("/vis/viewer/set/lightsVector 0 -0.5 1");
+
+  return commands;
+
+
+}
 
 
 

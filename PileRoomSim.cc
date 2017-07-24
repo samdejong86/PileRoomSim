@@ -13,7 +13,7 @@
 #include "Randomize.hh"
 
 #include "DetectorConstruction.hh"
-#include "NeutronData.h"
+#include "Commands.h"
 #include "G4PhysListFactory.hh"
 #include "G4VModularPhysicsList.hh"
 #include "G4OpticalPhysics.hh"
@@ -42,6 +42,7 @@ int main(int argc,char** argv) {
   G4String nevents="";
   G4String seed="";
   G4String outfile="";
+  bool gui=true;
   bool vis=true;
   
   //parse command line arguments
@@ -80,14 +81,14 @@ int main(int argc,char** argv) {
 	std::string next(argv[i+1]);
 	if(next.compare(0,1,"-") != 0)
 	  nevents = "/run/beamOn "+string(argv[i+1]);
-	vis=false;
+	gui=false;
       }
     }else if(input.compare("-s")==0){
       if(i+1<argc){ 
 	std::string next(argv[i+1]);
 	if(next.compare(0,1,"-") != 0)
 	  seed = "/random/setSeeds "+ string(argv[i+1]);
-	vis=false;
+	gui=false;
       }
       if(i+2<argc){ 
 	std::string next(argv[i+2]);
@@ -99,8 +100,10 @@ int main(int argc,char** argv) {
 	std::string next(argv[i+1]);
 	if(next.compare(0,1,"-") != 0)
 	  outfile = "/analysis/setFileName " + string(argv[i+1]);
-	vis=false;
+	gui=false;
       }
+    }else if(input.compare("-novis")==0){
+	vis=false;
     }else if(input.compare("-h")==0){
       
 #ifdef PORTABLE
@@ -109,7 +112,7 @@ int main(int argc,char** argv) {
 
       cout<<"usage: PileRoomSim  [-h] [-m MACRO] [-d HE3TUBEDESCRIPTION] [-g GRAPHITEDESCRIPTION]\n";
       cout<<"                    [-o MISCOBJECTS] [-n NEVENTS] [-s SEED1 SEED2] [-r ROOTFILE]\n";
-      cout<<"                    [-all]\n";
+      cout<<"                    [-novis] [-all]\n";
 
       cout<<"\nSimulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
 
@@ -131,7 +134,10 @@ int main(int argc,char** argv) {
       cout<<"  -all                     If this parameter is used, all events are saved to the \n";
       cout<<"                           output ntuple. If not, only events containing a neutron\n"; 
       cout<<"                           hit in in a helium-3 tube are saved.\n";
-      cout<<"\nIf no arguments are specified, PileRoomSim runs in interactive mode\n";
+      cout<<"  -novis                   If no other parameters specified, PileRoomSum runs in\n";
+      cout<<"                           interactive mode with no visualization set.\n";
+
+      cout<<"\nIf no arguments are specified, PileRoomSim runs in visualization mode\n";
 
       return 0;
     }
@@ -181,7 +187,7 @@ int main(int argc,char** argv) {
      G4String command = "/control/execute ";
      UI->ApplyCommand(command+fileName);  
 
-  } else if(!vis){  //user specified seed, number of events, and output file
+  } else if(!gui){  //user specified seed, number of events, and output file
 
       if(outfile.size()==0){
 	cout<<"\033[1;31mNo output file specified! quitting.\n\033[0m";
@@ -213,6 +219,14 @@ int main(int argc,char** argv) {
       
 #ifdef G4UI_USE
       G4UIExecutive * ui = new G4UIExecutive(argc,argv);      
+
+#ifndef PORTABLE
+      if(vis){
+	std::vector<std::string> commands = visCommands();
+	for(int i=0; i<(int)commands.size(); i++) UI->ApplyCommand(commands[i]);
+      }
+#endif
+
       ui->SessionStart();
       delete ui;
 #endif
