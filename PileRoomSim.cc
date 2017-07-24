@@ -201,6 +201,7 @@ int main(int argc,char** argv) {
 	for(int i=0; i<(int)commands.size(); i++) UI->ApplyCommand(commands[i]);
       }
 #endif
+      help();
 
       ui->SessionStart();
       delete ui;

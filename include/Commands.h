@@ -110,34 +110,34 @@ std::vector<std::string> visCommands(){
 
 
 void help(){
-      cout<<"usage: PileRoomSim  [-h] [-m MACRO] [-d HE3TUBEDESCRIPTION] [-g GRAPHITEDESCRIPTION]\n";
-      cout<<"                    [-o MISCOBJECTS] [-n NEVENTS] [-s SEED1 SEED2] [-r ROOTFILE]\n";
-      cout<<"                    [-novis] [-all]\n";
+      G4cout<<"usage: PileRoomSim  [-h] [-m MACRO] [-d HE3TUBEDESCRIPTION] [-g GRAPHITEDESCRIPTION]\n";
+      G4cout<<"                    [-o MISCOBJECTS] [-n NEVENTS] [-s SEED1 SEED2] [-r ROOTFILE]\n";
+      G4cout<<"                    [-novis] [-all]\n";
 
-      cout<<"\nSimulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
+      G4cout<<"\nSimulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
 
-      cout<<"\noptional arguments:"<<endl;
-      cout<<"  -h,                      show this help message and exit\n";
-      cout<<"  -m MACRO                 The macro to run. If this parameters is used, inputs\n";
-      cout<<"                           from -n, -s, and -r are ignored\n";
-      cout<<"  -d HE3TUBEDESCRIPTION    An xml file containing a description of the helium-3 \n";
-      cout<<"                           tubes. If this parameter is unused, a default file is\n";
-      cout<<"                           used.\n";
-      cout<<"  -g GRAPHITEDESCRIPTION   An xml file containing a description of the graphite cube.\n";
-      cout<<"                           If this parameter is unused, a default file is used\n";
-      cout<<"  -o MISCOBJECTS           An xml file containing additional objects to be\n";
-      cout<<"                           implemented.\n";
-      cout<<"  -n NEVENTS               Number of events to run. If used, -r must be used\n";
-      cout<<"  -s SEED1 SEED2           Seeds for random number generator.\n";
-      cout<<"  -r ROOTFILE              Output rootfile (without .root extension). If used, -n\n";
-      cout<<"                           must be used\n";
-      cout<<"  -all                     If this parameter is used, all events are saved to the \n";
-      cout<<"                           output ntuple. If not, only events containing a neutron\n"; 
-      cout<<"                           hit in in a helium-3 tube are saved.\n";
-      cout<<"  -novis                   If no other parameters specified, PileRoomSum runs in\n";
-      cout<<"                           interactive mode with no visualization set.\n";
+      G4cout<<"\noptional arguments:"<<endl;
+      G4cout<<"  -h,                      show this help message and exit\n";
+      G4cout<<"  -m MACRO                 The macro to run. If this parameters is used, inputs\n";
+      G4cout<<"                           from -n, -s, and -r are ignored\n";
+      G4cout<<"  -d HE3TUBEDESCRIPTION    An xml file containing a description of the helium-3 \n";
+      G4cout<<"                           tubes. If this parameter is unused, a default file is\n";
+      G4cout<<"                           used.\n";
+      G4cout<<"  -g GRAPHITEDESCRIPTION   An xml file containing a description of the graphite cube.\n";
+      G4cout<<"                           If this parameter is unused, a default file is used\n";
+      G4cout<<"  -o MISCOBJECTS           An xml file containing additional objects to be\n";
+      G4cout<<"                           implemented.\n";
+      G4cout<<"  -n NEVENTS               Number of events to run. If used, -r must be used\n";
+      G4cout<<"  -s SEED1 SEED2           Seeds for random number generator.\n";
+      G4cout<<"  -r ROOTFILE              Output rootfile (without .root extension). If used, -n\n";
+      G4cout<<"                           must be used\n";
+      G4cout<<"  -all                     If this parameter is used, all events are saved to the \n";
+      G4cout<<"                           output ntuple. If not, only events containing a neutron\n"; 
+      G4cout<<"                           hit in in a helium-3 tube are saved.\n";
+      G4cout<<"  -novis                   If no other parameters specified, PileRoomSum runs in\n";
+      G4cout<<"                           interactive mode with no visualization set.\n";
 
-      cout<<"\nIf no arguments are specified, PileRoomSim runs in visualization mode\n";
+      G4cout<<"\nIf no arguments are specified, PileRoomSim runs in visualization mode"<<G4endl;
 
 }
 
