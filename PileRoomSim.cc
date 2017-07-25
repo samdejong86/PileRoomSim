@@ -6,6 +6,7 @@
 // $Id: PileRoomSim.cc 76340 2013-11-08 15:21:09Z gcosmo $
 
 #include <algorithm>
+#include <sstream>
 
 #include "G4RunManager.hh"
 
@@ -127,9 +128,9 @@ int main(int argc,char** argv) {
 
   std::streambuf *coutbuf;
   if(!verbose){
-    std::ofstream out("out.txt");
+    stringstream ss;
     coutbuf = G4cout.rdbuf(); //save old buf
-    G4cout.rdbuf(out.rdbuf());
+    G4cout.rdbuf(ss.rdbuf());
   }
   
   //choose the Random engine
