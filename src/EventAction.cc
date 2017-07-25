@@ -69,13 +69,19 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
   
   
   if(nevent%100000==0){
-    cout<<bold<<red<<"Event number: "<<nevent<<noFormat<<"\n";
+    cout<<bold<<red;
+    G4cout<<"Event number: "<<nevent<<G4endl;
+    cout<<noFormat;
   }else if(eve->GetEventID()%10000==0){
-    cout<<bold<<blue<<"Event number: "<<nevent<<noFormat<<"\n";
+    cout<<bold<<blue;
+    G4cout<<"Event number: "<<nevent<<G4endl;
+    cout<<nevent<<noFormat;
   }else if (eve->GetEventID()%1000==0){
-    cout<<bold<<"Event number: "<<nevent<<noFormat<<"\n";
+    cout<<bold;
+    G4cout<<"Event number: "<<nevent<<G4endl;
+    cout<<noFormat;
   }else if (eve->GetEventID()%100==0){ 
-    cout<<"Event number: "<<nevent<<"\n";
+    G4cout<<"Event number: "<<nevent<<G4endl;
   }
 
 }
@@ -91,7 +97,9 @@ void EventAction::EndOfEventAction( const G4Event*)
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
     if(neutronHit){
-      cout<<bold<<green<<"Neutron Hit!"<<noFormat<<endl;
+      cout<<bold<<green;
+      G4cout<<"Neutron Hit!"<<G4endl;
+      cout<<noFormat<<endl;
       nNeutrons++;
     }    
 
