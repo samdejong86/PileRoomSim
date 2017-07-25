@@ -88,7 +88,6 @@ int main(int argc,char** argv) {
 	std::string next(argv[i+1]);
 	if(next.compare(0,1,"-") != 0)
 	  seed = "/random/setSeeds "+ string(argv[i+1]);
-	gui=false;
       }
       if(i+2<argc){ 
 	std::string next(argv[i+2]);
