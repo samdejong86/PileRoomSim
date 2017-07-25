@@ -456,7 +456,7 @@ void DetectorConstruction::SetParams(){
 
   //if miscfilename is not empty, get the misc object  parameters
   if(miscfilename.size()!=0){
-    miscParams = XmlParser::getVector(miscfilename);    
+    miscParams = XmlParser::getVector(miscfilename, ver);    
     if(ver) G4cout<<"Creating volumes defined in "<<miscfilename<<G4endl;
     phys_misc.resize(miscParams.size());
   }
@@ -481,14 +481,14 @@ void DetectorConstruction::SetParams(){
 
 
   //get Graphite and Room parameters
-  gParam=XmlParser(graphitefilename);
-  rParam=XmlParser(Location+"/Room.xml");
+  gParam=XmlParser(graphitefilename, ver);
+  rParam=XmlParser(Location+"/Room.xml", ver);
 
   cubeSize = 2*gParam.getValue("rodLength")*cm;
 
   //get helium 3 tube parameters
   if(ver) G4cout<<"Helium-3 tube parameters described in "<<he3filename<<"\n";
-  tubeParams = XmlParser::getVector(he3filename);
+  tubeParams = XmlParser::getVector(he3filename, ver);
   if(ver) G4cout<<"There are "<<tubeParams.size()<<" tubes implemented\n";
 
   phys_HE3.resize(tubeParams.size());

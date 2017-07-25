@@ -22,9 +22,9 @@ public:
   XmlParser(){}
 
   //constructor which reads a file
-  XmlParser(std::string filename){
+  XmlParser(std::string filename, bool verbose){
 
-    cout<<"Parsing "<<filename<<endl;
+    if(verbose) cout<<"Parsing "<<filename<<endl;
 
     std::ifstream in(filename.c_str());
     
@@ -60,9 +60,9 @@ public:
   }
 
   //produces a vector of XmlParser objects
-  static std::vector<XmlParser> getVector(std::string filename){
+  static std::vector<XmlParser> getVector(std::string filename, bool verbose){
 
-    cout<<"Parsing "<<filename<<endl;
+    if(verbose) cout<<"Parsing "<<filename<<endl;
 
     std::vector<XmlParser> Params;
 

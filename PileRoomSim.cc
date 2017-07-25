@@ -18,6 +18,7 @@
 #include "G4VModularPhysicsList.hh"
 #include "G4OpticalPhysics.hh"
 #include "FTFP_BERT_HP.hh"
+#include "G4HadronicProcessStore.hh"
 
 #include "ActionInitialization.hh"
 #include "SteppingVerbose.hh"
@@ -124,6 +125,12 @@ int main(int argc,char** argv) {
     return 0;
   }
 
+  std::streambuf *coutbuf;
+  if(!verbose){
+    std::ofstream out("out.txt");
+    coutbuf = G4cout.rdbuf(); //save old buf
+    G4cout.rdbuf(out.rdbuf());
+  }
   
   //choose the Random engine
   G4Random::setTheEngine(new CLHEP::RanecuEngine);
@@ -149,10 +156,13 @@ int main(int argc,char** argv) {
 
   //Initialize G4 kernel
   runManager->Initialize();
+
+  G4HadronicProcessStore::Instance()->SetVerbose(verbose);
     
   // get the pointer to the User Interface manager 
   G4UImanager* UI = G4UImanager::GetUIpointer();  
 
+  if(!verbose) G4cout.rdbuf(coutbuf);
 
   
   if(fileName.size()!=0){ //user specified script
@@ -173,6 +183,8 @@ int main(int argc,char** argv) {
 
       int n = std::count(seed.begin(), seed.end(), ' ');
       
+
+
       if(n<2) cout<<"\033[1mWarning: Wrong number of seeds.\n\033[0m";
       else UI->ApplyCommand(seed);
 
@@ -180,6 +192,8 @@ int main(int argc,char** argv) {
   
       for(int i=0; i<(int)commands.size(); i++) UI->ApplyCommand(commands[i]);
       UI->ApplyCommand(outfile);
+
+
       UI->ApplyCommand(nevents);
       
 

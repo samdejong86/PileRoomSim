@@ -50,7 +50,7 @@ RunAction::RunAction(std::string miscFile)
   
   //get the names of the misc objects to name the ntuple branches
   if(miscFile.size()!=0){
-    std::vector<XmlParser> miscObjects = XmlParser::getVector(miscFile);  
+    std::vector<XmlParser> miscObjects = XmlParser::getVector(miscFile, false);  
     for(int i=0; i<(int)miscObjects.size(); i++){
       analysisManager->CreateNtupleIColumn("left"+miscObjects[i].getStringValue("Name"));
     }
