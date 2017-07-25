@@ -99,7 +99,7 @@ void EventAction::EndOfEventAction( const G4Event*)
     if(neutronHit){
       cout<<bold<<green;
       G4cout<<"Neutron Hit!"<<G4endl;
-      cout<<noFormat<<endl;
+      cout<<noFormat;
       nNeutrons++;
     }    
 
