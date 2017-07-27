@@ -120,32 +120,32 @@ void RunAction::EndOfRunAction(const G4Run* run)
 
 
   G4cout<<topLeft;
-  for(int i=0; i<50; i++) G4cout<<line;
+  for(int i=0; i<52; i++) G4cout<<line;
   G4cout<<topRight<<G4endl;
 
   
-  G4cout<<vertical<<"Number of events: "<<right<<setw(5)<<nevents<<", corresponding to "<<right<<setw(5)<<1000*(double)nevents/10000000<<" ms"<<vertical<<G4endl;
+  G4cout<<vertical<<"Number of events: "<<right<<setw(6)<<nevents<<", corresponding to "<<right<<setw(6)<<1000*(double)nevents/10000000<<" ms"<<vertical<<G4endl;
 
   G4cout<<leftDivider;
-  for(int i=0; i<50; i++) G4cout<<thinLine;
+  for(int i=0; i<52; i++) G4cout<<thinLine;
   G4cout<<rightDivider<<G4endl;
 
-  G4cout<<vertical<<right<<setw(6)<<eventAction->getnGraphite()<<" neutrons left the Graphite                 "<<vertical<<G4endl;
-  G4cout<<vertical<<right<<setw(6)<<eventAction->getnNeutrons()<<" neutrons detected                          "<<vertical<<G4endl;
+  G4cout<<vertical<<right<<setw(6)<<eventAction->getnGraphite()<<" neutrons left the Graphite                   "<<vertical<<G4endl;
+  G4cout<<vertical<<right<<setw(6)<<eventAction->getnNeutrons()<<" neutrons detected                            "<<vertical<<G4endl;
 
 
   G4cout<<leftDivider;
-  for(int i=0; i<50; i++) G4cout<<thinLine;
+  for(int i=0; i<52; i++) G4cout<<thinLine;
   G4cout<<rightDivider<<G4endl;
 
   G4cout.precision(4);
-  G4cout<<vertical<<" "<<right<<setw(6)<<meanTime<<plusMinus<<left<<setw(10)<<stdev<<" seconds per event              "<<vertical<<G4endl;
-  G4cout<<vertical<<" Total run time: "<<left<<setw(6)<<runEnd-runStart<<" seconds                   "<<vertical<<G4endl;
+  G4cout<<vertical<<" "<<right<<setw(7)<<meanTime<<plusMinus<<left<<setw(10)<<stdev<<" seconds per event               "<<vertical<<G4endl;
+  G4cout<<vertical<<" Total run time: "<<left<<setw(7)<<runEnd-runStart<<" seconds                    "<<vertical<<G4endl;
 
 
 
   G4cout<<bottomLeft;
-  for(int i=0; i<50; i++) G4cout<<line;
+  for(int i=0; i<52; i++) G4cout<<line;
   G4cout<<bottomRight<<G4endl;
 
 
