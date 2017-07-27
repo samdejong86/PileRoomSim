@@ -5,6 +5,8 @@
 // $Id: EventAction.cc 75839 2013-11-06 17:27:26Z gcosmo $
 //
 #include <iostream>
+#include <sys/time.h>
+
 #include "EventAction.hh"
 #include "Analysis.hh"
 
@@ -21,7 +23,10 @@ EventAction::EventAction(const DetectorConstruction* detectorConstruction, bool 
  fDetConstruction(detectorConstruction),
  saveAll(save),
  nNeutrons(0),
- GraphiteTotal(0)
+ GraphiteTotal(0),
+ eventDuration(0),
+ M(0),
+ timeStdev(0)
 { 
 }
 
@@ -45,6 +50,9 @@ void EventAction::Initialize(){
 void EventAction::BeginOfEventAction( const G4Event* eve)
 { 
   int nevent = eve->GetEventID();
+
+  gettimeofday(&timeMark,NULL);
+  startTime = (double)timeMark.tv_sec + (double)timeMark.tv_usec/1000000.;
 
   neutronHit=false;    //no neutron hit
   isNeutronHitVec.clear();
@@ -88,7 +96,7 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
 }
 
 //at the end of event
-void EventAction::EndOfEventAction( const G4Event*)
+void EventAction::EndOfEventAction( const G4Event* eve)
 {    
 
   if(leftGrap) GraphiteTotal++;
@@ -131,6 +139,18 @@ void EventAction::EndOfEventAction( const G4Event*)
     
     analysisManager->AddNtupleRow();
   }
+
+
+  gettimeofday(&timeMark,NULL);
+  endTime = (double)timeMark.tv_sec + (double)timeMark.tv_usec/1000000.;
+  
+
+  double thisEventTime=endTime-startTime;
+
+  double delta = thisEventTime-eventDuration;
+  eventDuration += delta/(eve->GetEventID()+1);
+  double delta2 = thisEventTime-eventDuration;
+  M=delta*delta2;
   
 
 }

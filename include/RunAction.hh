@@ -28,6 +28,12 @@ class RunAction : public G4UserRunAction
     virtual void BeginOfRunAction(const G4Run*);
     virtual void   EndOfRunAction(const G4Run*);
     inline G4double DEDX_Transform(G4double in1,G4double in2);
+
+private:
+  struct timeval timeMark;
+  double runStart;
+  double runEnd;
+
 };
 
     inline G4double RunAction::DEDX_Transform(G4double in1,G4double in2){

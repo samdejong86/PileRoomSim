@@ -44,6 +44,10 @@ public:
   
   int getnNeutrons() {return nNeutrons;}
   int getnGraphite() {return GraphiteTotal;}
+  void getTime(int n, double &meanTime, double &stDevTime){
+    meanTime=eventDuration;
+    stDevTime=sqrt(M/(n-1));
+  }
 
   G4double input_energy;
   
@@ -51,7 +55,7 @@ private:
   
   G4double ePostGraphite;
   
-  //numner of channels and objects
+  //number of channels and objects
   int nChannels;
   int nobj;
 
@@ -81,6 +85,14 @@ private:
   //number of neutrons detected
   int nNeutrons;
   int GraphiteTotal;
+
+  struct timeval timeMark;
+
+  double startTime;
+  double endTime;
+  double eventDuration;
+  double M;
+  double timeStdev;
 
 };
 

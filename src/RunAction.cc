@@ -5,6 +5,8 @@
 // $Id: RunAction.cc 79239 2014-02-20 16:00:06Z gcosmo $
 // 
 
+#include <sys/time.h>
+
 #include "RunAction.hh"
 
 #include "G4Run.hh"
@@ -78,6 +80,9 @@ RunAction::~RunAction()
 
 void RunAction::BeginOfRunAction(const G4Run*)
 {
+  gettimeofday(&timeMark,NULL);
+  runStart = (double)timeMark.tv_sec + (double)timeMark.tv_usec/1000000.;
+
   // save Rndm status
   if (isMaster) G4Random::showEngineStatus();
 
@@ -103,24 +108,44 @@ void RunAction::EndOfRunAction(const G4Run* run)
   EventAction* eventAction = const_cast<EventAction*>(constEventAction);  
 
   int nevents = run->GetNumberOfEvent();
+  double meanTime, stdev;
+  eventAction->getTime(nevents, meanTime, stdev);
 
+  //cout<<meanTime<<"\t"<<stdev<<endl;
+  
+  gettimeofday(&timeMark,NULL);
+  runEnd = (double)timeMark.tv_sec + (double)timeMark.tv_usec/1000000.;
+  
+  //cout<<runEnd-runStart<<endl;
 
 
   G4cout<<topLeft;
-  for(int i=0; i<47; i++) G4cout<<line;
+  for(int i=0; i<50; i++) G4cout<<line;
   G4cout<<topRight<<G4endl;
 
   
-  G4cout<<vertical<<"Number of events: "<<nevents<<", corresponding to "<<1000*(double)nevents/10000000<<" ms"<<vertical<<G4endl;
-  G4cout<<vertical;
-  for(int i=0; i<47; i++) G4cout<<" ";
-  G4cout<<vertical<<G4endl;
+  G4cout<<vertical<<"Number of events: "<<right<<setw(5)<<nevents<<", corresponding to "<<right<<setw(5)<<1000*(double)nevents/10000000<<" ms"<<vertical<<G4endl;
 
-  G4cout<<vertical<<right<<setw(6)<<eventAction->getnGraphite()<<" neutrons left the Graphite              "<<vertical<<G4endl;
-  G4cout<<vertical<<right<<setw(6)<<eventAction->getnNeutrons()<<" neutrons detected                       "<<vertical<<G4endl;
+  G4cout<<leftDivider;
+  for(int i=0; i<50; i++) G4cout<<thinLine;
+  G4cout<<rightDivider<<G4endl;
+
+  G4cout<<vertical<<right<<setw(6)<<eventAction->getnGraphite()<<" neutrons left the Graphite                 "<<vertical<<G4endl;
+  G4cout<<vertical<<right<<setw(6)<<eventAction->getnNeutrons()<<" neutrons detected                          "<<vertical<<G4endl;
+
+
+  G4cout<<leftDivider;
+  for(int i=0; i<50; i++) G4cout<<thinLine;
+  G4cout<<rightDivider<<G4endl;
+
+  G4cout.precision(4);
+  G4cout<<vertical<<" "<<right<<setw(6)<<meanTime<<plusMinus<<left<<setw(10)<<stdev<<" seconds per event              "<<vertical<<G4endl;
+  G4cout<<vertical<<" Total run time: "<<left<<setw(6)<<runEnd-runStart<<" seconds                   "<<vertical<<G4endl;
+
+
 
   G4cout<<bottomLeft;
-  for(int i=0; i<47; i++) G4cout<<line;
+  for(int i=0; i<50; i++) G4cout<<line;
   G4cout<<bottomRight<<G4endl;
 
 
