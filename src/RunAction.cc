@@ -20,6 +20,7 @@
 #include "EventAction.hh"
 
 #include "xmlParser.h"
+#include "formattingStrings.hh"
 
 RunAction::RunAction(std::string miscFile)
  : G4UserRunAction()
@@ -103,39 +104,24 @@ void RunAction::EndOfRunAction(const G4Run* run)
 
   int nevents = run->GetNumberOfEvent();
 
-  string topLeft="\xE2\x95\x94";
-  string line="\xE2\x95\x90";
-  string topRight="\xE2\x95\x97";
-  string vertical="\xE2\x95\x91";
-  string bottomLeft="\xE2\x95\x9A";
-  string bottomRight="\xE2\x95\x9D";
 
 
-  //G4cout<<"-------------------------------------------------------"<<G4endl;
   G4cout<<topLeft;
   for(int i=0; i<47; i++) G4cout<<line;
   G4cout<<topRight<<G4endl;
 
   
-  //cout<<"\033[1m";
   G4cout<<vertical<<"Number of events: "<<nevents<<", corresponding to "<<1000*(double)nevents/10000000<<" ms"<<vertical<<G4endl;
   G4cout<<vertical;
   for(int i=0; i<47; i++) G4cout<<" ";
   G4cout<<vertical<<G4endl;
 
-  G4cout<<vertical<<left<<setw(6)<<eventAction->getnGraphite()<<" neutrons left the Graphite              "<<vertical;
-  G4cout<<G4endl;
-
-  G4cout<<vertical<<left<<setw(6)<<eventAction->getnNeutrons()<<" neutrons detected                       "<<vertical;
-  G4cout<<G4endl;
+  G4cout<<vertical<<right<<setw(6)<<eventAction->getnGraphite()<<" neutrons left the Graphite              "<<vertical<<G4endl;
+  G4cout<<vertical<<right<<setw(6)<<eventAction->getnNeutrons()<<" neutrons detected                       "<<vertical<<G4endl;
 
   G4cout<<bottomLeft;
   for(int i=0; i<47; i++) G4cout<<line;
   G4cout<<bottomRight<<G4endl;
-
-  //G4cout<<"-------------------------------------------------------"<<G4endl;
-
-  
 
 
   //save ntuple      

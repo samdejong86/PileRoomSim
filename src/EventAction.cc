@@ -13,6 +13,7 @@
 #include "DetectorConstruction.hh"
 #include "G4SystemOfUnits.hh"
 
+#include "formattingStrings.hh"
 
 EventAction::EventAction(const DetectorConstruction* detectorConstruction, bool save)
 :G4UserEventAction(),
