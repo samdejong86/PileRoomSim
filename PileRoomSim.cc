@@ -24,6 +24,8 @@
 #include "ActionInitialization.hh"
 #include "SteppingVerbose.hh"
 
+#include "formattingStrings.hh"
+
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
 #endif
@@ -51,44 +53,45 @@ int main(int argc,char** argv) {
   //parse command line arguments
   for(int i=0; i<argc; i++){
     std::string input(argv[i]);
-    if(input.compare("-m") == 0){
+    if(input.compare("-m") == 0){    //macro file
       if(i+1<argc){ 
 	std::string next(argv[i+1]);
 	if(next.compare(0,1,"-") != 0)
 	  fileName = string(argv[i+1]);
+	gui=false;
       }
-    }else if(input.compare("-o")==0){
+    }else if(input.compare("-o")==0){  //misc objects
       if(i+1<argc){ 
 	std::string next(argv[i+1]);
 	if(next.compare(0,1,"-") != 0)
 	   miscFile = string(argv[i+1]);
       }
-    }else if(input.compare("-d")==0){
+    }else if(input.compare("-d")==0){  //he3tube description
       if(i+1<argc){ 
 	std::string next(argv[i+1]);
 	if(next.compare(0,1,"-") != 0)
 	   he3Desc = string(argv[i+1]);
       }
-    }else if(input.compare("-g")==0){
+    }else if(input.compare("-g")==0){  //graphite description
       if(i+1<argc){ 
 	std::string next(argv[i+1]);
 	if(next.compare(0,1,"-") != 0)
 	   graphiteDesc = string(argv[i+1]);
       }
-    }else if(input.compare("-all")==0){
+    }else if(input.compare("-all")==0){   //save all events
       saveAll=true;
-    }else if(input.compare("-noGeo")==0){
+    }else if(input.compare("-noGeo")==0){  //save geometry
       saveGeo=false;
-    }else if(input.compare("-verbose")==0){
+    }else if(input.compare("-verbose")==0){ //verbose
       verbose=true;
-    }else if(input.compare("-n")==0){
+    }else if(input.compare("-n")==0){   //number of events
       if(i+1<argc){ 
 	std::string next(argv[i+1]);
 	if(next.compare(0,1,"-") != 0)
 	  nevents = "/run/beamOn "+string(argv[i+1]);
 	gui=false;
       }
-    }else if(input.compare("-s")==0){
+    }else if(input.compare("-s")==0){   //seeds
       if(i+1<argc){ 
 	std::string next(argv[i+1]);
 	if(next.compare(0,1,"-") != 0)
@@ -99,16 +102,16 @@ int main(int argc,char** argv) {
 	if(next.compare(0,1,"-") != 0)
 	  seed = seed + " " + string(argv[i+2]);
       }
-    }else if(input.compare("-r")==0){
+    }else if(input.compare("-r")==0){   //root filename
       if(i+1<argc){ 
 	std::string next(argv[i+1]);
 	if(next.compare(0,1,"-") != 0)
 	  outfile = "/analysis/setFileName " + string(argv[i+1]);
 	gui=false;
       }
-    }else if(input.compare("-novis")==0){
+    }else if(input.compare("-novis")==0){   //no visualization
 	vis=false;
-    }else if(input.compare("-h")==0){
+    }else if(input.compare("-h")==0){   //help
       
 #ifdef PORTABLE
       cout<<"Using the portable version: no visualization available\n\n"<<endl;
@@ -119,65 +122,88 @@ int main(int argc,char** argv) {
       return 0;
     }
   }
-
-  G4cout<<"Summary of settings:\n"<<G4endl;
   
-   
-  G4cout<<"Helium-3 tube description: ";
-  if(he3Desc.size()!=0)G4cout<<he3Desc<<G4endl;
-  else G4cout<<"Default"<<G4endl;
+  G4cout<<topLeft;
+  for(int i=0; i<60; i++) G4cout<<line;
+  G4cout<<topRight<<G4endl;
+
+  G4cout<<vertical<<"Summary of settings:";
+  for(int i=0; i<40; i++) G4cout<<" ";
+  G4cout<<vertical<<G4endl;
+
+  G4cout<<leftDivider;
+  for(int i=0; i<60; i++) G4cout<<thinLine;
+  G4cout<<rightDivider<<G4endl;
   
-  G4cout<<"Graphite description: ";
-  if(graphiteDesc.size()!=0)G4cout<<graphiteDesc<<G4endl;
-  else G4cout<<"Default"<<G4endl;
+  G4cout<<vertical<<"Helium-3 tube description: "<<left<<setw(33);
+  if(he3Desc.size()!=0)G4cout<<he3Desc;
+  else G4cout<<"Default";
+  G4cout<<vertical<<G4endl;
+  
+  G4cout<<vertical<<"Graphite description: "<<left<<setw(38);
+  if(graphiteDesc.size()!=0)G4cout<<graphiteDesc;
+  else G4cout<<"Default";
+  G4cout<<vertical<<G4endl;
 
-  G4cout<<"Miscellaneous objects: ";
-  if(miscFile.size()!=0)G4cout<<miscFile<<G4endl;
-  else G4cout<<"None"<<G4endl;
+  G4cout<<vertical<<"Miscellaneous objects: "<<left<<setw(37);
+  if(miscFile.size()!=0)G4cout<<miscFile;
+  else G4cout<<"None";
+  G4cout<<vertical<<G4endl;
 
-  G4cout<<"Saving all events: ";
-  if(saveAll) G4cout<<"yes"<<G4endl;
-  else G4cout<<"no"<<endl;
 
-  G4cout<<"Saving geometry: ";
-  if(saveGeo) G4cout<<"yes"<<G4endl;
-  else G4cout<<"no"<<endl;
+  G4cout<<vertical<<"Saving all events: "<<left<<setw(41);
+  if(saveAll) G4cout<<"yes";
+  else G4cout<<"no";
+  G4cout<<vertical<<G4endl;
 
-  G4cout<<"Verbose mode: ";
-  if(verbose) G4cout<<"yes"<<G4endl;
-  else G4cout<<"no"<<endl;
+  G4cout<<vertical<<"Saving geometry: "<<left<<setw(43);
+  if(saveGeo) G4cout<<"yes";
+  else G4cout<<"no";
+  G4cout<<vertical<<G4endl;
+
+  G4cout<<vertical<<"Verbose mode: "<<left<<setw(46);
+  if(verbose) G4cout<<"yes";
+  else G4cout<<"no";
+  G4cout<<vertical<<G4endl;
 
 
   if(gui){ 
-    G4cout<<"Entering interactive mode";
+    G4cout<<vertical<<"Entering interactive mode"<<left<<setw(35);
     if(vis) G4cout<<" with visualization";
-    G4cout<<G4endl;
+    else G4cout<<" ";
+    G4cout<<vertical<<G4endl;
 	      
 
   }else{
 
-    G4cout<<"Macro file: ";
-    if(fileName.size()!=0) G4cout<<fileName<<G4endl;
-    else G4cout<<"None"<<G4endl;
+    G4cout<<vertical<<"Macro file: "<<left<<setw(48);
+    if(fileName.size()!=0) G4cout<<fileName;
+    else G4cout<<"None";
+    G4cout<<vertical<<G4endl;
     
 
     if(fileName.size()==0){
-      G4cout<<"Number of events: ";
-      if(nevents.size()!=0) G4cout<<nevents.substr(12)<<G4endl;
-      else G4cout<<"Not specified"<<G4endl;
+      G4cout<<vertical<<"Number of events: "<<left<<setw(42);
+      if(nevents.size()!=0) G4cout<<nevents.substr(12);
+      else G4cout<<"Not specified";
+      G4cout<<vertical<<G4endl;
       
-      G4cout<<"Output file: ";
-      if(outfile.size()!=0) G4cout<<outfile.substr(22)<<".root"<<G4endl;
-      else G4cout<<"Not specified"<<G4endl;
+      G4cout<<vertical<<"Output file: "<<left<<setw(47);
+      if(outfile.size()!=0) G4cout<<outfile.substr(22);
+      else G4cout<<"Not specified";
+      G4cout<<vertical<<G4endl;
       
-      G4cout<<"Seeds: ";
-      if(seed.size()!=0) G4cout<<seed.substr(17)<<G4endl;
-      else G4cout<<"Not specified"<<G4endl;
+      G4cout<<vertical<<"Seeds: "<<left<<setw(53);
+      if(seed.size()!=0) G4cout<<seed.substr(17);
+      else G4cout<<"Not specified";
+      G4cout<<vertical<<G4endl;
     }
 
   }
     
-  G4cout<<G4endl;
+  G4cout<<bottomLeft;
+  for(int i=0; i<60; i++) G4cout<<line;
+  G4cout<<bottomRight<<G4endl;
 
 
 
@@ -216,7 +242,6 @@ int main(int argc,char** argv) {
     
   
   // set user action classes
- //pass misc object description filename ActionInitilization, when then passes it on to RunAction
   runManager->SetUserInitialization(new ActionInitialization(detConstruction, saveAll));
 
   //Initialize G4 kernel
@@ -237,11 +262,11 @@ int main(int argc,char** argv) {
   } else if(!gui){  //user specified seed, number of events, and output file
 
       if(outfile.size()==0){
-	cout<<"\033[1;31mNo output file specified! quitting.\n\033[0m";
+	cout<<bold2<<red2<<"No output file specified! quitting."<<noFormat2<<endl;
 	help();
 	return 0;
       }if(nevents.size()==0){
-	cout<<"\033[1;31mNumber of events not specified! quitting.\n\033[0m";
+	cout<<bold2<<red2<<"Number of events not specified! quitting."<<noFormat2<<endl;
 	help();
 	return 0;
       }
@@ -250,7 +275,7 @@ int main(int argc,char** argv) {
       
 
 
-      if(n<2) cout<<"\033[1mWarning: Wrong number of seeds.\n\033[0m";
+      if(n<2) cout<<bold2<<"Warning: Wrong number of seeds."<<noFormat2<<endl;
       else UI->ApplyCommand(seed);
 
       std::vector<std::string> commands = UICommands();

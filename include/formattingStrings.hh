@@ -1,11 +1,14 @@
 
-const std::string bold = "\033[1m";
-const std::string green = "\033[32m";
-const std::string underline = "\033[4m";
-const std::string blue = "\033[34m";
-const std::string red = "\033[31m";
-const std::string white = "\033[37m";
-const std::string noFormat = "\033[0m";
+#ifndef FORMATSTRINGS
+#define FORMATSTRINGS
+
+const std::string bold2 = "\033[1m";
+const std::string green2 = "\033[32m";
+const std::string underline2 = "\033[4m";
+const std::string blue2 = "\033[34m";
+const std::string red2 = "\033[31m";
+const std::string white2 = "\033[37m";
+const std::string noFormat2 = "\033[0m";
 
 
 const std::string topLeft="\xE2\x95\x94";
@@ -21,3 +24,5 @@ const std::string thinLine = "\xE2\x94\x80";
 
 
 const std::string plusMinus="\xC2\xB1";
+
+#endif
