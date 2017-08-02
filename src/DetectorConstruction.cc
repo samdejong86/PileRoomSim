@@ -33,6 +33,8 @@
 
 using namespace std;
 #include "xmlParser.h"
+#include "formattingStrings.hh"
+
 
 DetectorConstruction::DetectorConstruction()
   :G4VUserDetectorConstruction(),
@@ -109,6 +111,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     //if this object is supposed to be tied to a tube, add the tube position to the object's position
     if(miscParams[i].getValue("TieToHe3Tubes")){
       int ch = miscParams[i].getValue("he3TubeChannel");
+      if(ch>(int)tubeParams.size()){
+	cout<<bold2<<red2<<"Object "<<miscParams[i].getStringValue("Name") <<" tied to tube that doesn't exist. skipping."<<noFormat2<<endl;
+	continue;
+      }
       addX=tubeParams[ch].getValue("x_pos")*cm;
       addY=tubeParams[ch].getValue("y_pos")*cm;
       addZ=tubeParams[ch].getValue("z_pos")*cm;
