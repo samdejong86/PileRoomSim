@@ -56,11 +56,13 @@ RunAction::RunAction(DetectorConstruction* detConstruction)
       analysisManager->CreateNtupleDColumn(GeoNtuple, "HE3TUBE_"+HE3tags[i], HE3vals[i]);
     }
     
-    MISCtags = miscObjects[0].getTags();
-    MISCvals.resize(MISCtags.size());
-    
-    for(int i=0; i<(int)MISCtags.size(); i++){
-      analysisManager->CreateNtupleDColumn(GeoNtuple, "MISC_"+MISCtags[i], MISCvals[i]);
+    if(miscObjects.size()!=0){
+      MISCtags = miscObjects[0].getTags();
+      MISCvals.resize(MISCtags.size());
+      
+      for(int i=0; i<(int)MISCtags.size(); i++){
+	analysisManager->CreateNtupleDColumn(GeoNtuple, "MISC_"+MISCtags[i], MISCvals[i]);
+      }
     }
     
     gParam = fDetConstruction->GetgParam();
