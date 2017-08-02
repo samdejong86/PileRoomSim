@@ -194,32 +194,32 @@ void RunAction::EndOfRunAction(const G4Run* run)
 
 
   G4cout<<topLeft;
-  for(int i=0; i<52; i++) G4cout<<line;
+  for(int i=0; i<60; i++) G4cout<<line;
   G4cout<<topRight<<G4endl;
 
   
-  G4cout<<vertical<<"Number of events: "<<right<<setw(6)<<nevents<<", corresponding to "<<right<<setw(6)<<1000*(double)nevents/10000000<<" ms"<<vertical<<G4endl;
+  G4cout<<vertical<<"Number of events: "<<right<<setw(7)<<nevents<<", corresponding to "<<right<<setw(7)<<1000*(double)nevents/10000000<<" ms"<<right<<setw(6)<<" "<<vertical<<G4endl;
 
   G4cout<<leftDivider;
-  for(int i=0; i<52; i++) G4cout<<thinLine;
+  for(int i=0; i<60; i++) G4cout<<thinLine;
   G4cout<<rightDivider<<G4endl;
 
-  G4cout<<vertical<<right<<setw(6)<<eventAction->getnGraphite()<<" neutrons left the Graphite                   "<<vertical<<G4endl;
-  G4cout<<vertical<<right<<setw(6)<<eventAction->getnNeutrons()<<" neutrons detected                            "<<vertical<<G4endl;
+  G4cout<<vertical<<right<<setw(7)<<eventAction->getnGraphite()<<" neutrons left the Graphite"<<right<<setw(26)<<" "<<vertical<<G4endl;
+  G4cout<<vertical<<right<<setw(7)<<eventAction->getnNeutrons()<<" neutrons detected"<<right<<setw(35)<<" "<<vertical<<G4endl;
 
 
   G4cout<<leftDivider;
-  for(int i=0; i<52; i++) G4cout<<thinLine;
+  for(int i=0; i<60; i++) G4cout<<thinLine;
   G4cout<<rightDivider<<G4endl;
 
   G4cout.precision(4);
-  G4cout<<vertical<<" "<<right<<setw(7)<<meanTime<<plusMinus<<left<<setw(10)<<stdev<<" seconds per event               "<<vertical<<G4endl;
-  G4cout<<vertical<<" Total run time: "<<left<<setw(7)<<runEnd-runStart<<" seconds                    "<<vertical<<G4endl;
+  G4cout<<vertical<<" "<<right<<setw(7)<<meanTime<<plusMinus<<left<<setw(10)<<stdev<<" seconds per event"<<right<<setw(23)<<" "<<vertical<<G4endl;
+  G4cout<<vertical<<" Total run time: "<<right<<setw(8)<<runEnd-runStart<<" seconds"<<right<<setw(27)<<" "<<vertical<<G4endl;
 
 
 
   G4cout<<bottomLeft;
-  for(int i=0; i<52; i++) G4cout<<line;
+  for(int i=0; i<60; i++) G4cout<<line;
   G4cout<<bottomRight<<G4endl;
 
 
