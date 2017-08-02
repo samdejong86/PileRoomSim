@@ -120,6 +120,67 @@ int main(int argc,char** argv) {
     }
   }
 
+  G4cout<<"Summary of settings:\n"<<G4endl;
+  
+   
+  G4cout<<"Helium-3 tube description: ";
+  if(he3Desc.size()!=0)G4cout<<he3Desc<<G4endl;
+  else G4cout<<"Default"<<G4endl;
+  
+  G4cout<<"Graphite description: ";
+  if(graphiteDesc.size()!=0)G4cout<<graphiteDesc<<G4endl;
+  else G4cout<<"Default"<<G4endl;
+
+  G4cout<<"Miscellaneous objects: ";
+  if(miscFile.size()!=0)G4cout<<miscFile<<G4endl;
+  else G4cout<<"None"<<G4endl;
+
+  G4cout<<"Saving all events: ";
+  if(saveAll) G4cout<<"yes"<<G4endl;
+  else G4cout<<"no"<<endl;
+
+  G4cout<<"Saving geometry: ";
+  if(saveGeo) G4cout<<"yes"<<G4endl;
+  else G4cout<<"no"<<endl;
+
+  G4cout<<"Verbose mode: ";
+  if(verbose) G4cout<<"yes"<<G4endl;
+  else G4cout<<"no"<<endl;
+
+
+  if(gui){ 
+    G4cout<<"Entering interactive mode";
+    if(vis) G4cout<<" with visualization";
+    G4cout<<G4endl;
+	      
+
+  }else{
+
+    G4cout<<"Macro file: ";
+    if(fileName.size()!=0) G4cout<<fileName<<G4endl;
+    else G4cout<<"None"<<G4endl;
+    
+
+    if(fileName.size()==0){
+      G4cout<<"Number of events: ";
+      if(nevents.size()!=0) G4cout<<nevents.substr(12)<<G4endl;
+      else G4cout<<"Not specified"<<G4endl;
+      
+      G4cout<<"Output file: ";
+      if(outfile.size()!=0) G4cout<<outfile.substr(22)<<".root"<<G4endl;
+      else G4cout<<"Not specified"<<G4endl;
+      
+      G4cout<<"Seeds: ";
+      if(seed.size()!=0) G4cout<<seed.substr(17)<<G4endl;
+      else G4cout<<"Not specified"<<G4endl;
+    }
+
+  }
+    
+  G4cout<<G4endl;
+
+
+
 
   //make sure environment variables are set
   char *checkEnv;
