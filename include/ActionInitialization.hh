@@ -20,7 +20,7 @@ class DetectorConstruction;
 class ActionInitialization : public G4VUserActionInitialization
 {
   public:
-  ActionInitialization(DetectorConstruction*, std::string miscObjects, bool save);
+  ActionInitialization(DetectorConstruction*, bool save);
     
     virtual ~ActionInitialization();
 
@@ -31,7 +31,6 @@ class ActionInitialization : public G4VUserActionInitialization
     
 private:
   DetectorConstruction* fDetConstruction; 
-  std::string miscName;   
   bool saveAll;
 
 };

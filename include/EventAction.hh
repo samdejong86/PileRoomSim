@@ -37,6 +37,9 @@ public:
   inline void leftWall();
   inline void leftObject(int n);
 
+  void setdataNtuple(int n) {dataNtuple=n;}
+  void setGeoNtuple(int n) {geoNtuple=n;}
+
   //get methods for vectors, for creating vector branches in RunAction.hh
   std::vector<double>& getEDEPvec() { return edepInHe3;}
   std::vector<int>& getPIDvec() { return PIDinHe3;}
@@ -52,7 +55,10 @@ public:
   G4double input_energy;
   
 private:
-  
+
+  int dataNtuple;
+  int geoNtuple;
+
   G4double ePostGraphite;
   
   //number of channels and objects

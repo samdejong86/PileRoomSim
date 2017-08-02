@@ -16,6 +16,7 @@
 #include "G4SystemOfUnits.hh"
 
 #include "formattingStrings.hh"
+#include "xmlParser.h"
 
 EventAction::EventAction(const DetectorConstruction* detectorConstruction, bool save)
 :G4UserEventAction(),
@@ -27,8 +28,11 @@ EventAction::EventAction(const DetectorConstruction* detectorConstruction, bool 
  eventDuration(0),
  M(0),
  timeStdev(0)
-{ 
+{
+  //fillGeoNtuple();
+ 
 }
+
 
 EventAction::~EventAction()
 { 
@@ -114,20 +118,20 @@ void EventAction::EndOfEventAction( const G4Event* eve)
 
 
     //fill primitive ntuple branches
-    analysisManager->FillNtupleDColumn(0, ePostGraphite/eV);
-    analysisManager->FillNtupleDColumn(1, input_energy/MeV);
-    analysisManager->FillNtupleDColumn(2, TotalEnergyDeposit);
-    if(leftConcrete) analysisManager->FillNtupleIColumn(3, 1);
-    else analysisManager->FillNtupleIColumn(3, 0);
+    analysisManager->FillNtupleDColumn(dataNtuple, 0, ePostGraphite/eV);
+    analysisManager->FillNtupleDColumn(dataNtuple, 1, input_energy/MeV);
+    analysisManager->FillNtupleDColumn(dataNtuple, 2, TotalEnergyDeposit);
+    if(leftConcrete) analysisManager->FillNtupleIColumn(dataNtuple, 3, 1);
+    else analysisManager->FillNtupleIColumn(dataNtuple, 3, 0);
     
-    analysisManager->FillNtupleDColumn(4, tubeX);
-    analysisManager->FillNtupleDColumn(5, tubeY);
-    analysisManager->FillNtupleDColumn(6, tubeZ);
+    analysisManager->FillNtupleDColumn(dataNtuple, 4, tubeX);
+    analysisManager->FillNtupleDColumn(dataNtuple, 5, tubeY);
+    analysisManager->FillNtupleDColumn(dataNtuple, 6, tubeZ);
 
     
     for(int i=0; i<nobj; i++){
-      if(leftObj[i]==1) analysisManager->FillNtupleIColumn(7+i, 1);
-      else analysisManager->FillNtupleIColumn(7+i, 0);
+      if(leftObj[i]==1) analysisManager->FillNtupleIColumn(dataNtuple, 7+i, 1);
+      else analysisManager->FillNtupleIColumn(dataNtuple, 7+i, 0);
     }
     
     for(int i=0; i<nChannels; i++) 
@@ -137,7 +141,8 @@ void EventAction::EndOfEventAction( const G4Event* eve)
     
     //vector branches are filled automatically
     
-    analysisManager->AddNtupleRow();
+    analysisManager->AddNtupleRow(dataNtuple);
+
   }
 
 
@@ -154,6 +159,4 @@ void EventAction::EndOfEventAction( const G4Event* eve)
   
 
 }
-
-
 

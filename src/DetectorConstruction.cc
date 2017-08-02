@@ -17,6 +17,7 @@
 #include "G4SubtractionSolid.hh"
 #include "G4UnionSolid.hh"
 
+#include "Analysis.hh"
 #include "G4Tubs.hh"
 #include "G4VisAttributes.hh"
 #include "G4LogicalVolume.hh"
@@ -38,17 +39,19 @@ DetectorConstruction::DetectorConstruction()
    he3filename(""),
    miscfilename(""),
    graphitefilename(""),
-   ver(0)
+   ver(0),
+   saveGeo(false)
 {  
   SetParams();
 }
 
-DetectorConstruction::DetectorConstruction(G4String he3Desc, G4String miscFile, G4String graphiteFile, bool verbose)
+DetectorConstruction::DetectorConstruction(G4String he3Desc, G4String miscFile, G4String graphiteFile, bool verbose, bool saveG)
   :G4VUserDetectorConstruction(),
    he3filename(he3Desc),
    miscfilename(miscFile),
    graphitefilename(graphiteFile),
-   ver(verbose)
+   ver(verbose),
+   saveGeo(saveG)
 {  
   SetParams();
 }
@@ -335,8 +338,8 @@ void DetectorConstruction::BuildGraphite(G4ThreeVector pileLoc){
      Rm.rotateY(AngleY);
      Rm.rotateZ(AngleZ);
 
-     Rr.setZ(pileLoc.z()+i*2*rodWidth-2*rodLength);
-     Rr.setY(pileLoc.y()+Y-2*rodLength);
+     Rr.setZ(pileLoc.z()+i*2*rodWidth-2*rodLength+rodWidth);
+     Rr.setY(pileLoc.y()+Y-2*rodLength+rodWidth);
      Rr.setX(pileLoc.x()+X-rodLength);
 
      Tr = G4Transform3D(Rm,Rr);
@@ -522,8 +525,7 @@ void DetectorConstruction::SetParams(){
   //build he3tube material
   mat_steel = nist->FindOrBuildMaterial(tubeParams[0].getStringValue("Material"));
   
-
- 
+  
 }
 
 void DetectorConstruction::makeGraphiteMaterial(){

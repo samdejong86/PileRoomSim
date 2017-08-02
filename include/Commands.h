@@ -112,7 +112,7 @@ std::vector<std::string> visCommands(){
 void help(){
       G4cout<<"usage: PileRoomSim  [-h] [-m MACRO] [-d HE3TUBEDESCRIPTION] [-g GRAPHITEDESCRIPTION]\n";
       G4cout<<"                    [-o MISCOBJECTS] [-n NEVENTS] [-s SEED1 SEED2] [-r ROOTFILE]\n";
-      G4cout<<"                    [-novis] [-all] [-verbose]\n";
+      G4cout<<"                    [-novis] [-all] [-verbose] [-noGeo]\n";
 
       G4cout<<"\nSimulates helium-3 tube response to AmBe source in the centre of a graphite cube.\n";
 
@@ -137,6 +137,7 @@ void help(){
       G4cout<<"  -novis                   If no other parameters specified, PileRoomSum runs in\n";
       G4cout<<"                           interactive mode with no visualization set.\n";
       G4cout<<"  -verbose                 Prints GEANT4 information\n";
+      G4cout<<"  -noGeo                   Geometry is not saved to ntuple\n";
 
       G4cout<<"\nIf no arguments are specified, PileRoomSim runs in visualization mode"<<G4endl;
 

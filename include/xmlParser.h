@@ -141,7 +141,11 @@ public:
       if(tags[i].compare(tag)==0) return vals[i];       
     }
     return "";
-}
+  }
+
+  std::vector<std::string> getTags(){return tags;};
+  std::vector<std::string> getValues(){return vals;}
+  
 
   //is aTagstring an xml start tag?
   static bool isXMLStartTag(std::string aTagstring){

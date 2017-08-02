@@ -46,6 +46,7 @@ int main(int argc,char** argv) {
   G4String outfile="";
   bool gui=true;
   bool vis=true;
+  bool saveGeo=true;
   
   //parse command line arguments
   for(int i=0; i<argc; i++){
@@ -76,6 +77,8 @@ int main(int argc,char** argv) {
       }
     }else if(input.compare("-all")==0){
       saveAll=true;
+    }else if(input.compare("-noGeo")==0){
+      saveGeo=false;
     }else if(input.compare("-verbose")==0){
       verbose=true;
     }else if(input.compare("-n")==0){
@@ -147,13 +150,13 @@ int main(int argc,char** argv) {
 
   runManager->SetUserInitialization(physicsList);
   //pass he3tube description and misc object description filenames to DetectorConstruction
-  DetectorConstruction* detConstruction = new DetectorConstruction(he3Desc, miscFile, graphiteDesc, verbose);  
+  DetectorConstruction* detConstruction = new DetectorConstruction(he3Desc, miscFile, graphiteDesc, verbose, saveGeo);  
   runManager->SetUserInitialization(detConstruction);
     
   
   // set user action classes
  //pass misc object description filename ActionInitilization, when then passes it on to RunAction
-  runManager->SetUserInitialization(new ActionInitialization(detConstruction, miscFile, saveAll));
+  runManager->SetUserInitialization(new ActionInitialization(detConstruction, saveAll));
 
   //Initialize G4 kernel
   runManager->Initialize();

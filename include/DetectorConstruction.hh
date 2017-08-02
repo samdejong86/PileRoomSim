@@ -31,7 +31,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 public:
   
   DetectorConstruction();
-  DetectorConstruction(G4String he3Desc, G4String miscFile, G4String graphiteFile, bool verbose);
+  DetectorConstruction(G4String he3Desc, G4String miscFile, G4String graphiteFile, bool verbose, bool saveG);
   ~DetectorConstruction();
      
   virtual G4VPhysicalVolume* Construct();
@@ -42,6 +42,15 @@ public:
   const G4VPhysicalVolume* GetphysiWorld() const; 
   const G4VPhysicalVolume* GetphysiGraphite() const;
   const G4VPhysicalVolume* GetphysiRoom() const;
+  
+  std::vector<XmlParser> GetTubeParams(){ return tubeParams;}
+  std::vector<XmlParser> GetMiscParams(){ return miscParams;}
+  
+  XmlParser GetgParam(){return gParam;} 
+  XmlParser GetrParam(){return rParam;}
+
+  bool GetSaveState(){ return saveGeo;}
+  
 
   //get helium 3 tube positions
   const G4ThreeVector GetHe3Posn(int ch) const;
@@ -71,6 +80,7 @@ private:
   G4String miscfilename;
   G4String graphitefilename;
   bool ver;
+  bool saveGeo;
 
   //size of the world
   G4double Box_Length;

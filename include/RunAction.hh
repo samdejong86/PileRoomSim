@@ -13,15 +13,18 @@
 #include "G4UserRunAction.hh"
 #include "globals.hh"
 
+#include "xmlParser.h"
 
 
+
+class DetectorConstruction;
 class G4Run;
 
 
 class RunAction : public G4UserRunAction
 {
   public:
-  RunAction(std::string miscFile);
+  RunAction(DetectorConstruction* detConstruction);
    ~RunAction();
 
   public:
@@ -30,9 +33,30 @@ class RunAction : public G4UserRunAction
     inline G4double DEDX_Transform(G4double in1,G4double in2);
 
 private:
+  DetectorConstruction* fDetConstruction; 
   struct timeval timeMark;
   double runStart;
   double runEnd;
+  int dataNtuple;
+  int GeoNtuple;
+
+  std::vector<XmlParser> tubes;
+  std::vector<XmlParser> miscObjects;
+  std::vector<std::string> HE3tags;
+  std::vector<std::vector<double>> HE3vals;
+
+  std::vector<std::string> MISCtags;
+  std::vector<std::vector<double>> MISCvals;
+
+  XmlParser gParam;
+  std::vector<std::string> GRAtags;
+  std::vector<std::vector<double>> GRAvals;
+
+  XmlParser rParam;
+  std::vector<std::string> ROOMtags;
+  std::vector<std::vector<double>> ROOMvals;
+
+  bool saveGeo;
 
 };
 
