@@ -50,6 +50,7 @@ public:
   XmlParser GetrParam(){return rParam;}
 
   bool GetSaveState(){ return saveGeo;}
+  bool GetVerbose() {return ver;}
   
 
   //get helium 3 tube positions

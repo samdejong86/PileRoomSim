@@ -31,7 +31,7 @@ RunAction::RunAction(DetectorConstruction* detConstruction)
     fDetConstruction(detConstruction)
 {
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-  analysisManager->SetVerboseLevel(1);  
+  analysisManager->SetVerboseLevel(fDetConstruction->GetVerbose());  
   analysisManager->SetFirstHistoId(1);
    
  
