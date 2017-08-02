@@ -47,6 +47,9 @@ RunAction::RunAction(DetectorConstruction* detConstruction)
 
     //geometry tree
     GeoNtuple = analysisManager->CreateNtuple("Geometry", "Geometry of Pile Room");
+    analysisManager->CreateNtupleIColumn(GeoNtuple, "nProcessedEvents");
+    
+
     tubes = fDetConstruction->GetTubeParams();
     
     HE3tags = tubes[0].getTags();  
@@ -127,7 +130,7 @@ RunAction::~RunAction()
 
 
 
-void RunAction::BeginOfRunAction(const G4Run*)
+void RunAction::BeginOfRunAction(const G4Run* aRun)
 {
   gettimeofday(&timeMark,NULL);
   runStart = (double)timeMark.tv_sec + (double)timeMark.tv_usec/1000000.;
@@ -168,10 +171,9 @@ void RunAction::BeginOfRunAction(const G4Run*)
       ROOMvals[j].push_back(rParam.getValue(ROOMtags[j]));
     }
     
+    analysisManager->FillNtupleIColumn(GeoNtuple, 0, aRun->GetNumberOfEventToBeProcessed());
     analysisManager->AddNtupleRow(GeoNtuple);
   }
-
-
 
 }
 
