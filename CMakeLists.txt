@@ -10,6 +10,8 @@ project(PileRoomSim)
 #
 option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
 option(PORTABLE "Make a static build")
+option(DRAWBOXES "Draw settings and results boxes in console" ON)
+option(COLOURS "Use colours in console outputs" ON)
 
 if(PORTABLE AND WITH_GEANT4_UIVIS)
   message("Cannot have portable build with visulization turned on. Visulization will be disabled")
@@ -59,6 +61,14 @@ target_link_libraries(PileRoomSim ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES})
 if(PORTABLE)
   target_link_libraries(PileRoomSim -static-libgcc -static-libstdc++)
   target_compile_options(PileRoomSim PUBLIC -DPORTABLE)
+endif()
+
+if(DRAWBOXES)
+  target_compile_options(PileRoomSim PUBLIC -DDRAWBOX)
+endif()
+
+if(COLOURS)
+  target_compile_options(PileRoomSim PUBLIC -DCOLOURS)
 endif()
 
 #----------------------------------------------------------------------------
