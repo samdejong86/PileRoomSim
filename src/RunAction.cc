@@ -287,7 +287,7 @@ const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManag
   stringstream ss;
   ss<<runEnd-runStart;
   string runTime = ss.str();
-
+  
 
 
   G4cout<<topLeft;
@@ -322,11 +322,16 @@ const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManag
 
 #ifdef NOTIFY
 
+  ss.str("");
+  ss<<nevents;
+  string numEvents = ss.str();
+
+
   char *cd;
   cd = getenv("PWD");
   string pwd = cd;
 
-  string subMessage = "After "+runTime+"s";
+  string subMessage = numEvents+" events, runtime of "+runTime+"s";
   string icon = pwd+"/43-Geant4-logoV5.png";
 
 
