@@ -78,6 +78,3 @@
 /analysis/setFileName debug
 /run/beamOn 500
 
-#display a notification icon when the job is done
-/control/getEnv PWD
-/control/shell notify-send --expire-time=7000 --icon={PWD}/43-Geant4-logoV5.png "in.mac complete"

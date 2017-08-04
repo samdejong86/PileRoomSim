@@ -8,6 +8,10 @@
 #include <sys/time.h>
 #include <sstream>
 
+#ifdef NOTIFY
+#include <libnotify/notify.h>
+#endif
+
 #include "RunAction.hh"
 
 #include "G4Run.hh"
@@ -280,7 +284,11 @@ const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManag
   double meanTime, stdev;
   eventAction->getTime(nevents, meanTime, stdev);
 
-    
+  stringstream ss;
+  ss<<runEnd-runStart;
+  string runTime = ss.str();
+
+
 
   G4cout<<topLeft;
   for(int i=0; i<60; i++) G4cout<<line;
@@ -303,7 +311,7 @@ const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManag
 
   G4cout.precision(4);
   G4cout<<vertical<<" "<<right<<setw(7)<<meanTime<<plusMinus<<left<<setw(10)<<stdev<<" seconds per event"<<right<<setw(23)<<" "<<vertical<<G4endl;
-  G4cout<<vertical<<" Total run time: "<<right<<setw(8)<<runEnd-runStart<<" seconds"<<right<<setw(27)<<" "<<vertical<<G4endl;
+  G4cout<<vertical<<" Total run time: "<<right<<setw(8)<<runTime<<" seconds"<<right<<setw(27)<<" "<<vertical<<G4endl;
 
 
 
@@ -312,10 +320,28 @@ const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManag
   G4cout<<bottomRight<<G4endl;
 
 
+#ifdef NOTIFY
+
+  char *cd;
+  cd = getenv("PWD");
+  string pwd = cd;
+
+  string subMessage = "After "+runTime+"s";
+  string icon = pwd+"/43-Geant4-logoV5.png";
 
 
+  notify_init("Sample");
+  NotifyNotification* n = notify_notification_new ("Run Complete", 
+						   subMessage.c_str(),
+						   icon.c_str());
+  notify_notification_set_timeout(n, 10000); // 10 seconds
+  
+  if (!notify_notification_show(n, 0)) 
+    {
+      std::cerr << "show has failed" << std::endl;
+      return ;
+    }
 
-
-
+#endif
 
 }

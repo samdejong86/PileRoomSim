@@ -3,6 +3,7 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(PileRoomSim)
 
+
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
 # You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
@@ -12,10 +13,16 @@ option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
 option(PORTABLE "Make a static build")
 option(DRAWBOXES "Draw settings and results boxes in console" ON)
 option(COLOURS "Use colours in console outputs" ON)
+option(NOTIFY "Send message to notification area when run is complete" ON)
 
 if(PORTABLE AND WITH_GEANT4_UIVIS)
-  message("Cannot have portable build with visulization turned on. Visulization will be disabled")
+  message("Cannot have portable build with visulization turned on. Visualization will be disabled")
   set(WITH_GEANT4_UIVIS OFF)
+endif()
+
+if(PORTABLE AND NOTIFY)
+  message("Cannot have portable build with notification message. Notification message will be disabled")
+  set(NOTIFY OFF)
 endif()
 
 if(WITH_GEANT4_UIVIS)
@@ -70,6 +77,21 @@ endif()
 if(COLOURS)
   target_compile_options(PileRoomSim PUBLIC -DCOLOURS)
 endif()
+
+
+if(NOTIFY)
+  find_package(PkgConfig)
+  if (PKG_CONFIG_FOUND)
+    pkg_check_modules(GTK "libnotify")
+    if (GTK_FOUND)    
+      target_link_libraries(PileRoomSim ${GTK_LIBRARIES})
+      add_definitions(${GTK_CFLAGS} ${GTK_CFLAGS_OTHER})
+    endif()
+  endif()
+  
+  target_compile_options(PileRoomSim PUBLIC -DNOTIFY)
+endif()
+
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
