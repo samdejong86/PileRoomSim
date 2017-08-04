@@ -57,6 +57,11 @@ private:
   std::vector<std::vector<double>> ROOMvals;
 
   bool saveGeo;
+  bool verbose;
+
+  void CreateGeoNtuple(G4AnalysisManager* analysisManager);
+  void FillGeoNtuple(G4AnalysisManager* analysisManager, const G4Run* aRun);
+  void report(const G4Run* run);
 
 };
 

@@ -30,10 +30,11 @@ RunAction::RunAction(DetectorConstruction* detConstruction)
   : G4UserRunAction(),
     fDetConstruction(detConstruction)
 {
+  verbose = fDetConstruction->GetVerbose();
+  
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-  analysisManager->SetVerboseLevel(fDetConstruction->GetVerbose());  
-  analysisManager->SetFirstHistoId(1);
-   
+  analysisManager->SetVerboseLevel(verbose);  
+  
  
   saveGeo = fDetConstruction->GetSaveState();
 
@@ -43,7 +44,99 @@ RunAction::RunAction(DetectorConstruction* detConstruction)
   miscObjects = fDetConstruction->GetMiscParams(); 
 
   //create a tree for the geometry
-  if(saveGeo){
+  if(saveGeo)
+    CreateGeoNtuple(analysisManager);
+
+  
+  //primitive branches
+  analysisManager->CreateNtupleDColumn(dataNtuple, "Ekin_n_PostGraphite");
+  analysisManager->CreateNtupleDColumn(dataNtuple,"Etot_n_initial");
+  analysisManager->CreateNtupleDColumn(dataNtuple,"TotalEnergyDeposited");
+  analysisManager->CreateNtupleIColumn(dataNtuple,"leftWall");
+
+  analysisManager->CreateNtupleDColumn(dataNtuple,"he3TubeXPos");
+  analysisManager->CreateNtupleDColumn(dataNtuple,"he3TubeYPos");
+  analysisManager->CreateNtupleDColumn(dataNtuple,"he3TubeZPos");
+  
+
+ 
+  //need to link to the EventAction object to get the vectors that will be added to the ntuple
+  const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
+  EventAction* eventAction = const_cast<EventAction*>(constEventAction);
+  
+  eventAction->setdataNtuple(dataNtuple);
+  for(int i=0; i<(int)miscObjects.size(); i++){   	
+    analysisManager->CreateNtupleIColumn(dataNtuple,"left"+miscObjects[i].getStringValue("Name"));
+  }
+  
+  //vector branches
+  analysisManager->CreateNtupleDColumn(dataNtuple,"EDEPinHe3", eventAction->getEDEPvec());
+  analysisManager->CreateNtupleIColumn(dataNtuple,"PIDinHe3", eventAction->getPIDvec());
+  analysisManager->CreateNtupleIColumn(dataNtuple,"neutronHits", eventAction->getNeutronHits());
+
+
+ 
+  //no more branches added after this
+  analysisManager->FinishNtuple(dataNtuple);
+
+}
+
+RunAction::~RunAction()
+{
+   delete G4AnalysisManager::Instance();
+}
+
+
+
+void RunAction::BeginOfRunAction(const G4Run* aRun)
+{
+  gettimeofday(&timeMark,NULL);
+  runStart = (double)timeMark.tv_sec + (double)timeMark.tv_usec/1000000.;
+
+  // save Rndm status
+  if(verbose)
+    if (isMaster) G4Random::showEngineStatus();
+
+  
+  // Get analysis manager
+  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+
+  const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
+  EventAction* eventAction = const_cast<EventAction*>(constEventAction);
+
+  eventAction->Initialize();
+
+  // Open an output file
+  analysisManager->OpenFile();    
+
+  //save the geometry
+  if(saveGeo)
+    FillGeoNtuple(analysisManager, aRun);
+
+}
+
+void RunAction::EndOfRunAction(const G4Run* run)
+{  
+  // show Rndm status
+  if(verbose)
+    if (isMaster) G4Random::showEngineStatus();         
+
+  gettimeofday(&timeMark,NULL);
+  runEnd = (double)timeMark.tv_sec + (double)timeMark.tv_usec/1000000.;
+
+  report(run);
+  
+  //save ntuple      
+  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+  analysisManager->Write();
+  analysisManager->CloseFile();
+}
+
+
+//--------------------------------------------------------------------------------------------------
+
+//create geometry ntuple
+void RunAction::CreateGeoNtuple(G4AnalysisManager* analysisManager){
 
     //geometry tree
     GeoNtuple = analysisManager->CreateNtuple("Geometry", "Geometry of Pile Room");
@@ -118,75 +211,15 @@ RunAction::RunAction(DetectorConstruction* detConstruction)
     
     //that's all the branches
     analysisManager->FinishNtuple(GeoNtuple);
-  }
 
-
-
-
-  
-  //primitive branches
-  analysisManager->CreateNtupleDColumn(dataNtuple, "Ekin_n_PostGraphite");
-  analysisManager->CreateNtupleDColumn(dataNtuple,"Etot_n_initial");
-  analysisManager->CreateNtupleDColumn(dataNtuple,"TotalEnergyDeposited");
-  analysisManager->CreateNtupleIColumn(dataNtuple,"leftWall");
-
-  analysisManager->CreateNtupleDColumn(dataNtuple,"he3TubeXPos");
-  analysisManager->CreateNtupleDColumn(dataNtuple,"he3TubeYPos");
-  analysisManager->CreateNtupleDColumn(dataNtuple,"he3TubeZPos");
-  
-
- 
-  //need to link to the EventAction object to get the vectors that will be added to the ntuple
-  const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
-  EventAction* eventAction = const_cast<EventAction*>(constEventAction);
-  
-  eventAction->setdataNtuple(dataNtuple);
-  for(int i=0; i<(int)miscObjects.size(); i++){   	
-    analysisManager->CreateNtupleIColumn(dataNtuple,"left"+miscObjects[i].getStringValue("Name"));
-  }
-  
-  //vector branches
-  analysisManager->CreateNtupleDColumn(dataNtuple,"EDEPinHe3", eventAction->getEDEPvec());
-  analysisManager->CreateNtupleIColumn(dataNtuple,"PIDinHe3", eventAction->getPIDvec());
-  analysisManager->CreateNtupleIColumn(dataNtuple,"neutronHits", eventAction->getNeutronHits());
-
-
- 
-  //no more branches added after this
-  analysisManager->FinishNtuple(dataNtuple);
 
 }
 
-RunAction::~RunAction()
-{
-   delete G4AnalysisManager::Instance();
-}
 
+//--------------------------------------------------------------------------------------------------
 
-
-void RunAction::BeginOfRunAction(const G4Run* aRun)
-{
-  gettimeofday(&timeMark,NULL);
-  runStart = (double)timeMark.tv_sec + (double)timeMark.tv_usec/1000000.;
-
-  // save Rndm status
-  if (isMaster) G4Random::showEngineStatus();
-
-  
-  // Get analysis manager
-  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-
-  const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
-  EventAction* eventAction = const_cast<EventAction*>(constEventAction);
-
-  eventAction->Initialize();
-
-  // Open an output file
-  analysisManager->OpenFile();    
-
-
-  //save the geometry
-  if(saveGeo){
+//fill geometry ntuple
+void RunAction::FillGeoNtuple(G4AnalysisManager* analysisManager, const G4Run* aRun){
 
     //save values of the he3tags, excluding strings
     for(int i=0; i<(int)tubes.size(); i++){
@@ -231,27 +264,23 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 
 
     analysisManager->AddNtupleRow(GeoNtuple);
-  }
 
 }
 
-void RunAction::EndOfRunAction(const G4Run* run)
-{  
-  // show Rndm status
-  if (isMaster) G4Random::showEngineStatus();         
 
-  const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
+//--------------------------------------------------------------------------------------------------
+
+//print an end of run report
+void RunAction::report(const G4Run* run){
+
+const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
   EventAction* eventAction = const_cast<EventAction*>(constEventAction);  
 
   int nevents = run->GetNumberOfEvent();
   double meanTime, stdev;
   eventAction->getTime(nevents, meanTime, stdev);
 
-  
-  gettimeofday(&timeMark,NULL);
-  runEnd = (double)timeMark.tv_sec + (double)timeMark.tv_usec/1000000.;
-  
-
+    
 
   G4cout<<topLeft;
   for(int i=0; i<60; i++) G4cout<<line;
@@ -283,12 +312,10 @@ void RunAction::EndOfRunAction(const G4Run* run)
   G4cout<<bottomRight<<G4endl;
 
 
-  //save ntuple      
-  G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-  analysisManager->Write();
-  analysisManager->CloseFile();
+
+
+
+
+
+
 }
-
-
-
-

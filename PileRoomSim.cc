@@ -188,8 +188,10 @@ int main(int argc,char** argv) {
       else G4cout<<"Not specified";
       G4cout<<vertical<<G4endl;
       
+      string temp = outfile.substr(22)+".root";
+
       G4cout<<vertical<<"Output file: "<<left<<setw(47);
-      if(outfile.size()!=0) G4cout<<outfile.substr(22);
+      if(outfile.size()!=0) G4cout<<temp;
       else G4cout<<"Not specified";
       G4cout<<vertical<<G4endl;
       
@@ -275,7 +277,7 @@ int main(int argc,char** argv) {
       
 
 
-      if(n<2) cout<<bold2<<"Warning: Wrong number of seeds."<<noFormat2<<endl;
+      if(n<2) cout<<bold2<<"Warning: Wrong number of seeds: Using auto generated seeds."<<noFormat2<<endl;
       else UI->ApplyCommand(seed);
 
       std::vector<std::string> commands = UICommands();
