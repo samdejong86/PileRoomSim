@@ -460,8 +460,16 @@ void DetectorConstruction::SetParams(){
   char* xmlLoc;
   string Location;
   xmlLoc = getenv("XMLLOCATION");
+
+#ifdef PORTABLE
+  if(xmlLoc==NULL) Location=".";   //if the environment variable is not set, set the xml location to the current directory
+  else Location = string(xmlLoc);
+
+#else
   if(xmlLoc==NULL) Location="../xml";   //if the environment variable is not set, set the xml location to the current directory
   else Location = string(xmlLoc);
+
+#endif
 
   //if miscfilename is not empty, get the misc object  parameters
   if(miscfilename.size()!=0){
@@ -471,9 +479,7 @@ void DetectorConstruction::SetParams(){
   }
   
   
-#ifdef PORTABLE
-  Location=".";
-#endif
+
 
   //if he3filename is empty, use default value
   if(he3filename.size()==0)
