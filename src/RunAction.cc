@@ -42,47 +42,81 @@ RunAction::RunAction(DetectorConstruction* detConstruction)
 
   miscObjects = fDetConstruction->GetMiscParams(); 
 
-
+  //create a tree for the geometry
   if(saveGeo){
 
     //geometry tree
     GeoNtuple = analysisManager->CreateNtuple("Geometry", "Geometry of Pile Room");
-    analysisManager->CreateNtupleIColumn(GeoNtuple, "nProcessedEvents");
-    
 
+    //save number of events (since data ntuple will only have he3tube events by default
+    analysisManager->CreateNtupleIColumn(GeoNtuple, "nProcessedEvents");
+
+    //some string branches (unfortunately these cannot be vectors.
+    analysisManager->CreateNtupleSColumn(GeoNtuple, "HE3TUBE_Material");
+    analysisManager->CreateNtupleSColumn(GeoNtuple, "GRAPHITE_Material");
+    analysisManager->CreateNtupleSColumn(GeoNtuple, "ROOM_Material");
+
+    stringstream ss;
+    for(int i=0; i<(int)miscObjects.size(); i++){
+      ss<<i;
+      G4String n=ss.str();
+      ss.str("");
+      
+      analysisManager->CreateNtupleSColumn(GeoNtuple, "MISC_"+n+"_Material");
+      analysisManager->CreateNtupleSColumn(GeoNtuple, "MISC_"+n+"_Name");
+      analysisManager->CreateNtupleSColumn(GeoNtuple, "MISC_"+n+"_Shape");
+      
+    }
+
+    //get the he3tube parameters from the detector geometry class
     tubes = fDetConstruction->GetTubeParams();
     
+    //get the he3tube tags
     HE3tags = tubes[0].getTags();  
     HE3vals.resize(HE3tags.size());
     
+    //add a vector branch for each tag in the he3 description
     for(int i=0; i<(int)HE3tags.size(); i++){
+      if(HE3tags[i].compare("Colour") == 0 || HE3tags[i].compare("Material") == 0) continue;  //exclude tags that are strings.
       analysisManager->CreateNtupleDColumn(GeoNtuple, "HE3TUBE_"+HE3tags[i], HE3vals[i]);
     }
     
+    //make sure there are misc. objects defined
     if(miscObjects.size()!=0){
+         
+      //get the misc object tags
       MISCtags = miscObjects[0].getTags();
       MISCvals.resize(MISCtags.size());
       
+      //add a vector branch for each tag in the misc description
       for(int i=0; i<(int)MISCtags.size(); i++){
+	//exclude tags that are strings.
+	if(MISCtags[i].compare("Colour") == 0 || MISCtags[i].compare("Material") == 0 || MISCtags[i].compare("Name") == 0 || MISCtags[i].compare("Shape") == 0) continue;
 	analysisManager->CreateNtupleDColumn(GeoNtuple, "MISC_"+MISCtags[i], MISCvals[i]);
       }
     }
-    
+    //get the graphite  tags
     gParam = fDetConstruction->GetgParam();
     GRAtags = gParam.getTags();
     GRAvals.resize(GRAtags.size());
+    
+    //add a vector branch for each tag in the graphite  description
     for(int i=0; i<(int)GRAtags.size(); i++){
+      if(GRAtags[i].compare("Colour") == 0 || GRAtags[i].compare("Material") == 0) continue;//exclude tags that are strings.
       analysisManager->CreateNtupleDColumn(GeoNtuple, "GRAPHITE_"+GRAtags[i], GRAvals[i]);
     }
-    
+    //get the room  tags
     rParam = fDetConstruction->GetrParam();
     ROOMtags = rParam.getTags();
     ROOMvals.resize(ROOMtags.size());
+    
+    //add a vector branch for each tag in the graphite  description
     for(int i=0; i<(int)ROOMtags.size(); i++){
+      if(ROOMtags[i].compare("Colour") == 0 || ROOMtags[i].compare("Material") == 0) continue;//exclude tags that are strings.
       analysisManager->CreateNtupleDColumn(GeoNtuple, "ROOM_"+ROOMtags[i], ROOMvals[i]);
     }
     
-    
+    //that's all the branches
     analysisManager->FinishNtuple(GeoNtuple);
   }
 
@@ -150,28 +184,52 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
   // Open an output file
   analysisManager->OpenFile();    
 
+
+  //save the geometry
   if(saveGeo){
 
+    //save values of the he3tags, excluding strings
     for(int i=0; i<(int)tubes.size(); i++){
       for(int j=0; j<(int)HE3tags.size(); j++){
+	if(HE3tags[j].compare("Colour") == 0 || HE3tags[j].compare("Material") == 0) continue;
 	HE3vals[j].push_back(tubes[i].getValue(HE3tags[j]));
       }
     }
     
     for(int i=0; i<(int)miscObjects.size(); i++){
       for(int j=0; j<(int)MISCtags.size(); j++){
+	if(MISCtags[j].compare("Colour") == 0 || MISCtags[j].compare("Material") == 0 || MISCtags[j].compare("Name") == 0 || MISCtags[j].compare("Shape") == 0) continue;
 	MISCvals[j].push_back(miscObjects[i].getValue(MISCtags[j]));
       }
     }
 
     for(int j=0; j<(int)GRAtags.size(); j++){
+      if(GRAtags[j].compare("Colour") == 0 || GRAtags[j].compare("Material") == 0) continue;
       GRAvals[j].push_back(gParam.getValue(GRAtags[j]));
     }
     for(int j=0; j<(int)ROOMtags.size(); j++){
+      if(ROOMtags[j].compare("Colour") == 0 || ROOMtags[j].compare("Material") == 0) continue;
       ROOMvals[j].push_back(rParam.getValue(ROOMtags[j]));
     }
     
+    //save the string values to 
     analysisManager->FillNtupleIColumn(GeoNtuple, 0, aRun->GetNumberOfEventToBeProcessed());
+    analysisManager->FillNtupleSColumn(GeoNtuple, 1, tubes[0].getStringValue("Material"));
+    analysisManager->FillNtupleSColumn(GeoNtuple, 2, gParam.getStringValue("Material"));
+    analysisManager->FillNtupleSColumn(GeoNtuple, 3, rParam.getStringValue("Material"));
+
+    //save the misc parameter string values
+    int n=4;
+    for(int i=0; i<(int)miscObjects.size(); i++){
+      analysisManager->FillNtupleSColumn(GeoNtuple, n, miscObjects[0].getStringValue("Material"));
+      n++;
+      analysisManager->FillNtupleSColumn(GeoNtuple, n, miscObjects[0].getStringValue("Name"));
+      n++;
+      analysisManager->FillNtupleSColumn(GeoNtuple, n, miscObjects[0].getStringValue("Shape"));
+      n++;
+    }
+
+
     analysisManager->AddNtupleRow(GeoNtuple);
   }
 
