@@ -61,6 +61,7 @@ RunAction::RunAction(DetectorConstruction* detConstruction)
   analysisManager->CreateNtupleDColumn(dataNtuple,"he3TubeXPos");
   analysisManager->CreateNtupleDColumn(dataNtuple,"he3TubeYPos");
   analysisManager->CreateNtupleDColumn(dataNtuple,"he3TubeZPos");
+
   
 
  
@@ -78,6 +79,8 @@ RunAction::RunAction(DetectorConstruction* detConstruction)
   analysisManager->CreateNtupleIColumn(dataNtuple,"PIDinHe3", eventAction->getPIDvec());
   analysisManager->CreateNtupleIColumn(dataNtuple,"neutronHits", eventAction->getNeutronHits());
 
+  analysisManager->CreateNtupleDColumn(dataNtuple, "diffusionRadius", eventAction->getDiffusionRadii());
+  analysisManager->CreateNtupleDColumn(dataNtuple, "diffusionFlux", eventAction->getCrossedSphere());
 
  
   //no more branches added after this
@@ -132,6 +135,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
   
   //save ntuple      
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+
   analysisManager->Write();
   analysisManager->CloseFile();
 }
@@ -277,8 +281,10 @@ void RunAction::FillGeoNtuple(G4AnalysisManager* analysisManager, const G4Run* a
 //print an end of run report
 void RunAction::report(const G4Run* run){
 
-const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
+
+  const EventAction* constEventAction = static_cast<const EventAction*>(G4RunManager::GetRunManager()->GetUserEventAction());
   EventAction* eventAction = const_cast<EventAction*>(constEventAction);  
+
 
   int nevents = run->GetNumberOfEvent();
   double meanTime, stdev;

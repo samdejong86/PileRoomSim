@@ -35,7 +35,8 @@ Command line parameters are optional. If none specified, PileRoomSim opens in vi
 		Seeds for random number generator.
 
 	-all
-		If this argument is used, all events are saved to the output ntuple. If not, only events where a neutron is captured are saved.
+		If this argument is used, all events are saved to the output ntuple. If not, only events where a neutron is captured are saved. 
+		If you want to calculate the diffusion length of neutrons in the cube, this parameter must be used.
 
 	-verbose
 		Prints all the GEANT4 debugging information.
@@ -47,3 +48,5 @@ Note: The environment variable XMLLOCATION should be set to the location of Grap
 
 In xml/, there is a python script called TubeCreator.py. This script can be used to create an xml file containing a tube description, or append a new description to an existing xml file. Default values (read from HE3TUBE-default.xml) are used for any parameter not specified.
 
+
+   

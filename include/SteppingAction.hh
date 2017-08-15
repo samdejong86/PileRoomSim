@@ -23,6 +23,8 @@ private:
   int nch;
   int nobj;
   double cubeSize;
+
+  std::vector<double> radii;
   
   const DetectorConstruction* fDetConstruction;
   //SteppingActionMessenger*     fSteppingActionMessenger;

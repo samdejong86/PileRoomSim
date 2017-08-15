@@ -32,6 +32,8 @@ SteppingAction::SteppingAction(const DetectorConstruction* detectorConstruction,
   nch = fDetConstruction->GetNChannels();
   nobj = fDetConstruction->GetNMiscObjects();
   cubeSize = fDetConstruction->GetCubeSize();
+  radii = fEventAction->getDiffusionRadii();
+  
 
 }
 
@@ -57,6 +59,19 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     }
   }
   
+  if(PDG==2112){
+    double preR = pre_posn.r();
+    double postR = post_posn.r();
+
+    for(int i=0; i<(int)radii.size(); i++){
+      if((preR<radii[i]&&postR>radii[i])||(preR>radii[i]&&postR<radii[i])){
+	if(a1Track->GetKineticEnergy()/eV<1) fEventAction->crossedSphere(i);
+      }
+    }
+  }
+
+
+
 
   //if the particle leaves the concrete walls of the room
   if(post_volume ==  fDetConstruction->GetphysiRoom()){

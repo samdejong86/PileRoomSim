@@ -134,6 +134,8 @@ void help(){
       G4cout<<"  -all                     If this parameter is used, all events are saved to the \n";
       G4cout<<"                           output ntuple. If not, only events containing a neutron\n"; 
       G4cout<<"                           hit in in a helium-3 tube are saved.\n";
+      G4cout<<"                           If you want to calculate the diffusion length of neutrons\n"; 
+      G4cout<<"                           in the cube, this parameter must be used.\n";
       G4cout<<"  -novis                   If no other parameters specified, PileRoomSum runs in\n";
       G4cout<<"                           interactive mode with no visualization set.\n";
       G4cout<<"  -verbose                 Prints GEANT4 information\n";

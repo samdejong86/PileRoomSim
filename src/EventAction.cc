@@ -30,7 +30,12 @@ EventAction::EventAction(const DetectorConstruction* detectorConstruction, bool 
  timeStdev(0)
 {
   //fillGeoNtuple();
- 
+  //diffusionRadii.resize(10);
+  for(int i=0; i<100; i++){
+    diffusionRadii.push_back(300.+700.*(double)i/100.);
+  }
+
+  
 }
 
 
@@ -64,6 +69,11 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
   leftGrap=false;     //hasn't left graphite
   leftConcrete=false; //hasn't left concrete
   ePostGraphite=-1;
+
+
+  nCrossedRadii.clear();
+  nCrossedRadii.resize(diffusionRadii.size());
+
   
   leftObj.clear();      //hasn't left objects
   leftObj.resize(nobj); 
@@ -88,7 +98,7 @@ void EventAction::BeginOfEventAction( const G4Event* eve)
   }else if(eve->GetEventID()%10000==0){
     cout<<bold2<<blue2;
     G4cout<<"Event number: "<<nevent<<G4endl;
-    cout<<nevent<<noFormat2;
+    cout<<noFormat2;
   }else if (eve->GetEventID()%1000==0){
     cout<<bold2;
     G4cout<<"Event number: "<<nevent<<G4endl;

@@ -36,6 +36,7 @@ public:
   inline void leftGraphite(double eKin);
   inline void leftWall();
   inline void leftObject(int n);
+  inline void crossedSphere(int n);
 
   void setdataNtuple(int n) {dataNtuple=n;}
   void setGeoNtuple(int n) {geoNtuple=n;}
@@ -44,6 +45,9 @@ public:
   std::vector<double>& getEDEPvec() { return edepInHe3;}
   std::vector<int>& getPIDvec() { return PIDinHe3;}
   std::vector<int>& getNeutronHits() {return neutronHitVec;}
+
+  std::vector<double>& getDiffusionRadii() {return diffusionRadii;}
+  std::vector<double>& getCrossedSphere() {return nCrossedRadii;}
   
   int getnNeutrons() {return nNeutrons;}
   int getnGraphite() {return GraphiteTotal;}
@@ -74,6 +78,8 @@ private:
   std::vector<bool> isNeutronHitVec;
   std::vector<double> edepInHe3;
   std::vector<int> PIDinHe3;
+  std::vector<double> diffusionRadii;
+  std::vector<double> nCrossedRadii;
   double TotalEnergyDeposit;  
   double tubeX;
   double tubeY;
@@ -132,6 +138,11 @@ inline void EventAction::leftGraphite(double eKin){
 inline void EventAction::leftObject(int n){
   leftObj[n] = 1;
 }
+
+inline void EventAction::crossedSphere(int n){
+  nCrossedRadii[n] += 1/(4*3.14159*pow(diffusionRadii[n],2));
+}
+
 
 #endif
 
