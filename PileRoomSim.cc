@@ -122,6 +122,11 @@ int main(int argc,char** argv) {
       return 0;
     }
   }
+
+  if(outfile.size()!=0)
+    if (outfile.find(".root") == std::string::npos) 
+      outfile = outfile + ".root";
+
   
   G4cout<<topLeft;
   for(int i=0; i<60; i++) G4cout<<line;
@@ -188,7 +193,7 @@ int main(int argc,char** argv) {
       else G4cout<<"Not specified";
       G4cout<<vertical<<G4endl;
       
-      string temp = outfile.substr(22)+".root";
+      string temp = outfile.substr(22);
 
       G4cout<<vertical<<"Output file: "<<left<<setw(47);
       if(outfile.size()!=0) G4cout<<temp;
@@ -206,7 +211,6 @@ int main(int argc,char** argv) {
   G4cout<<bottomLeft;
   for(int i=0; i<60; i++) G4cout<<line;
   G4cout<<bottomRight<<G4endl;
-
 
 
 
