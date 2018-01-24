@@ -88,7 +88,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     
     //if the particle leaves one of the objects
     for(int i=0; i<nobj; i++){
-      if ( post_volume == fDetConstruction->GetphysiMisc(i) && EdepStep!=0) {
+      if ( post_volume == fDetConstruction->GetphysiMisc(i)) {
 	fEventAction->leftObject(i);
       }
       
