@@ -67,7 +67,7 @@ GraphiteMaker.py can be used to create an xml file containing a description of t
 
 To see how to use these, run
 
-   python <scriptname>.py -h
+     python <scriptname>.py -h
 
 
    
