@@ -37,6 +37,7 @@ public:
   inline void leftWall();
   inline void leftObject(int n);
   inline void crossedSphere(int n);
+  inline void setPID(int PID);
 
   void setdataNtuple(int n) {dataNtuple=n;}
   void setGeoNtuple(int n) {geoNtuple=n;}
@@ -62,6 +63,8 @@ private:
 
   int dataNtuple;
   int geoNtuple;
+
+  int ParticleID;
 
   G4double ePostGraphite;
   
@@ -141,6 +144,11 @@ inline void EventAction::leftObject(int n){
 
 inline void EventAction::crossedSphere(int n){
   nCrossedRadii[n] += 1/(4*3.14159*pow(diffusionRadii[n],2));
+}
+
+inline void EventAction::setPID(int PID){
+  if(PID==2112)
+    ParticleID=PID;
 }
 
 

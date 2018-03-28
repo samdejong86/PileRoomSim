@@ -52,10 +52,13 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 
 
   int PDG=a1Track->GetDefinition()->GetPDGEncoding();
+ 
+  fEventAction->setPID(PDG);
   
   if(fabs(pre_posn.x())<cubeSize&&fabs(pre_posn.y())<cubeSize&&fabs(pre_posn.z())<cubeSize){
     if(fabs(post_posn.x())>cubeSize||fabs(post_posn.y())>cubeSize||fabs(post_posn.z())>cubeSize){
-      if(PDG==2112) fEventAction->leftGraphite(a1Track->GetKineticEnergy());
+      if(PDG==2112)
+	fEventAction->leftGraphite(a1Track->GetKineticEnergy());
     }
   }
   
@@ -89,7 +92,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     //if the particle leaves one of the objects
     for(int i=0; i<nobj; i++){
       if ( post_volume == fDetConstruction->GetphysiMisc(i)) {
-	fEventAction->leftObject(i);
+	if(PDG==2112) fEventAction->leftObject(i);
       }
       
     }

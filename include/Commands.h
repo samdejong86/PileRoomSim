@@ -7,7 +7,7 @@ std::vector<std::string> UICommands(){
   std::vector<std::string> commands;
   
   commands.push_back("/gps/particle neutron");
-  commands.push_back("/gps/pos/centre 0.0 0.0 0.0 cm");
+  commands.push_back("/gps/pos/centre -3.5 -8.5 -9.8 cm");
   commands.push_back("/gps/ang/type iso");
   commands.push_back("/gps/pos/type Point");
   commands.push_back("/gps/ene/type Arb");

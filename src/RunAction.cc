@@ -62,6 +62,7 @@ RunAction::RunAction(DetectorConstruction* detConstruction)
   analysisManager->CreateNtupleDColumn(dataNtuple,"he3TubeYPos");
   analysisManager->CreateNtupleDColumn(dataNtuple,"he3TubeZPos");
 
+  analysisManager->CreateNtupleIColumn(dataNtuple, "ParticleID");
   
 
  

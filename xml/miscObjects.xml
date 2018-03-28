@@ -11,7 +11,7 @@
       G4_POLYETHYLENE
     </Material>
     <TieToHe3Tubes>
-      1
+      0
     </TieToHe3Tubes>
     <he3TubeChannel>
       0

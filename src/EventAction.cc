@@ -138,10 +138,11 @@ void EventAction::EndOfEventAction( const G4Event* eve)
     analysisManager->FillNtupleDColumn(dataNtuple, 5, tubeY);
     analysisManager->FillNtupleDColumn(dataNtuple, 6, tubeZ);
 
+    analysisManager->FillNtupleIColumn(dataNtuple, 7, ParticleID);
     
     for(int i=0; i<nobj; i++){
-      if(leftObj[i]==1) analysisManager->FillNtupleIColumn(dataNtuple, 7+i, 1);
-      else analysisManager->FillNtupleIColumn(dataNtuple, 7+i, 0);
+      if(leftObj[i]==1) analysisManager->FillNtupleIColumn(dataNtuple, 8+i, 1);
+      else analysisManager->FillNtupleIColumn(dataNtuple, 8+i, 0);
     }
     
     for(int i=0; i<nChannels; i++) 
